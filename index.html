@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Concepts — Foundations for Data Science & AI</title>
+  <meta name="description" content="Interactive visual platform for mastering the mathematical foundations of Data Science, Machine Learning, and AI Modeling by Prof. Liang Li.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+
+  <!-- KaTeX for High-Fidelity Math Typesetting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- Ambient Glowing Background Grid -->
+  <div class="ambient-glow"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="#overview" class="brand-logo">
+        <div class="logo-icon">∑</div>
+        <div class="brand-info">
+          <h1>Math Concepts</h1>
+          <span>DS & AI Math Platform</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="sidebar-search">
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="global-search" class="search-input" placeholder="Search concepts, formulas, models...">
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-category">Curriculum & Labs</div>
+      <a href="#overview" class="nav-item active">
+        <span>📌</span> Overview
+      </a>
+      <a href="#linear-algebra" class="nav-item">
+        <span>📐</span> 1. Linear Algebra
+        <span class="nav-badge">Lab</span>
+      </a>
+      <a href="#calculus" class="nav-item">
+        <span>📈</span> 2. Calculus &amp; Gradients
+        <span class="nav-badge">Lab</span>
+      </a>
+      <a href="#regression" class="nav-item">
+        <span>📉</span> 3. Regression Analysis
+        <span class="nav-badge">Lab</span>
+      </a>
+      <a href="#neural-nets" class="nav-item">
+        <span>🧠</span> 4. Neural Networks
+        <span class="nav-badge">Lab</span>
+      </a>
+      <a href="#probability" class="nav-item">
+        <span>🎲</span> 5. Probability &amp; Distributions
+        <span class="nav-badge">Lab</span>
+      </a>
+      <a href="#bayes" class="nav-item">
+        <span>⚡</span> 6. Bayes' Theorem
+        <span class="nav-badge">Lab</span>
+      </a>
+      <a href="#monte-carlo" class="nav-item">
+        <span>🎰</span> 7. Monte Carlo Simulation
+        <span class="nav-badge">Lab</span>
+      </a>
+      <a href="#clustering-correlation" class="nav-item">
+        <span>📊</span> 8. Clustering &amp; Correlation
+        <span class="nav-badge">Lab</span>
+      </a>
+      <a href="#optimization" class="nav-item">
+        <span>🎯</span> 9. Optimization Theory
+        <span class="nav-badge">Lab</span>
+      </a>
+
+      <div class="nav-category" style="margin-top: 1rem;">Synthesis &amp; Reference</div>
+      <a href="#synthesis" class="nav-item">
+        <span>🗺️</span> 10. Knowledge Mapping
+      </a>
+      <a href="#references" class="nav-item">
+        <span>📚</span> 11. Academic References
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div style="display:flex;align-items:center;gap:0.65rem;">
+        <img src="img/prof_liang_li.jpg" alt="Prof. Liang Li" style="width:32px;height:32px;border-radius:50%;object-fit:cover;object-position:center 20%;border:1.5px solid var(--accent-cyan);box-shadow:0 0 8px rgba(6,182,212,0.35);">
+        <div style="display:flex;flex-direction:column;gap:0.15rem;">
+          <span style="color:var(--accent-cyan);font-weight:700;font-size:0.82rem;">Prof. Liang Li</span>
+          <span style="font-size:0.7rem;opacity:0.6;">DS &amp; AI Math Platform</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+
+    <!-- Top Sticky Header -->
+    <header class="top-header">
+      <button class="mobile-toggle" id="mobile-menu-btn">☰</button>
+      <div class="header-title-area">
+        <h2>Mathematical Foundations for Data Science & AI</h2>
+        <p>Interactive reference platform bridging foundational theory, formal equations, and AI modeling architectures.</p>
+      </div>
+      <div class="header-right-group">
+        <div class="author-profile-card">
+          <div class="author-avatar-badge">
+            <img src="img/prof_liang_li.jpg" alt="Prof. Liang Li" class="author-avatar-img">
+          </div>
+          <div class="author-meta">
+            <span class="author-name">Prof. Liang Li</span>
+            <span class="author-title">Author &amp; Designer</span>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle Light / Dark Mode">
+            <span id="theme-toggle-icon">🌙</span>
+            <span id="theme-toggle-text">Dark Mode</span>
+          </button>
+          <a href="#synthesis" class="btn btn-primary">Knowledge Matrix</a>
+          <a href="#references" class="btn btn-outline">References</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Card / Platform Overview -->
+    <section id="overview" class="hero-card">
+      <div class="hero-badge-row">
+        <div class="hero-pill" style="margin-bottom:0;">⚡ Interactive Learning Engine</div>
+        <div class="hero-author-tag">
+          <img src="img/prof_liang_li.jpg" alt="Prof. Liang Li" style="width:24px;height:24px;border-radius:50%;object-fit:cover;object-position:center 20%;border:1.5px solid var(--accent-cyan);display:inline-block;vertical-align:middle;">
+          <span class="hero-author-label">Author:</span>
+          <strong class="hero-author-name">Prof. Liang Li</strong>
+        </div>
+      </div>
+      <h1 class="hero-title">Master the Math That Drives Modern AI & Data Science</h1>
+      <p class="hero-desc">
+        Mathematics is not an abstract prerequisite—it is the direct computational engine of machine learning.
+        Linear algebra represents multi-dimensional feature spaces; multivariable calculus drives optimization backpropagation; 
+        probability and Bayesian inference quantify stochastic uncertainty; and optimization theory finds optimal decisions under real-world constraints.
+      </p>
+
+      <div class="hero-stats-grid">
+        <div class="stat-box">
+          <div class="stat-number">9</div>
+          <div class="stat-label">Interactive Simulation Labs</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">40+</div>
+          <div class="stat-label">Core Mathematical Formulas</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Real-time Browser Computation</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         MODULE 1: LINEAR ALGEBRA
+         ========================================================================= -->
+    <section id="linear-algebra" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 01 · Representation</span>
+          <h2 class="section-title">Linear Algebra: The Language of Data</h2>
+          <p class="section-desc">Vectors, matrices, and tensors provide the structural containers for modern datasets. Forward propagation in neural networks and dimensionality reduction in PCA/SVD operate through fundamental matrix transformations.</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Theoretical Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📐 Key Mathematical Formulations</h3>
+          </div>
+          <div class="formula-box">
+            <div>$$\mathbf{y} = \mathbf{W}\mathbf{x} + \mathbf{b}$$</div>
+            <span class="formula-caption">Neural Network Layer Affine Transformation</span>
+          </div>
+          <div class="formula-box">
+            <div>$$\mathbf{A} = \mathbf{U}\mathbf{\Sigma}\mathbf{V}^T, \quad \mathbf{A}\mathbf{v} = \lambda\mathbf{v}$$</div>
+            <span class="formula-caption">Singular Value Decomposition (SVD) & Eigen-system</span>
+          </div>
+
+          <ul class="concept-list">
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Vectors & Matrices:</strong> Ordered collections of numbers that encode feature observations, latent embeddings, and model weights.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Eigenvalues ($\lambda$) & Eigenvectors ($\mathbf{v}$):</strong> Invariant directions where matrix transformations only scale vectors without changing their direction—the foundation of Principal Component Analysis (PCA).</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Singular Value Decomposition (SVD):</strong> Factorizes any $m \times n$ matrix into orthogonal components and singular values for low-rank approximation, noise filtering, and recommender systems.</div>
+            </li>
+          </ul>
+
+          <div class="app-tags">
+            <span class="app-tag">Dimensionality Reduction (PCA)</span>
+            <span class="app-tag purple">Recommender Systems (SVD)</span>
+            <span class="app-tag green">Transformer Attention Layers</span>
+          </div>
+
+          <div class="ai-connect-block">
+            <div class="ai-connect-header">🤖 AI Modeling Connection</div>
+            <div class="ai-connect-body">
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🏗️</span>
+                <div><strong>Model Architecture:</strong> Every layer in a neural network computes $\mathbf{a}^{(l)} = \mathbf{W}^{(l)}\mathbf{x} + \mathbf{b}^{(l)}$—a matrix-vector product. Deep networks are simply a composition of linear algebra operations interleaved with non-linearities.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🎓</span>
+                <div><strong>AI Training:</strong> Weight matrices $\mathbf{W}$ are the parameters being learned during gradient descent. Gradient updates involve matrix operations: $\mathbf{W} \leftarrow \mathbf{W} - \alpha \nabla_{\mathbf{W}}\mathcal{L}$.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🚀</span>
+                <div><strong>Production Application:</strong> SVD powers Netflix-style collaborative filtering; PCA compresses facial image features in face-recognition pipelines; Transformer self-attention computes $\text{softmax}(QK^T/\sqrt{d_k})V$—a sequence of matrix multiplications.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Lab -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <h3 class="card-title">🎮 2D Transformation & Eigen-Visualizer</h3>
+            <span class="lab-badge pulse">Live Canvas</span>
+          </div>
+
+          <div class="lab-controls">
+            <div class="control-group">
+              <label class="control-label">Matrix $W_{11}$: <span id="m11-slider-val" class="control-value">1.0</span></label>
+              <input type="range" id="m11-slider" class="range-slider" min="-2" max="2" step="0.1" value="1.0">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Matrix $W_{12}$: <span id="m12-slider-val" class="control-value">0.0</span></label>
+              <input type="range" id="m12-slider" class="range-slider" min="-2" max="2" step="0.1" value="0.0">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Matrix $W_{21}$: <span id="m21-slider-val" class="control-value">0.0</span></label>
+              <input type="range" id="m21-slider" class="range-slider" min="-2" max="2" step="0.1" value="0.0">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Matrix $W_{22}$: <span id="m22-slider-val" class="control-value">1.0</span></label>
+              <input type="range" id="m22-slider" class="range-slider" min="-2" max="2" step="0.1" value="1.0">
+            </div>
+          </div>
+
+          <div class="control-bar">
+            <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">Presets:</span>
+            <button class="btn btn-outline btn-sm linalg-preset" data-preset="identity">Identity</button>
+            <button class="btn btn-outline btn-sm linalg-preset" data-preset="shear">Shear</button>
+            <button class="btn btn-outline btn-sm linalg-preset" data-preset="rotate">90° Rotation</button>
+            <button class="btn btn-outline btn-sm linalg-preset" data-preset="scale">Scale</button>
+            <button class="btn btn-outline btn-sm linalg-preset" data-preset="reflection">Reflection</button>
+          </div>
+
+          <div class="canvas-container">
+            <canvas id="linalg-canvas"></canvas>
+          </div>
+
+          <div class="metrics-strip">
+            <div class="metric-card">
+              <span class="metric-title">Determinant det(W)</span>
+              <span id="matrix-det-val" class="metric-val highlight-cyan">1.00</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Matrix Trace Tr(W)</span>
+              <span id="matrix-trace-val" class="metric-val">2.00</span>
+            </div>
+            <div class="metric-card" style="grid-column: span 2;">
+              <span class="metric-title">Eigenvalues (λ₁, λ₂)</span>
+              <span id="matrix-eigen-val" class="metric-val highlight-green">λ₁=1.00, λ₂=1.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Integrated Subsection: Time Series Analysis & Temporal Representations ─── -->
+      <div class="subsection-divider" style="margin-top: 2.75rem; padding-top: 1.75rem; border-top: 1px solid var(--formula-border);">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 class="section-title" style="margin: 0;">Time Series Analysis and Forecasting</h2>
+          <p class="section-desc" style="margin-top: 0.35rem;">Time series data is an ordered sequence of observations indexed over discrete time $t$. Classical models decompose series into deterministic trend, periodic seasonality, cyclical fluctuations, and stochastic noise. Autoregressive (AR) and modern deep sequence models forecast future values $\hat{Y}_{t+h}$, where forecasting error residuals $e_{t+h} = Y_{t+h} - \hat{Y}_{t+h}$ quantify model accuracy and drive coefficient optimization.</p>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Time Series Theory Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">📐 Decomposition, ARIMA &amp; Forecast Error Metrics</h3>
+            </div>
+            <div class="formula-box">
+              <div>$$\begin{aligned}
+                Y_t &= T_t + S_t + C_t + I_t && \text{(Additive Model)} \\
+                Y_t &= T_t \times S_t \times C_t \times I_t && \text{(Multiplicative Model)}
+              \end{aligned}$$</div>
+              <span class="formula-caption">Structural Decomposition — $T_t$: trend, $S_t$: seasonality, $C_t$: cyclical, $I_t \sim \mathcal{N}(0,\sigma_I^2)$: irregular residual noise</span>
+            </div>
+            <div class="formula-box">
+              <div>$$\begin{aligned}
+                \hat{Y}_{t+h|t} &= c + \sum_{j=1}^p \phi_j Y_{t+h-j} + \sum_{k=1}^q \theta_k \varepsilon_{t+h-k} \\
+                e_{t+h} &= Y_{t+h} - \hat{Y}_{t+h|t} \quad \text{(Horizon-}h\text{ Forecast Error Residual)}
+              \end{aligned}$$</div>
+              <span class="formula-caption">ARIMA($p,d,q$) Point Forecast $\hat{Y}_{t+h|t}$ &amp; Out-of-Sample Prediction Error Residual $e_{t+h}$</span>
+            </div>
+            <div class="formula-box">
+              <div>$$\begin{aligned}
+                \text{RMSE} &= \sqrt{\frac{1}{H}\sum_{h=1}^H e_{t+h}^2}, \quad \text{MAE} = \frac{1}{H}\sum_{h=1}^H |e_{t+h}| \\
+                \text{MAPE} &= \frac{100\%}{H}\sum_{h=1}^H \left|\frac{e_{t+h}}{Y_{t+h}}\right|
+              \end{aligned}$$</div>
+              <span class="formula-caption">Forecasting Error Evaluation Metrics (Root Mean Squared Error, Mean Absolute Error &amp; Percentage Error)</span>
+            </div>
+            <div class="formula-box">
+              <div>$$\begin{aligned}
+                \text{Var}(e_{t+h}) &= \sigma_I^2 \left(1 + \sum_{j=1}^{h-1} \psi_j^2\right) \\
+                \text{Prediction Interval: } &\hat{Y}_{t+h} \pm z_{\alpha/2}\sqrt{\text{Var}(e_{t+h})}
+              \end{aligned}$$</div>
+              <span class="formula-caption">Forecast Error Variance Expansion — Prediction interval flares outward as horizon $h$ increases</span>
+            </div>
+
+            <ul class="concept-list">
+              <li class="concept-item">
+                <span class="concept-bullet">✦</span>
+                <div><strong>Forecasting Residuals ($e_t$):</strong> In-sample residuals $e_t = Y_t - \hat{Y}_t$ measure model fit. For an optimal model, residuals must be uncorrelated white noise ($e_t \sim \text{WN}(0, \sigma^2)$) with zero mean and no remaining autocorrelation.</div>
+              </li>
+              <li class="concept-item">
+                <span class="concept-bullet">✦</span>
+                <div><strong>Stationarity &amp; Differencing:</strong> Non-stationary series with unit roots exhibit unbounded forecast variance. Differencing $\Delta Y_t = Y_t - Y_{t-1}$ stabilizes the mean before modeling, validated via the Augmented Dickey-Fuller (ADF) test.</div>
+              </li>
+              <li class="concept-item">
+                <span class="concept-bullet">✦</span>
+                <div><strong>Error Propagation:</strong> Multi-step autoregressive forecasts $\hat{Y}_{t+h}$ feed previous forecasted values back into the input vector, causing forecast errors to compound cumulatively across the horizon $h$.</div>
+              </li>
+            </ul>
+
+            <div class="app-tags">
+              <span class="app-tag">ARIMA &amp; SARIMA Forecasting</span>
+              <span class="app-tag purple">Prophet / ETS Decomposition</span>
+              <span class="app-tag green">Forecast Error Calibration</span>
+            </div>
+
+            <div class="ai-connect-block">
+              <div class="ai-connect-header">🤖 AI Modeling Connection</div>
+              <div class="ai-connect-body">
+                <div class="ai-connect-row">
+                  <span class="ai-connect-icon">🏗️</span>
+                  <div><strong>Model Architecture:</strong> Recurrent networks (LSTMs, GRUs) and Temporal Fusion Transformers (TFT) parameterize non-linear transition functions $h_t = f(h_{t-1}, x_t)$. Output heads produce both point forecasts $\hat{Y}_{t+h}$ and quantile parameters for probabilistic uncertainty envelopes.</div>
+                </div>
+                <div class="ai-connect-row">
+                  <span class="ai-connect-icon">🎓</span>
+                  <div><strong>AI Training:</strong> Sequence models minimize Mean Squared Error $\mathcal{L} = \frac{1}{H}\sum_{h=1}^H e_{t+h}^2$ or quantile pinball loss. The forecast errors $e_{t+h}$ compute loss gradients that backpropagate through time (BPTT) to upgrade network weight matrices $W_f, W_i, W_o$.</div>
+                </div>
+                <div class="ai-connect-row">
+                  <span class="ai-connect-icon">🚀</span>
+                  <div><strong>Production Application:</strong> Amazon Forecast and Uber demand planning systems optimize inventory by minimizing forecast errors (RMSE/MAPE). Electricity grids use real-time load forecasting residuals to detect sensor anomalies and dynamically dispatch reserve generation.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Time Series Interactive Lab -->
+          <div class="lab-card">
+            <div class="lab-header">
+              <h3 class="card-title">🎮 Time Series Decomposition &amp; Forecast Error Studio</h3>
+              <span class="lab-badge pulse">Live ARIMA &amp; Error Analyzer</span>
+            </div>
+
+            <div class="lab-controls">
+              <div class="control-group">
+                <label class="control-label">Display Mode &amp; Error View:</label>
+                <select id="ts-mode-select" class="select-input">
+                  <option value="all">Observed + Model + Forecast Horizon</option>
+                  <option value="errors">Forecast Errors &amp; Residual Spikes (e_t)</option>
+                  <option value="trend">Trend Component Drift Only</option>
+                  <option value="season">Seasonal Harmonic Component Only</option>
+                </select>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Trend Slope (m): <span id="ts-trend-val" class="control-value">0.40</span></label>
+                <input type="range" id="ts-trend-slider" class="range-slider" min="-0.2" max="1.0" step="0.05" value="0.40">
+              </div>
+              <div class="control-group">
+                <label class="control-label">Seasonal Amplitude: <span id="ts-season-val" class="control-value">1.5</span></label>
+                <input type="range" id="ts-season-slider" class="range-slider" min="0" max="3.5" step="0.2" value="1.5">
+              </div>
+              <div class="control-group">
+                <label class="control-label">Noise Level σ (Residual Std Dev): <span id="ts-noise-input-val" class="control-value">0.5</span></label>
+                <input type="range" id="ts-noise-slider" class="range-slider" min="0.1" max="1.5" step="0.1" value="0.5">
+              </div>
+            </div>
+
+            <div id="ts-legend-strip" class="lab-legend-strip" style="display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 8px; padding: 0.5rem 0.85rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
+              <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#38bdf8;font-weight:600;">― Observed Series Y_t</span>
+              <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#f59e0b;font-weight:600;">╌╌ Fitted Trend T_t</span>
+              <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#34d399;font-weight:600;">― Forecast Y_{t+h}</span>
+              <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#f43f5e;font-weight:600;">↕ Error Spikes e_t</span>
+              <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#10b981;">░ 95% Confidence Cone</span>
+            </div>
+
+            <div class="canvas-container" style="height: 380px;">
+              <canvas id="ts-canvas"></canvas>
+            </div>
+
+            <div class="metrics-strip">
+              <div class="metric-card">
+                <span class="metric-title">Forecast RMSE Error</span>
+                <span id="ts-rmse-val" class="metric-val highlight-rose">0.52</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-title">Mean Absolute Error (MAE)</span>
+                <span id="ts-mae-val" class="metric-val highlight-amber">0.41</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-title">Trend Drift Rate (m)</span>
+                <span id="ts-slope-val" class="metric-val highlight-cyan">+0.40 / step</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-title">Forecast Horizon (h)</span>
+                <span id="ts-forecast-val" class="metric-val highlight-green">+12 steps</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- =========================================================================
+         MODULE 2: MULTIVARIABLE CALCULUS & GRADIENTS
+         ========================================================================= -->
+    <section id="calculus" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 02 · Optimization</span>
+          <h2 class="section-title">Calculus: Error Gradients &amp; Parameter Coefficient Upgrades</h2>
+          <p class="section-desc">Calculus provides the mathematical machinery transforming forecasting and prediction errors $e = y - \hat{y}$ into optimal model coefficients. By computing the partial derivatives of the loss function with respect to weights, gradient descent systematically updates and upgrades model parameters toward zero error.</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Theory Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📈 Error-Driven Gradients &amp; Coefficient Update Equations</h3>
+          </div>
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              e_i &= y_i - \hat{y}_i = y_i - \boldsymbol{\theta}^T \mathbf{x}_i \quad \text{(Residual Error)} \\
+              \mathcal{L}(\boldsymbol{\theta}) &= \frac{1}{N} \sum_{i=1}^N e_i^2 = \frac{1}{N} \|\mathbf{y} - \mathbf{X}\boldsymbol{\theta}\|^2 \quad \text{(MSE Objective)}
+            \end{aligned}$$</div>
+            <span class="formula-caption">From Sample Error Residuals $e_i$ to Global Mean Squared Error Loss $\mathcal{L}(\boldsymbol{\theta})$</span>
+          </div>
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              \nabla_{\boldsymbol{\theta}} \mathcal{L}(\boldsymbol{\theta}) &= \frac{1}{N} \sum_{i=1}^N 2 e_i \left(-\frac{\partial \hat{y}_i}{\partial \boldsymbol{\theta}}\right) \\
+              &= -\frac{2}{N} \sum_{i=1}^N e_i \, \mathbf{x}_i = -\frac{2}{N} \mathbf{X}^T \mathbf{e}
+            \end{aligned}$$</div>
+            <span class="formula-caption">Loss Gradient as Error-Weighted Feature Sum — Feature matrix $\mathbf{X}$ scaled by error vector $\mathbf{e}$</span>
+          </div>
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              \boldsymbol{\theta}^{(t+1)} &= \boldsymbol{\theta}^{(t)} - \alpha \nabla_{\boldsymbol{\theta}} \mathcal{L}\left(\boldsymbol{\theta}^{(t)}\right) \\
+              &= \boldsymbol{\theta}^{(t)} + \frac{2\alpha}{N} \sum_{i=1}^N e_i^{(t)} \mathbf{x}_i = \boldsymbol{\theta}^{(t)} + \frac{2\alpha}{N} \mathbf{X}^T \mathbf{e}^{(t)}
+            \end{aligned}$$</div>
+            <span class="formula-caption">Exact Coefficient Upgrade Rule: Underestimations ($e_i > 0$) upgrade weights positively; overshoots ($e_i < 0$) discount weights</span>
+          </div>
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              \delta_j^{(l)} &= \frac{\partial \mathcal{L}}{\partial z_j^{(l)}} \quad \text{(Layer } l \text{ Error Signal)} \\
+              \mathbf{W}^{(l)(t+1)} &= \mathbf{W}^{(l)(t)} + \alpha \, \boldsymbol{\delta}^{(l)} (\mathbf{a}^{(l-1)})^T \quad \text{(Weight Matrix Upgrade)}
+            \end{aligned}$$</div>
+            <span class="formula-caption">Deep Neural Backpropagation: Multivariable chain rule propagates output error $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$ backward to upgrade every layer's weight tensor</span>
+          </div>
+
+          <ul class="concept-list">
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>How Errors Upgrade Coefficients:</strong> When a prediction underestimates the target ($e_i > 0$), the coefficient $\theta_j$ is upgraded by $+\frac{2\alpha}{N} e_i x_{ij}$. When it overshoots ($e_i < 0$), the coefficient is discounted. As error vanishes ($e_i \to 0$), the gradient approaches zero, stabilizing the model at optimal weights $\boldsymbol{\theta}^*$.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>The Gradient Vector ($\nabla \mathcal{L}$):</strong> Points in the direction of steepest loss ascent. Moving in the negative gradient direction ($-\alpha \nabla \mathcal{L}$) guarantees steepest descent toward minimum error.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Adaptive Momentum &amp; Adam:</strong> Scale coefficient upgrades using exponentially smoothed historical gradients $m_t$ and variance estimates $v_t$, escaping shallow local traps and accelerating saddle-point traversal.</div>
+            </li>
+          </ul>
+
+          <div class="app-tags">
+            <span class="app-tag">Error-Driven Parameter Updates</span>
+            <span class="app-tag purple">Deep Learning Backpropagation</span>
+            <span class="app-tag green">Adam &amp; SGD Convergence</span>
+          </div>
+
+          <div class="ai-connect-block">
+            <div class="ai-connect-header">🤖 AI Modeling Connection</div>
+            <div class="ai-connect-body">
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🏗️</span>
+                <div><strong>Model Architecture:</strong> In feedforward nets and Transformers, prediction error $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$ generates an initial error signal $\boldsymbol{\delta}^{(L)}$. The Jacobian chain rule flows this error backward through attention heads and MLP layers to compute exact weight updates $\Delta \mathbf{W}^{(l)}$.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🎓</span>
+                <div><strong>AI Training:</strong> Every training iteration follows an exact calculus loop: Forward prediction $\hat{y} \to$ Compute error $e \to$ Evaluate loss $\mathcal{L} \to$ Backpropagate gradient $\nabla_\theta \mathcal{L} = -2 e \cdot x \to$ Upgrade coefficients $\theta \leftarrow \theta - \alpha \nabla \mathcal{L}$.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🚀</span>
+                <div><strong>Production Application:</strong> PyTorch `loss.backward()` and `optimizer.step()` execute this exact coefficient upgrade equation over billions of parameters in modern Foundation Models (LLMs, Diffusion Models).</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Lab -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <h3 class="card-title">🎮 Non-Convex Gradient Descent &amp; Parameter Upgrade Lab</h3>
+            <span class="lab-badge pulse">Live Optimizer</span>
+          </div>
+
+          <div class="lab-controls">
+            <div class="control-group">
+              <label class="control-label">Optimizer Algorithm:</label>
+              <select id="calc-opt-select" class="select-input">
+                <option value="sgd">Vanilla SGD (Direct Error Gradient)</option>
+                <option value="momentum">SGD + Momentum (β=0.85)</option>
+                <option value="adam">Adam Optimizer (Adaptive Moments)</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Learning Rate (α): <span id="calc-lr-val" class="control-value">0.08</span></label>
+              <input type="range" id="calc-lr-slider" class="range-slider" min="0.01" max="0.35" step="0.01" value="0.08">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Initial Coefficient θ_0: <span id="calc-start-val" class="control-value">3.5</span></label>
+              <input type="range" id="calc-start-slider" class="range-slider" min="-4" max="4" step="0.1" value="3.5">
+            </div>
+          </div>
+
+          <div class="control-bar" style="margin-bottom: 0.75rem;">
+            <button id="calc-step-btn" class="btn btn-outline btn-sm">Step (1 Upgrade)</button>
+            <button id="calc-run-btn" class="btn btn-primary btn-sm">Auto Upgrade</button>
+            <button id="calc-reset-btn" class="btn btn-outline btn-sm">Reset</button>
+          </div>
+
+          <div id="calc-legend-strip" class="lab-legend-strip" style="display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 8px; padding: 0.5rem 0.85rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
+            <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#3b82f6;font-weight:600;">― Loss Surface L(θ)</span>
+            <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#ec4899;font-weight:600;">● Parameter State θ^{(t)}</span>
+            <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#f59e0b;font-weight:600;">→ Error Gradient Tangent ∇L</span>
+            <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#34d399;font-weight:600;">╌╌ Upgrade Step Δθ = -α∇L</span>
+          </div>
+
+          <div class="canvas-container" style="height: 380px;">
+            <canvas id="calculus-canvas"></canvas>
+          </div>
+
+          <div class="metrics-strip">
+            <div class="metric-card">
+              <span class="metric-title">Iteration Step (t)</span>
+              <span id="calc-step-val" class="metric-val">0</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Coefficient State θ^{(t)}</span>
+              <span id="calc-theta-val" class="metric-val highlight-cyan">3.500</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Loss / Residual L(θ)</span>
+              <span id="calc-loss-val" class="metric-val highlight-rose">5.820</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Instantaneous Gradient ∇L</span>
+              <span id="calc-grad-val" class="metric-val highlight-amber">+2.840</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         MODULE 3: STATISTICAL REGRESSION
+         ========================================================================= -->
+    <section id="regression" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 03 · Modeling</span>
+          <h2 class="section-title">Regression Analysis: Fitting Models to Data</h2>
+          <p class="section-desc">Regression quantifies the relationship between a dependent response variable $y$ and one or more independent predictors $\mathbf{x}$. Ordinary Least Squares (OLS) minimizes the sum of squared residuals to find the best-fit hyperplane. Logistic regression and regularized variants (Ridge, Lasso) extend this to classification and high-dimensional feature spaces.</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Theory Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📉 3A · Linear, Polynomial &amp; Logistic Regression</h3>
+          </div>
+          <div class="formula-box">
+            <div>$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p + \varepsilon, \quad \varepsilon \sim \mathcal{N}(0,\sigma^2)$$</div>
+            <span class="formula-caption">Multiple Linear Regression (MLR) — $\beta_j$ [units: $y$-units per $x_j$-unit]; $\varepsilon$: i.i.d. Gaussian error with variance $\sigma^2$</span>
+          </div>
+          <div class="formula-box">
+            <div>$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}, \quad R^2 = 1 - \frac{\text{SSE}}{\text{SST}} \in [0,1]$$</div>
+            <span class="formula-caption">OLS Normal Equations &amp; $R^2$ — SSE $= \sum(y_i - \hat{y}_i)^2$, SST $= \sum(y_i - \bar{y})^2$ (both in $y$-units$^2$); $R^2=1$: perfect fit</span>
+          </div>
+
+          <ul class="concept-list">
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Ordinary Least Squares (OLS):</strong> Minimizes $\text{SSE} = \sum_{i=1}^n (y_i - \hat{y}_i)^2$ analytically. Requires $\mathbf{X}^T\mathbf{X}$ to be full-rank (no perfect multicollinearity). MSE $= \text{SSE}/(n-p-1)$ is the unbiased error variance estimator.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Polynomial Regression:</strong> Extends MLR with features $x, x^2, \dots, x^d$. Still linear in $\boldsymbol{\beta}$ so OLS applies. Increasing degree $d$ reduces bias but increases variance (bias–variance tradeoff); select $d$ via cross-validated MSE or AIC.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Logistic Regression:</strong> Models binary probability $P(y=1|\mathbf{x}) = \sigma(\boldsymbol{\beta}^T\mathbf{x})$ where $\sigma(z)=1/(1+e^{-z})$. Log-odds interpretation: $\ln[p/(1-p)] = \boldsymbol{\beta}^T\mathbf{x}$. Each $\beta_j$ gives the change in log-odds per unit increase in $x_j$.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Regularization:</strong> Ridge ($L_2$): $\lambda\|\boldsymbol{\beta}\|_2^2$ shrinks all coefficients continuously. Lasso ($L_1$): $\lambda\|\boldsymbol{\beta}\|_1$ produces sparse solutions by zeroing weak predictors. Hyperparameter $\lambda \ge 0$ (same units as loss) selected via $k$-fold cross-validation.</div>
+            </li>
+          </ul>
+
+          <div class="app-tags">
+            <span class="app-tag">Demand &amp; Sales Forecasting</span>
+            <span class="app-tag purple">Causal Factor Attribution</span>
+            <span class="app-tag green">Econometric Projections</span>
+          </div>
+
+          <div class="ai-connect-block">
+            <div class="ai-connect-header">🤖 AI Modeling Connection</div>
+            <div class="ai-connect-body">
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🏗️</span>
+                <div><strong>Model Architecture:</strong> A single-layer neural network with a linear activation <em>is</em> linear regression: $\hat{y} = \mathbf{w}^T\mathbf{x} + b$. Logistic regression adds a sigmoid activation for binary classification. These are the building blocks all deeper architectures generalize from.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🎓</span>
+                <div><strong>AI Training:</strong> OLS provides a closed-form analytical solution $(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$, but for massive datasets gradient descent is used iteratively instead. Regularization terms (Ridge: $\lambda\|\boldsymbol{\beta}\|^2$, Lasso: $\lambda\|\boldsymbol{\beta}\|_1$) prevent overfitting by penalizing large coefficients.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🚀</span>
+                <div><strong>Production Application:</strong> Demand forecasting at Amazon and Walmart uses Gradient Boosted Regression Trees (XGBoost/LightGBM) that ensemble hundreds of regression trees. ARIMA and its seasonal variant SARIMA remain industry standards for structured time series forecasting in finance and retail.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Lab -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <h3 class="card-title">🎮 Polynomial Curve Fitter & Residual Analyzer</h3>
+            <span class="lab-badge pulse">Live OLS Engine</span>
+          </div>
+
+          <div class="lab-controls">
+            <div class="control-group">
+              <label class="control-label">Polynomial Degree ($d$): <span id="reg-degree-val" class="control-value">1</span></label>
+              <input type="range" id="reg-degree-slider" class="range-slider" min="1" max="5" step="1" value="1">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Observation Noise ($\sigma$): <span id="reg-noise-val" class="control-value">1.2</span></label>
+              <input type="range" id="reg-noise-slider" class="range-slider" min="0.2" max="3.0" step="0.2" value="1.2">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Sample Size ($N$): <span id="reg-npoints-val" class="control-value">25</span></label>
+              <input type="range" id="reg-npoints-slider" class="range-slider" min="10" max="60" step="5" value="25">
+            </div>
+          </div>
+
+          <div class="control-bar">
+            <button id="reg-regen-btn" class="btn btn-primary btn-sm">Resample Dataset</button>
+            <span id="reg-equation-val" style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent-cyan); margin-left: auto;">y = β₀ + β₁x</span>
+          </div>
+
+          <div class="canvas-container">
+            <canvas id="regression-canvas"></canvas>
+          </div>
+
+          <div class="metrics-strip">
+            <div class="metric-card">
+              <span class="metric-title">Goodness of Fit (R²)</span>
+              <span id="reg-r2-val" class="metric-val highlight-cyan">0.000</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Mean Squared Error (MSE)</span>
+              <span id="reg-mse-val" class="metric-val highlight-rose">0.000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         MODULE 4: NEURAL NETWORKS AS EXTENDED REGRESSION
+         ========================================================================= -->
+    <section id="neural-nets" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 04 · Non-Linearity</span>
+          <h2 class="section-title">Neural Networks: Extended Regression Models</h2>
+          <p class="section-desc">A neural network generalizes linear regression by stacking affine transformations followed by non-linear activation functions, enabling universal approximation of complex decision boundaries.</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Theory Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🧠 Layer Stacking & Activation Functions</h3>
+          </div>
+          <div class="formula-box">
+            <div>$$\mathbf{a}^{(l)} = \sigma\left(\mathbf{W}^{(l)}\mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}\right)$$</div>
+            <span class="formula-caption">Layer Forward Pass Transformation</span>
+          </div>
+          <div class="formula-box">
+            <div>$$\text{GELU}(z) = z \cdot \Phi(z) \approx 0.5z\left(1 + \tanh\left(\sqrt{\frac{2}{\pi}}(z + 0.044715z^3)\right)\right)$$</div>
+            <span class="formula-caption">Gaussian Error Linear Unit (LLMs & Transformers)</span>
+          </div>
+
+          <ul class="concept-list">
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Non-Linear Activations:</strong> Without non-linear activations $\sigma(z)$, any multi-layer neural network collapses into a single linear regression $y = W_{\text{eff}}x + b$.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>ReLU vs GELU vs Sigmoid:</strong> ReLU avoids vanishing gradients in positive domains; GELU introduces smooth probabilistic gating standard in GPT/BERT architectures.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Sequential Architectures:</strong> LSTMs introduce forget, input, and output gates to retain temporal memory; Transformers replace recurrence with multi-head self-attention.</div>
+            </li>
+          </ul>
+
+          <div class="app-tags">
+            <span class="app-tag">Computer Vision &amp; CNNs</span>
+            <span class="app-tag purple">LLM Foundation Models</span>
+            <span class="app-tag green">LSTM Time Series Forecasting</span>
+          </div>
+
+          <div class="ai-connect-block">
+            <div class="ai-connect-header">🤖 AI Modeling Connection</div>
+            <div class="ai-connect-body">
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🏗️</span>
+                <div><strong>Model Architecture:</strong> Universal Approximation Theorem guarantees that a neural network with at least one hidden layer and a non-linear activation can approximate any continuous function to arbitrary accuracy. The key is the activation—without it, every depth of stacking is algebraically equivalent to a single linear layer.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🎓</span>
+                <div><strong>AI Training:</strong> Activation choice directly controls gradient flow during backpropagation. Sigmoid/Tanh saturate for large $|z|$, causing vanishing gradients and stalled training in deep nets. ReLU avoids this in the positive domain. GELU's smooth curve makes it the default in BERT, GPT, and most Transformer architectures today.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🚀</span>
+                <div><strong>Production Application:</strong> GPT-4 uses GELU activations in its feed-forward sub-layers. CNNs (ResNet, EfficientNet) use ReLU/PReLU for image classification. LSTMs still dominate embedded IoT forecasting where compute is constrained. Tree ensembles (XGBoost) remain the top performers on structured/tabular data in Kaggle competitions and enterprise ML.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Lab -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <h3 class="card-title">🎮 Activation Function & Derivative Visualizer</h3>
+            <span class="lab-badge pulse">Live Neuron</span>
+          </div>
+
+          <div class="lab-controls">
+            <div class="control-group">
+              <label class="control-label">Activation Function $\sigma(z)$:</label>
+              <select id="nn-act-select" class="select-input">
+                <option value="relu">ReLU (Rectified Linear)</option>
+                <option value="gelu">GELU (Gaussian Error Linear)</option>
+                <option value="sigmoid">Sigmoid / Logistic</option>
+                <option value="tanh">Hyperbolic Tangent (Tanh)</option>
+                <option value="leaky_relu">Leaky ReLU (α=0.1)</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Weight $w_1$: <span id="nn-w1-slider-val" class="control-value">1.5</span></label>
+              <input type="range" id="nn-w1-slider" class="range-slider" min="-3" max="3" step="0.1" value="1.5">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Bias $b$: <span id="nn-bias-slider-val" class="control-value">0.2</span></label>
+              <input type="range" id="nn-bias-slider" class="range-slider" min="-3" max="3" step="0.1" value="0.2">
+            </div>
+          </div>
+
+          <div class="canvas-container">
+            <canvas id="nn-canvas"></canvas>
+          </div>
+
+          <div class="metrics-strip">
+            <div class="metric-card">
+              <span class="metric-title">Neuron Output a = σ(z)</span>
+              <span id="nn-output-val" class="metric-val highlight-cyan">1.400</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Local Gradient σ'(z)</span>
+              <span id="nn-grad-val" class="metric-val highlight-green">1.000</span>
+            </div>
+            <div class="metric-card" style="grid-column: span 2;">
+              <span class="metric-title">Transformation Readout</span>
+              <span id="nn-formula-val" class="metric-val" style="font-size: 0.95rem;">z=1.40 → a=1.40</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         MODULE 5: PROBABILITY & DISTRIBUTIONS
+         ========================================================================= -->
+    <section id="probability" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 05 · Uncertainty</span>
+          <h2 class="section-title">Probability Concepts &amp; Probability Distributions</h2>
+          <p class="section-desc">Probability provides the mathematical calculus for modeling randomness, noise, and stochastic uncertainty in Data Science and AI. From Kolmogorov's fundamental probability axioms to discrete mass functions and continuous probability density functions (PDFs), these formulations govern loss landscapes, uncertainty bounds, and generative modeling.</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Theory Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🎲 Probability of an Event &amp; Probability Distributions</h3>
+          </div>
+
+          <!-- Section 1: Probability of a Single Event -->
+          <div class="hero-pill" style="margin-top: 0.5rem; background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3);">
+            ✦ Concept 1: Probability of a Single Event P(A)
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-top: 0.35rem;">
+            An <strong>event $A$</strong> is a specific outcome or subset within the universal sample space $\Omega$. The <strong>probability of one event $P(A)$</strong> is a single real number between $0$ (impossible) and $1$ (certain) quantifying the exact chance of that individual event occurring.
+          </p>
+
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              P(A) &= \frac{|A|}{|\Omega|} = \frac{\text{Favorable Outcomes in } A}{\text{Total Outcomes in } \Omega} \in [0, 1] \\
+              P(A^c) &= 1 - P(A), \quad P(\Omega) = 1, \quad P(\emptyset) = 0 \\
+              P(A \cup B) &= P(A) + P(B) - P(A \cap B)
+            \end{aligned}$$</div>
+            <span class="formula-caption">Probability of One Event $P(A)$, Complement Event $P(A^c)$ &amp; General Addition Rule for Joint Events</span>
+          </div>
+
+          <!-- Section 2: What is a Probability Distribution? -->
+          <div class="hero-pill" style="margin-top: 1.25rem; background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3);">
+            ✦ Concept 2: What is a Probability Distribution?
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-top: 0.35rem;">
+            While $P(A)$ evaluates the likelihood of <em>one isolated event</em>, a <strong>Probability Distribution</strong> is the <strong>complete mathematical function</strong> that maps out how the total $100\%$ ($1.0$) probability mass is allocated across <em>all possible values</em> that a random variable $X$ can assume.
+          </p>
+
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              \text{Discrete (PMF):} &\quad P(X = x_i) = p(x_i), \quad \sum_{i} p(x_i) = 1 \\
+              \text{Continuous (PDF):} &\quad P(a \le X \le b) = \int_a^b f(x)\,dx \\
+              \text{Cumulative (CDF):} &\quad F(x) = P(X \le x) = \int_{-\infty}^x f(u)\,du
+            \end{aligned}$$</div>
+            <span class="formula-caption">Probability Distribution Landscape — Discrete (PMF), Continuous Density (PDF, $\int_{-\infty}^{\infty} f(x)dx=1$) &amp; Cumulative (CDF)</span>
+          </div>
+
+          <!-- Section 3: Moments (Expected Value & Variance) -->
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              \text{Expected Value (Mean):} &\quad \mu = E[X] = \int_{-\infty}^{\infty} x \, f(x)\,dx \quad \text{(Center of Mass)} \\
+              \text{Variance (Spread):} &\quad \sigma^2 = \text{Var}(X) = E\left[(X - \mu)^2\right] = E[X^2] - \mu^2
+            \end{aligned}$$</div>
+            <span class="formula-caption">Distribution Moments — Mean $\mu$ dictates location; Variance $\sigma^2$ (or Standard Deviation $\sigma = \sqrt{\sigma^2}$) dictates dispersion</span>
+          </div>
+
+          <!-- Section 4: Canonical Continuous Distributions -->
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              \text{Gaussian } \mathcal{N}(\mu, \sigma^2): &\quad f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}, \quad z = \frac{x-\mu}{\sigma} \\
+              \text{Uniform } \mathcal{U}(a, b): &\quad f(x) = \frac{1}{b-a}, \quad \mu = \frac{a+b}{2}, \quad \sigma^2 = \frac{(b-a)^2}{12} \\
+              \text{Exponential } \text{Exp}(\lambda): &\quad f(x) = \lambda e^{-\lambda x} \; (x \ge 0), \quad \mu = \frac{1}{\lambda}, \quad \sigma^2 = \frac{1}{\lambda^2}
+            \end{aligned}$$</div>
+            <span class="formula-caption">Canonical Continuous Probability Distributions with United Parameter Coefficients $\mu, \sigma, a, b, \lambda$</span>
+          </div>
+
+          <!-- Worked Examples Box -->
+          <div class="hero-pill" style="margin-top: 1.25rem;">Worked Real-World Examples: Single Event vs. Distribution Calculus</div>
+          <div class="worked-example-box">
+            <div style="margin-bottom: 0.75rem;">
+              <strong style="color: #38bdf8;">Example A — Probability of One Event (Server Request Drop):</strong><br>
+              In a network switch with $10,000$ incoming packets per second ($|\Omega| = 10,000$), $45$ packets encounter buffer overflow ($|A| = 45$). The probability of one randomly chosen packet dropping is:
+              $$P(\text{Drop}) = \frac{45}{10,000} = 0.0045 = 0.45\%$$
+              The complementary probability of successful transmission is $P(\text{Success}) = 1 - 0.0045 = 99.55\%$.
+            </div>
+            <div>
+              <strong style="color: #34d399;">Example B — Probability Distribution (Latency Interval &amp; Z-Score):</strong><br>
+              Rather than a single pass/fail event, packet processing latency follows a continuous Gaussian distribution $X \sim \mathcal{N}(\mu = 50\text{ms}, \sigma^2 = 100\text{ms}^2)$ ($\sigma = 10\text{ms}$). The probability that latency falls within the interval $[40\text{ms}, 60\text{ms}]$ (within $\pm 1\sigma$) is the integral area:
+              $$P(40 \le X \le 60) = \int_{40}^{60} \frac{1}{10\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-50}{10}\right)^2} dx = 68.27\%$$
+              For an extreme packet taking $x = 80\text{ms}$, its standardized Z-score is $z = \frac{80-50}{10} = +3.0\sigma$, with tail probability $P(X \ge 80) = 0.135\%$, flagging a high-severity bottleneck.
+            </div>
+          </div>
+
+          <ul class="concept-list">
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Single Event Probability $P(A)$ vs. Distribution $f(x)$:</strong> $P(A)$ answers <em>"What is the chance of this specific condition occurring?"</em> (a single number). A probability distribution answers <em>"How is likelihood distributed across every possible outcome?"</em> (a complete functional curve).</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Continuous Area Principle:</strong> For continuous variables, the probability of hitting an exact single value is zero ($P(X = x) = 0$). Probability is strictly defined over intervals as the <strong>area under the density curve</strong>: $P(a \le X \le b) = \int_a^b f(x)\,dx$.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>The 68–95–99.7 Empirical Rule:</strong> For any Gaussian distribution $\mathcal{N}(\mu, \sigma^2)$, exactly $68.27\%$ of probability mass lies in $[\mu-\sigma, \mu+\sigma]$, $95.45\%$ in $[\mu-2\sigma, \mu+2\sigma]$, and $99.73\%$ in $[\mu-3\sigma, \mu+3\sigma]$.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Central Limit Theorem (CLT):</strong> The sample mean $\bar{X}_N = \frac{1}{N}\sum_{i=1}^N X_i$ of $N$ independent, identically distributed random variables approaches $\mathcal{N}(\mu, \sigma^2/N)$ as $N \to \infty$, regardless of the underlying distribution's shape.</div>
+            </li>
+          </ul>
+
+          <div class="app-tags">
+            <span class="app-tag">Single Event Probability</span>
+            <span class="app-tag purple">Probability Distributions (PDF/PMF)</span>
+            <span class="app-tag green">Z-Score Outlier Analysis</span>
+            <span class="app-tag amber">Central Limit Theorem (CLT)</span>
+          </div>
+
+          <div class="ai-connect-block">
+            <div class="ai-connect-header">🤖 AI Modeling Connection</div>
+            <div class="ai-connect-body">
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🏗️</span>
+                <div><strong>Model Architecture:</strong> Classification heads apply Softmax to output a discrete categorical probability distribution $\mathbf{p} = \text{softmax}(\mathbf{z})$, where $\sum p_i = 1$. Generative models (VAEs, Diffusion) parameterize continuous probability distributions over high-dimensional image and latent feature spaces.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🎓</span>
+                <div><strong>AI Training:</strong> Negative Log-Likelihood (NLL) and Cross-Entropy Loss $\mathcal{L} = -\sum y_i \log \hat{y}_i$ quantify the divergence between the true data distribution and model predictions. Under Gaussian noise $\varepsilon \sim \mathcal{N}(0, \sigma^2)$, Maximum Likelihood Estimation (MLE) is algebraically equivalent to Mean Squared Error (MSE) loss minimization.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🚀</span>
+                <div><strong>Production Application:</strong> Fraud detection systems compute the probability of a fraudulent transaction event $P(\text{Fraud} \mid \mathbf{x})$. Cloud load balancers model server processing times using continuous Exponential distributions $\text{Exp}(\lambda)$ to predict tail latencies and automatically scale container clusters.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Lab -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <h3 class="card-title">🎮 Probability Density &amp; Distribution Explorer</h3>
+            <span class="lab-badge pulse">Live PDF Engine</span>
+          </div>
+
+          <div class="lab-controls">
+            <div class="control-group">
+              <label class="control-label">Distribution Model:</label>
+              <select id="prob-dist-select" class="select-input">
+                <option value="normal">Gaussian / Normal N(μ, σ²)</option>
+                <option value="exponential">Exponential Exp(λ - Rate)</option>
+                <option value="uniform">Uniform Distribution U(a, b)</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label id="prob-p1-label" class="control-label">Mean (μ): <span class="control-value">0.0</span></label>
+              <input type="range" id="prob-p1-slider" class="range-slider" min="-3" max="3" step="0.1" value="0.0">
+            </div>
+            <div class="control-group">
+              <label id="prob-p2-label" class="control-label">Std Dev (σ): <span class="control-value">1.2</span></label>
+              <input type="range" id="prob-p2-slider" class="range-slider" min="0.2" max="2.5" step="0.1" value="1.2">
+            </div>
+          </div>
+
+          <div class="canvas-container" style="height: 340px;">
+            <canvas id="prob-canvas"></canvas>
+          </div>
+
+          <div class="metrics-strip">
+            <div class="metric-card">
+              <span class="metric-title">Expected Value E[X] (μ)</span>
+              <span id="prob-mean-val" class="metric-val highlight-cyan">0.00</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Variance Var(X) (σ²)</span>
+              <span id="prob-var-val" class="metric-val highlight-amber">1.44</span>
+            </div>
+            <div class="metric-card" style="grid-column: span 2;">
+              <span class="metric-title">Confidence Bounds &amp; Probability Region</span>
+              <span id="prob-interval-val" class="metric-val highlight-green" style="font-size: 0.88rem;">68% in [-1.2, 1.2], 95% in [-2.4, 2.4]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         MODULE 6: CONDITIONAL PROBABILITY & BAYES' THEOREM
+         ========================================================================= -->
+    <section id="bayes" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 06 · Bayesian Inference</span>
+          <h2 class="section-title">Conditional Probability & Bayes' Theorem</h2>
+          <p class="section-desc">Bayes' Theorem updates prior beliefs into posterior probabilities upon observing new evidence—crucial for root cause analysis, spam filters, and Bayesian A/B tests.</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Theory Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">⚡ Prior, Likelihood & Posterior Updates</h3>
+          </div>
+          <div class="formula-box">
+            <div>$$P(A_i | B) = \frac{P(B | A_i) P(A_i)}{\sum_j P(B | A_j) P(A_j)} = \frac{\text{Likelihood} \times \text{Prior}}{\text{Evidence}}$$</div>
+            <span class="formula-caption">Bayes' Theorem Formulation</span>
+          </div>
+
+          <div class="hero-pill" style="margin-top: 0.75rem;">Document Worked Example: Dual-Supplier Defect Tracing</div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+            Supplier 1 ($A_1$) provides <strong>65%</strong> of parts with a <strong>2% defect rate</strong>. Supplier 2 ($A_2$) provides <strong>35%</strong> of parts with a <strong>5% defect rate</strong>.
+            When a defective part ($B$) is discovered, Bayes' theorem reveals that it is <strong>57.4% likely</strong> to originate from Supplier 2 despite Supplier 1 supplying the majority of inventory.
+          </p>
+
+          <div id="bayes-calc-breakdown" class="bayes-calc-box" style="margin-top: 1rem;">
+            <!-- Dynamic breakdown injected via JS -->
+          </div>
+
+          <div class="app-tags">
+            <span class="app-tag">Naïve Bayes Spam Filtering</span>
+            <span class="app-tag purple">Medical Diagnostic Testing</span>
+            <span class="app-tag green">Dynamic Bayesian A/B Testing</span>
+          </div>
+
+          <div class="ai-connect-block">
+            <div class="ai-connect-header">🤖 AI Modeling Connection</div>
+            <div class="ai-connect-body">
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🏗️</span>
+                <div><strong>Model Architecture:</strong> Naïve Bayes classifiers directly implement Bayes' theorem, treating each feature independently: $P(y|\mathbf{x}) \propto P(y) \prod_i P(x_i|y)$. Despite the strong independence assumption, they achieve state-of-the-art performance on text classification tasks like spam detection and sentiment analysis with minimal training data.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🎓</span>
+                <div><strong>AI Training:</strong> Bayesian Optimization replaces exhaustive grid search for hyperparameter tuning. It builds a probabilistic surrogate model (Gaussian Process) of the validation loss landscape and uses Bayes' theorem to decide which hyperparameter setting to evaluate next — far more efficient than random search for expensive training runs.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🚀</span>
+                <div><strong>Production Application:</strong> Google and Bing use Naïve Bayes-derived models in document ranking and spam classification pipelines. MCMC (Markov Chain Monte Carlo) sampling methods built on Bayes' theorem power modern probabilistic programming systems (PyMC, Stan) used for Bayesian A/B experiments at Netflix and Spotify, allowing conclusions from smaller sample sizes than frequentist t-tests.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Lab -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <h3 class="card-title">🎮 Interactive Defect Attribution Simulator</h3>
+            <span class="lab-badge pulse">Live Tree</span>
+          </div>
+
+          <div class="lab-controls">
+            <div class="control-group">
+              <label class="control-label">Supplier 1 Share $P(A_1)$: <span id="bayes-pa1-val" class="control-value">65%</span></label>
+              <input type="range" id="bayes-pa1-slider" class="range-slider" min="0.1" max="0.9" step="0.05" value="0.65">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Supplier 1 Defect Rate: <span id="bayes-d1-val" class="control-value">2.0%</span></label>
+              <input type="range" id="bayes-d1-slider" class="range-slider" min="0.005" max="0.15" step="0.005" value="0.02">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Supplier 2 Defect Rate: <span id="bayes-d2-val" class="control-value">5.0%</span></label>
+              <input type="range" id="bayes-d2-slider" class="range-slider" min="0.005" max="0.15" step="0.005" value="0.05">
+            </div>
+          </div>
+
+          <div class="canvas-container" style="min-height: 260px;">
+            <canvas id="bayes-canvas"></canvas>
+          </div>
+
+          <div class="metrics-strip">
+            <div class="metric-card">
+              <span class="metric-title">Posterior P(A₁ | Defect)</span>
+              <span id="bayes-posta1-val" class="metric-val highlight-cyan">42.6%</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Posterior P(A₂ | Defect)</span>
+              <span id="bayes-posta2-val" class="metric-val highlight-rose">57.4%</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Total Defect Rate P(B)</span>
+              <span id="bayes-totaldef-val" class="metric-val">3.05%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         MODULE 7: MONTE CARLO SIMULATION
+         ========================================================================= -->
+    <section id="monte-carlo" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 07 · Stochastic Simulation</span>
+          <h2 class="section-title">Monte Carlo Simulation Studio</h2>
+          <p class="section-desc">Monte Carlo methods use repeated random sampling from probability distributions to model complex systems under uncertainty, producing full outcome distributions rather than single point estimates.</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Theory Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🎰 Risk Distributions & Law of Large Numbers</h3>
+          </div>
+          <div class="formula-box">
+            <div>$$E[f(X)] \approx \frac{1}{N} \sum_{i=1}^N f(x_i), \quad x_i \sim P(X)$$</div>
+            <span class="formula-caption">Monte Carlo Expectation Estimator</span>
+          </div>
+
+          <ul class="concept-list">
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Uncertainty Modeling:</strong> Assigns statistical distributions (Normal, Log-normal, Poisson) to uncertain inputs (asset prices, demand surges).</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Value-at-Risk (VaR 95%):</strong> The 5th percentile cutoff representing the maximum expected loss over a specific horizon at a 95% confidence level.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Scalability:</strong> Accuracy scales as $\mathcal{O}(1/\sqrt{N})$, meaning quadrupling samples $N$ halves the standard error.</div>
+            </li>
+          </ul>
+
+          <div class="app-tags">
+            <span class="app-tag">Portfolio Value-at-Risk (VaR)</span>
+            <span class="app-tag purple">Option Derivatives Pricing</span>
+            <span class="app-tag green">Supply Chain Buffer Planning</span>
+          </div>
+
+          <div class="ai-connect-block">
+            <div class="ai-connect-header">🤖 AI Modeling Connection</div>
+            <div class="ai-connect-body">
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🏗️</span>
+                <div><strong>Model Architecture:</strong> Monte Carlo Dropout turns a trained neural network into a Bayesian approximator: run multiple forward passes with dropout enabled at inference time. The variance across those passes estimates model uncertainty — telling the AI "how confident" it is in each prediction without retraining.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🎓</span>
+                <div><strong>AI Training:</strong> Stochastic Gradient Descent is itself a Monte Carlo estimator — rather than computing the true gradient over the full dataset, it samples a random mini-batch each step to approximate it. This is why SGD converges despite each gradient estimate being noisy: it samples randomly from the empirical distribution of training data.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🚀</span>
+                <div><strong>Production Application:</strong> AlphaFold uses Monte Carlo tree search to explore protein fold conformations. Reinforcement Learning algorithms (MCTS in AlphaGo/AlphaZero) sample action trajectories as Monte Carlo rollouts to estimate Q-values. JPMorgan and Goldman Sachs quantitative teams use GPU-accelerated Monte Carlo for real-time VaR computation across millions of portfolio scenarios.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Lab -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <h3 class="card-title">🎮 Live Portfolio Risk & Return Simulator</h3>
+            <span class="lab-badge pulse">10,000 Sample Engine</span>
+          </div>
+
+          <div class="lab-controls">
+            <div class="control-group">
+              <label class="control-label">Iterations ($N$): <span id="mc-trials-val" class="control-value">5000</span></label>
+              <input type="range" id="mc-trials-slider" class="range-slider" min="1000" max="10000" step="1000" value="5000">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Expected Return ($\mu$): <span id="mc-mean-input-val" class="control-value">8.0%</span></label>
+              <input type="range" id="mc-mean-slider" class="range-slider" min="-5" max="25" step="1" value="8">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Market Volatility ($\sigma$): <span id="mc-vol-val" class="control-value">15.0%</span></label>
+              <input type="range" id="mc-vol-slider" class="range-slider" min="5" max="35" step="1" value="15">
+            </div>
+          </div>
+
+          <div class="control-bar">
+            <button id="mc-run-btn" class="btn btn-primary btn-sm">Resample Distribution</button>
+            <span style="font-size: 0.8rem; color: var(--text-muted); margin-left: auto;">Base Investment: $10,000</span>
+          </div>
+
+          <div class="canvas-container">
+            <canvas id="mc-canvas"></canvas>
+          </div>
+
+          <div class="metrics-strip">
+            <div class="metric-card">
+              <span class="metric-title">Mean Final Value</span>
+              <span id="mc-mean-val" class="metric-val highlight-green">$10,800</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Standard Deviation</span>
+              <span id="mc-std-val" class="metric-val">±$1,500</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">VaR 95% (Max Loss)</span>
+              <span id="mc-var95-val" class="metric-val highlight-rose">$1,670</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">90% Confidence Span</span>
+              <span id="mc-ci-val" class="metric-val" style="font-size: 0.88rem;">[$8,330, $13,270]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         MODULE 8: CLUSTERING & CORRELATION ANALYSIS
+         (Bivariate feature spaces (X, Y), Centroids, WCSS, Correlation & Simpson's Paradox)
+         ========================================================================= -->
+    <section id="clustering-correlation" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 08 · Clustering &amp; Correlation</span>
+          <h2 class="section-title">Clustering &amp; Correlation: Geometric Grouping &amp; Variable Association</h2>
+          <p class="section-desc">In data science and AI modeling, bivariate pairs $(X, Y)$ are not merely sequential time series, but coordinate feature spaces where observations aggregate into distinct geometric clusters. Clustering groups high-dimensional data around centroids $\mathbf{c}_k$ minimizing intra-cluster inertia (WCSS). Correlation analysis measures linear ($\rho$) and monotonic ($r_s$) co-movement. Crucially, examining $(X, Y)$ across clusters reveals <strong>Simpson's Paradox</strong>—where local cluster correlations directly contradict the aggregate global correlation.</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Theory Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📊 Bivariate Feature Space, Centroids &amp; Correlation</h3>
+          </div>
+          <div class="formula-box">
+            <div>$$J_{\text{WCSS}} = \sum_{k=1}^K \sum_{\mathbf{x}_i \in S_k} \|\mathbf{x}_i - \mathbf{c}_k\|^2, \quad \mathbf{c}_k = \frac{1}{|S_k|} \sum_{\mathbf{x}_i \in S_k} \mathbf{x}_i$$</div>
+            <span class="formula-caption">Within-Cluster Sum of Squares (Inertia / WCSS) &amp; Centroid $\mathbf{c}_k$ in $(X, Y)$ feature space</span>
+          </div>
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              \rho(X,Y) &= \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y} \\
+              &= \frac{\sum_{i=1}^N (x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^N (x_i-\bar{x})^2}\sqrt{\sum_{i=1}^N (y_i-\bar{y})^2}} \in [-1,\,1]
+            \end{aligned}$$</div>
+            <span class="formula-caption">Pearson Correlation $\rho$ — Normalized bivariate linear co-movement over $N$ observations; scale-invariant</span>
+          </div>
+          <div class="formula-box">
+            <div>$$D_M(\mathbf{x}, \mathbf{c}_k) = \sqrt{(\mathbf{x} - \mathbf{c}_k)^T \mathbf{\Sigma}_k^{-1} (\mathbf{x} - \mathbf{c}_k)}$$</div>
+            <span class="formula-caption">Mahalanobis Distance — Measures cluster proximity accounting for feature covariance matrix $\mathbf{\Sigma}_k$</span>
+          </div>
+
+          <ul class="concept-list">
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Feature Coordinate Space $(X, Y)$ vs. Time Series:</strong> Whereas time series index scalar values chronologically $(t, X_t)$, bivariate feature analysis treats $(X, Y)$ as geometric coordinates (e.g., Customer Income vs. Spend, Latent Dim 1 vs. Latent Dim 2). Data naturally groups into distinct geometric neighborhoods.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Clustering Topologies &amp; Centroid Optimization:</strong> Partitioning algorithms (K-Means, K-Medoids) iteratively update cluster centroids $\mathbf{c}_k$ to minimize intra-cluster variance $J_{\text{WCSS}}$. Density-based approaches (DBSCAN) discover arbitrary non-spherical clusters and isolate noise without requiring a predetermined $K$.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Correlation Metrics (Pearson $\rho$ vs. Spearman $r_s$):</strong> Pearson $\rho$ measures linear alignment in $[-1, 1]$. Spearman rank correlation $r_s = \rho(\text{rank}(X), \text{rank}(Y))$ captures non-linear monotonic trends and is robust to outliers and skewed distributions.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Simpson's Paradox in Clustered Data:</strong> When heterogeneous sub-populations (clusters) are pooled into a single global dataset, aggregate correlation can completely reverse sign! In the simulator, each localized cluster exhibits positive correlation ($\rho_k > 0$), yet their centroids align along a negative axis, yielding a misleading aggregate negative correlation ($\rho_{\text{global}} < 0$).</div>
+            </li>
+          </ul>
+
+          <div class="app-tags">
+            <span class="app-tag">Unsupervised Clustering</span>
+            <span class="app-tag purple">Simpson's Paradox Detection</span>
+            <span class="app-tag green">Feature Covariance Matrix</span>
+          </div>
+
+          <div class="ai-connect-block">
+            <div class="ai-connect-header">🤖 AI Modeling Connection</div>
+            <div class="ai-connect-body">
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🏗️</span>
+                <div><strong>Model Architecture:</strong> Latent embedding clustering is fundamental to representation learning in Autoencoders, CLIP, and Foundation Models. Vector databases (Milvus, Pinecone, FAISS) use Inverted File Indexing (IVF-PQ) based on K-Means centroids to perform millisecond nearest-neighbor search across billions of high-dimensional AI vectors for RAG.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🎓</span>
+                <div><strong>AI Training:</strong> Multicollinearity screening inspects the covariance matrix $\mathbf{\Sigma}$; highly correlated feature pairs ($|\rho| > 0.85$) inflate gradient variance in linear models and neural networks. Unsupervised clustering also provides pseudo-labels for semi-supervised contrastive pre-training.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🚀</span>
+                <div><strong>Production Application:</strong> Customer RFM behavioral segmentation isolates target marketing personas. Financial fraud detection uses Mahalanobis distance to measure how far an incoming transaction deviates from normal user spending clusters while preserving directional feature covariance.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Lab -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <h3 class="card-title">🎮 Bivariate Cluster &amp; Correlation Studio</h3>
+            <span class="lab-badge pulse">Live 2D Feature Space</span>
+          </div>
+
+          <div class="lab-controls">
+            <div class="control-group">
+              <label class="control-label">Data Distribution &amp; Cluster Topology:</label>
+              <select id="cluster-topology-select" class="select-input">
+                <option value="simpson">Simpson's Paradox (Positive Clusters, Negative Global)</option>
+                <option value="twoclusters">Bimodal Clusters (Customer Segments)</option>
+                <option value="gaussian3">3 Isotropic Gaussian Clusters</option>
+                <option value="correlated">Strong Correlated Single Cluster</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Cluster Separation ($d$): <span id="cluster-sep-val" class="control-value">2.5</span></label>
+              <input type="range" id="cluster-sep-slider" class="range-slider" min="0.5" max="5.0" step="0.1" value="2.5">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Intra-Cluster Noise ($\sigma$): <span id="cluster-noise-val" class="control-value">0.35</span></label>
+              <input type="range" id="cluster-noise-slider" class="range-slider" min="0.1" max="1.0" step="0.05" value="0.35">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Sample Count ($N$): <span id="cluster-npoints-val" class="control-value">120</span></label>
+              <input type="range" id="cluster-npoints-slider" class="range-slider" min="60" max="300" step="15" value="120">
+            </div>
+          </div>
+
+          <div class="lab-legend-strip" style="display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 8px; padding: 0.5rem 0.75rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #38bdf8;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #38bdf8;"></span> Cluster A</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #c084fc;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #c084fc;"></span> Cluster B</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #fbbf24;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #fbbf24;"></span> Cluster C</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #f8fafc;">◆ Centroid (cₖ)</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #10b981;">― Intra-Cluster Slope</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #94a3b8;">╌╌ Global OLS</span>
+          </div>
+
+          <div class="canvas-container">
+            <canvas id="cluster-canvas"></canvas>
+          </div>
+
+          <div class="metrics-strip">
+            <div class="metric-card">
+              <span class="metric-title">Global Pearson (ρ)</span>
+              <span id="cluster-global-corr-val" class="metric-val highlight-cyan">-0.720</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Intra-Cluster Avg (ρ̄ₖ)</span>
+              <span id="cluster-intra-corr-val" class="metric-val highlight-green">+0.842</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Total Inertia (J_WCSS)</span>
+              <span id="cluster-inertia-val" class="metric-val">42.50</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Diagnostic Regime</span>
+              <span id="cluster-status-val" class="metric-val highlight-yellow" style="font-size:0.82rem;">⚠️ Simpson's Paradox</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         MODULE 9: OPTIMIZATION THEORY
+         ========================================================================= -->
+    <section id="optimization" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 09 · Decision Theory</span>
+          <h2 class="section-title">Optimization Theory &amp; Constrained Models</h2>
+          <p class="section-desc">Optimization finds the maximum or minimum of an objective function subject to real-world operational constraints (budget limits, capacity ceilings, and regulatory rules).</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Theory Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🎯 General Optimization Theory &amp; Constrained Models</h3>
+          </div>
+
+          <!-- General Optimization Theory -->
+          <div class="hero-pill" style="margin-bottom:0.75rem;">✦ General Optimization Theory &amp; Constrained Models</div>
+          
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.85rem;">
+            <strong>Mathematical Optimization</strong> is the formal science of selecting the best decision vector $\mathbf{x}^* \in \mathbb{R}^n$ to minimize an objective loss or maximize an objective utility, constrained within a feasible decision space governed by equality and inequality boundaries.
+          </p>
+
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              \min_{\mathbf{x} \in \mathbb{R}^n} \quad & f(\mathbf{x}) \quad \Big(\text{or } \max_{\mathbf{x} \in \mathbb{R}^n} -f(\mathbf{x})\Big) \\
+              \text{subject to} \quad & g_i(\mathbf{x}) \le 0, \quad i = 1, 2, \dots, m \quad \text{(Inequality Constraints)} \\
+              & h_j(\mathbf{x}) = 0, \quad j = 1, 2, \dots, p \quad \text{(Equality Constraints)} \\
+              & \mathbf{x} \in \mathcal{X} \subseteq \mathbb{R}^n \quad \text{(Feasible Decision Space)}
+            \end{aligned}$$</div>
+            <span class="formula-caption">Canonical Mathematical Formulation of Constrained Optimization</span>
+          </div>
+
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              \text{Lagrangian: } &\quad \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu}) = f(\mathbf{x}) + \sum_{i=1}^m \lambda_i g_i(\mathbf{x}) + \sum_{j=1}^p \mu_j h_j(\mathbf{x}) \\
+              \text{Stationarity: } &\quad \nabla_{\mathbf{x}} f(\mathbf{x}^*) + \sum_{i=1}^m \lambda_i \nabla g_i(\mathbf{x}^*) + \sum_{j=1}^p \mu_j \nabla h_j(\mathbf{x}^*) = \mathbf{0} \\
+              \text{Primal Feasible: } &\quad g_i(\mathbf{x}^*) \le 0, \quad h_j(\mathbf{x}^*) = 0 \\
+              \text{Dual Feasible: } &\quad \lambda_i \ge 0 \quad (\forall i = 1, \dots, m) \\
+              \text{Slackness: } &\quad \lambda_i \cdot g_i(\mathbf{x}^*) = 0 \quad (\text{Complementary Condition})
+            \end{aligned}$$</div>
+            <span class="formula-caption">Lagrange Multipliers &amp; Karush-Kuhn-Tucker (KKT) First-Order Necessary Conditions</span>
+          </div>
+
+          <!-- Example: Profit Maximization -->
+          <div class="hero-pill" style="margin-top:1.5rem;margin-bottom:0.75rem;">✦ Example: Profit Maximization &amp; Constrained Equations</div>
+
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.85rem;">
+            As a direct industrial application, consider an enterprise determining optimal production volume $Q$. Total revenue grows with sales, but operations incur fixed overhead, unit variable production expenditures, and scrap/waste penalties, strictly bounded by plant capacity and budget ceilings.
+          </p>
+
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              \max_{Q} \quad Z(Q) &= R(Q) - TC(Q) \\
+              &= (P \cdot Q) - \left[ FC + (VC \cdot Q) + (C_w \cdot W(Q)) \right] \\
+              \text{s.t.} \quad 0 &\le Q \le Q_{\max} \quad &\text{(Plant Capacity Limit)} \\
+              FC &+ (VC \cdot Q) \le B \quad &\text{(Budgetary Capital Cap)} \\
+              \text{Break-Even: } \quad Q_{\text{BE}} &= \frac{FC}{P - VC - C_w \cdot w} \quad &\big(Z(Q_{\text{BE}}) = 0\big)
+            \end{aligned}$$</div>
+            <span class="formula-caption">Constrained Profit Maximization Model with Waste Penalty ($W(Q) = w \cdot Q$) &amp; Break-Even Equation</span>
+          </div>
+
+          <!-- Worked Real-World Numerical Example Box -->
+          <div class="hero-pill" style="margin-top: 1.25rem;">Worked Numerical Example: Factory Production Optimization</div>
+          <div class="worked-example-box">
+            <div style="margin-bottom: 0.65rem;">
+              <strong style="color: #38bdf8;">Given Operating Parameters (from our interactive lab):</strong><br>
+              Unit Selling Price $P = \$50/\text{unit}$, Fixed Overhead $FC = \$8,000/\text{month}$, Unit Variable Cost $VC = \$20/\text{unit}$, Waste Penalty $C_w = \$10/\text{unit of scrap}$, Waste Rate $w = 8\% = 0.08$ scrap per unit produced, and Factory Capacity $Q_{\max} = 1,000\text{ units/month}$.
+            </div>
+            <div style="margin-bottom: 0.65rem;">
+              <strong style="color: #34d399;">Step 1 — Effective Unit Contribution Margin ($CM$):</strong><br>
+              $$CM = P - VC - (C_w \times w) = \$50 - \$20 - (\$10 \times 0.08) = \$29.20/\text{unit}$$
+              Every additional unit produced nets $\$29.20$ to absorb fixed overhead and yield operating profit.
+            </div>
+            <div style="margin-bottom: 0.65rem;">
+              <strong style="color: #fbbf24;">Step 2 — Break-Even Production Volume ($Q_{\text{BE}}$):</strong><br>
+              $$Q_{\text{BE}} = \frac{FC}{CM} = \frac{\$8,000}{\$29.20} \approx 273.97 \implies 274\text{ units}$$
+              Below $274$ units, the firm operates at a net loss ($Z < 0$); above $274$ units, operations are profitable.
+            </div>
+            <div>
+              <strong style="color: #f43f5e;">Step 3 — Constrained Optimal Solution ($Q^*$) &amp; Shadow Price ($\lambda$):</strong><br>
+              Since $CM = \$29.20 > 0$, the profit function is strictly monotonically increasing in $Q$. The optimum occurs exactly on the boundary constraint $Q^* = Q_{\max} = 1,000\text{ units}$:
+              $$Z(Q^*) = (\$29.20 \times 1,000) - \$8,000 = \$29,200 - \$8,000 = \$21,200$$
+              The active constraint $Q - Q_{\max} \le 0$ has dual Lagrange multiplier (shadow price) $\lambda = \frac{dZ^*}{dQ_{\max}} = \$29.20/\text{unit}$, representing the marginal profit gained by expanding plant capacity by one additional unit.
+            </div>
+          </div>
+
+          <ul class="concept-list" style="margin-top: 1.25rem;">
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>General Mathematical Optimization:</strong> Canonical framework minimizing loss $f(\mathbf{x})$ over a constrained domain $\mathcal{S} = \{\mathbf{x} \mid g_i(\mathbf{x}) \le 0, h_j(\mathbf{x}) = 0\}$.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Constrained vs. Unconstrained:</strong> Unconstrained problems set $\nabla f(\mathbf{x}) = \mathbf{0}$; constrained problems balance objective gradients against active constraint boundary normals via KKT multipliers ($\nabla f = -\sum \lambda_i \nabla g_i$).</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Complementary Slackness ($\lambda_i g_i(\mathbf{x}) = 0$):</strong> If a constraint is inactive ($g_i < 0$), its multiplier $\lambda_i = 0$. If active ($g_i = 0$), $\lambda_i > 0$ represents the <em>shadow price</em> (sensitivity of optimal objective to relaxing that constraint).</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Profit Objective Function $Z(Q)$:</strong> Balances total revenue $P \cdot Q$ against fixed expenditures $FC$, volume-dependent variable costs $VC \cdot Q$, and scrap disposal penalties $C_w \cdot W(Q)$.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Unit Contribution Margin ($CM = P - VC - C_w \cdot w$):</strong> The net incremental revenue delivered by producing one more unit above direct marginal costs.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Break-Even Threshold ($Q_{\text{BE}} = FC / CM$):</strong> The critical production quantity where cumulative revenues exactly equal total costs ($Z = 0$).</div>
+            </li>
+          </ul>
+
+          <div class="app-tags">
+            <span class="app-tag">General Optimization Theory</span>
+            <span class="app-tag purple">KKT &amp; Lagrange Multipliers</span>
+            <span class="app-tag green">Constrained Profit Maximization</span>
+            <span class="app-tag amber">Cost-Volume-Profit (CVP) Analysis</span>
+            <span class="app-tag">Operations Research (LP/MIP)</span>
+          </div>
+
+          <div class="ai-connect-block">
+            <div class="ai-connect-header">🤖 AI Modeling Connection</div>
+            <div class="ai-connect-body">
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🏗️</span>
+                <div><strong>Model Architecture:</strong> Training a neural network <em>is</em> solving a high-dimensional optimization problem: minimize the loss function $\mathcal{L}(\boldsymbol{\theta})$ over millions of weight parameters $\boldsymbol{\theta}$. Support Vector Machines (SVMs) are explicitly formulated as constrained quadratic programs with a maximum-margin objective subject to inequality constraints on each training sample.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🎓</span>
+                <div><strong>AI Training:</strong> Hyperparameter optimization searches for the best learning rate, batch size, layer count, and regularization strength. Modern approaches include Bayesian Optimization (surrogate model + acquisition function), Hyperband (early stopping), and Neural Architecture Search (NAS)—all framed as optimization problems over structured search spaces.</div>
+              </div>
+              <div class="ai-connect-row">
+                <span class="ai-connect-icon">🚀</span>
+                <div><strong>Production Application:</strong> Reinforcement Learning reduces every decision-making problem to optimizing a cumulative reward function $\sum_t \gamma^t r_t$ subject to environment dynamics constraints. Google uses constrained optimization in its ad auction system to maximize revenue subject to advertiser budget limits. Tesla Autopilot uses Model Predictive Control (MPC)—a real-time constrained optimization that replans the optimal driving trajectory every 100ms.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Lab -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <h3 class="card-title">🎮 Constrained Profit Solver & Sensitivity Curve</h3>
+            <span class="lab-badge pulse">Live Solver</span>
+          </div>
+
+          <div class="lab-controls">
+            <div class="control-group">
+              <label class="control-label">Unit Price (P): <span id="opt-price-val" class="control-value">$50</span></label>
+              <input type="range" id="opt-price-slider" class="range-slider" min="25" max="100" step="1" value="50">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Fixed Operating Cost (FC): <span id="opt-fc-val" class="control-value">$8,000</span></label>
+              <input type="range" id="opt-fc-slider" class="range-slider" min="2000" max="20000" step="500" value="8000">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Unit Variable Cost (VC): <span id="opt-vc-val" class="control-value">$20</span></label>
+              <input type="range" id="opt-vc-slider" class="range-slider" min="5" max="50" step="1" value="20">
+            </div>
+            <div class="control-group">
+              <label class="control-label">Waste Penalty Cost (Cw): <span id="opt-cw-val" class="control-value">$10</span></label>
+              <input type="range" id="opt-cw-slider" class="range-slider" min="0" max="30" step="1" value="10">
+            </div>
+          </div>
+
+          <!-- Interactive View Mode Toggle -->
+          <div style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:0.75rem;">
+            <button type="button" id="opt-mode-cvp" style="padding:0.4rem 1rem;font-size:0.8rem;font-weight:600;border-radius:6px;background:var(--accent-primary);color:#fff;border:none;cursor:pointer;transition:all 0.2s;">📊 Revenue vs Cost (CVP Break-Even)</button>
+            <button type="button" id="opt-mode-profit" style="padding:0.4rem 1rem;font-size:0.8rem;font-weight:600;border-radius:6px;background:rgba(255,255,255,0.06);color:#94a3b8;border:1px solid rgba(255,255,255,0.12);cursor:pointer;transition:all 0.2s;">📈 Net Profit Curve Z(Q)</button>
+          </div>
+
+          <div id="opt-legend-strip" class="lab-legend-strip" style="display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 8px; padding: 0.5rem 0.85rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
+            <!-- Dynamically updated based on active mode -->
+          </div>
+
+          <div class="canvas-container" style="height: 380px;">
+            <canvas id="opt-canvas"></canvas>
+          </div>
+
+          <div class="metrics-strip">
+            <div class="metric-card">
+              <span class="metric-title">Max Profit (at Cap)</span>
+              <span id="opt-maxprofit-val" class="metric-val highlight-green">$21,200</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Break-Even Volume</span>
+              <span id="opt-beqty-val" class="metric-val highlight-amber">274 units</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Unit Contribution Margin</span>
+              <span id="opt-margin-val" class="metric-val highlight-cyan">$29.20 / unit</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- =========================================================================
+         MODULE 10: SYNTHESIS KNOWLEDGE MATRIX
+         ========================================================================= -->
+    <section id="synthesis" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 10 · Cross-Domain Synthesis</span>
+          <h2 class="section-title">Concept-to-Application Knowledge Matrix</h2>
+          <p class="section-desc">Unified cross-reference matrix mapping mathematical foundations to machine learning algorithms, deep learning architectures, and production data science systems.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="matrix-container">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th style="width: 20%;">Curriculum Module &amp; Area</th>
+                <th style="width: 36%;">Core Concept &amp; United Mathematical Equations</th>
+                <th style="width: 18%;">Key Algorithms &amp; Techniques</th>
+                <th style="width: 26%;">Typical AI &amp; Data Science Applications</th>
+              </tr>
+            </thead>
+            <tbody id="synthesis-table-body">
+              <!-- Dynamically populated from SYNTHESIS_DATA -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         MODULE 11: ACADEMIC & INDUSTRY REFERENCES
+         ========================================================================= -->
+    <section id="references" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 11 · Bibliography</span>
+          <h2 class="section-title">Academic References & Video Lectures</h2>
+          <p class="section-desc">Primary references, research monographs, and video lectures cited across the curriculum.</p>
+        </div>
+      </div>
+
+      <div id="references-grid" class="ref-grid">
+        <!-- Dynamically populated from ACADEMIC_REFERENCES -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/data/synthesis_data.js?v=redesign2"></script>
+  <script src="js/modules/linear_algebra.js?v=redesign2"></script>
+  <script src="js/modules/calculus.js?v=redesign2"></script>
+  <script src="js/modules/regression.js?v=redesign2"></script>
+  <script src="js/modules/neural_network.js?v=redesign2"></script>
+  <script src="js/modules/cluster_correlation.js?v=redesign2"></script>
+  <script src="js/modules/probability.js?v=redesign2"></script>
+  <script src="js/modules/bayes.js?v=redesign2"></script>
+  <script src="js/modules/monte_carlo.js?v=redesign2"></script>
+  <script src="js/modules/optimization.js?v=redesign2"></script>
+  <script src="js/modules/time_series.js?v=redesign2"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
