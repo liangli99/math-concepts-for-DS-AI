@@ -235,14 +235,11 @@ function initClusterCorrelationLab() {
     // 4. Simpson's paradox detection
     if (statusSpan) {
       if (rIntra > 0.4 && rGlobal < -0.15) {
-        statusSpan.textContent = "⚠ Simpson's Paradox (Local + vs Global -)";
-        statusSpan.style.color = '#f59e0b';
+        statusSpan.innerHTML = `<span style="color:#f59e0b; font-weight:700;">⚠ Simpson's Paradox</span><span style="display:block; font-size:0.75rem; color:#f59e0b; opacity:0.9; margin-top:2px;">Local (+) vs Global (-)</span>`;
       } else if (rIntra < -0.4 && rGlobal > 0.15) {
-        statusSpan.textContent = "⚠ Simpson's Paradox (Local - vs Global +)";
-        statusSpan.style.color = '#f59e0b';
+        statusSpan.innerHTML = `<span style="color:#f59e0b; font-weight:700;">⚠ Simpson's Paradox</span><span style="display:block; font-size:0.75rem; color:#f59e0b; opacity:0.9; margin-top:2px;">Local (-) vs Global (+)</span>`;
       } else {
-        statusSpan.textContent = "Homogeneous Trend Alignment";
-        statusSpan.style.color = '#10b981';
+        statusSpan.innerHTML = `<span style="color:#10b981; font-weight:700;">✓ Aligned Trends</span><span style="display:block; font-size:0.75rem; color:#10b981; opacity:0.9; margin-top:2px;">Local & Global Match</span>`;
       }
     }
   }

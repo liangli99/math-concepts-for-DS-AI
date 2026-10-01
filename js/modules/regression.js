@@ -143,7 +143,7 @@ function initRegressionLab() {
       for (let i = beta.length - 1; i >= 0; i--) {
         const coef = beta[i];
         if (Math.abs(coef) < 0.001 && beta.length > 1) continue;
-        const sign = (coef >= 0 && eqParts.length > 0) ? '+ ' : (coef < 0 ? '- ' : '');
+        const sign = eqParts.length > 0 ? (coef >= 0 ? '+ ' : '- ') : (coef < 0 ? '-' : '');
         const absVal = Math.abs(coef).toFixed(2);
         if (i === 0) eqParts.push(`${sign}${absVal}`);
         else if (i === 1) eqParts.push(`${sign}${absVal}x`);

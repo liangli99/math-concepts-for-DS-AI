@@ -68,17 +68,21 @@ window.getCanvasPalette = function() {
   };
 };
 
-// Render the Cross-Domain Synthesis Knowledge Matrix
+// Render the Cross-Domain Synthesis Knowledge Matrix with Live Filters & Search
 function renderSynthesisMatrix() {
   const tableBody = document.getElementById('synthesis-table-body');
   if (!tableBody || typeof SYNTHESIS_DATA === 'undefined') return;
 
   tableBody.innerHTML = SYNTHESIS_DATA.map(item => `
-    <tr data-category="${item.aiCategory}">
+    <tr data-category="${item.aiCategory}" data-module="${item.module}" data-search="${(item.module + ' ' + item.area + ' ' + item.coreIdea + ' ' + item.exampleTechnique + ' ' + item.applications).toLowerCase()}">
       <td>
-        <div style="display: inline-block; font-size: 0.72rem; font-weight: 700; color: var(--accent-primary); background: rgba(37, 99, 235, 0.08); border: 1px solid rgba(37, 99, 235, 0.25); border-radius: 4px; padding: 2px 7px; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 5px;">${item.module}</div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--accent-primary); background: rgba(37, 99, 235, 0.08); border: 1px solid rgba(37, 99, 235, 0.25); border-radius: 4px; padding: 2px 7px; text-transform: uppercase; letter-spacing: 0.04em;">${item.module}</span>
+          <span style="font-size: 0.70rem; color: var(--text-muted); font-weight: 600;">${item.complexity}</span>
+        </div>
         <div><strong style="color: var(--text-primary); font-size: 0.95rem;">${item.area}</strong></div>
-        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">${item.aiCategory}</div>
+        <div style="font-size: 0.74rem; color: var(--text-muted); margin: 4px 0 6px 0;">${item.aiCategory}</div>
+        <a href="#${item.targetSectionId}" class="matrix-jump-btn">Go to Lab ↗</a>
       </td>
       <td>
         <div style="font-size: 0.86rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 6px;">${item.coreIdea}</div>
@@ -94,19 +98,105 @@ function renderSynthesisMatrix() {
       </td>
     </tr>
   `).join('');
+
+  // Setup Matrix Toolbar Interactions
+  initMatrixToolbar();
 }
 
-// Render Academic & Industry References
+function initMatrixToolbar() {
+  const pills = document.querySelectorAll('#matrix-filter-pills .filter-pill');
+  const searchInput = document.getElementById('matrix-search-input');
+  const rows = document.querySelectorAll('#synthesis-table-body tr');
+
+  let currentCategory = 'all';
+  let currentSearch = '';
+
+  function applyFilters() {
+    rows.forEach(row => {
+      const rowCat = row.getAttribute('data-category') || '';
+      const rowSearch = row.getAttribute('data-search') || '';
+
+      const matchCat = (currentCategory === 'all') || rowCat.toLowerCase().includes(currentCategory.toLowerCase());
+      const matchSearch = (!currentSearch) || rowSearch.includes(currentSearch);
+
+      if (matchCat && matchSearch) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      currentCategory = pill.getAttribute('data-category') || 'all';
+      applyFilters();
+    });
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      currentSearch = e.target.value.trim().toLowerCase();
+      applyFilters();
+    });
+  }
+}
+
+// Render Academic & Industry References with Category Tabs & Rich Cards
 function renderReferences() {
   const refGrid = document.getElementById('references-grid');
   if (!refGrid || typeof ACADEMIC_REFERENCES === 'undefined') return;
 
+  // Update Tab Counts
+  const countAll = document.getElementById('ref-count-all');
+  const countTextbook = document.getElementById('ref-count-textbook');
+  const countVideo = document.getElementById('ref-count-video');
+  const countPrimer = document.getElementById('ref-count-primer');
+
+  if (countAll) countAll.textContent = ACADEMIC_REFERENCES.length;
+  if (countTextbook) countTextbook.textContent = ACADEMIC_REFERENCES.filter(r => r.category === 'textbook').length;
+  if (countVideo) countVideo.textContent = ACADEMIC_REFERENCES.filter(r => r.category === 'video').length;
+  if (countPrimer) countPrimer.textContent = ACADEMIC_REFERENCES.filter(r => r.category === 'primer').length;
+
   refGrid.innerHTML = ACADEMIC_REFERENCES.map(ref => `
-    <a href="${ref.url}" target="_blank" rel="noopener noreferrer" class="ref-item">
-      <div class="ref-source">${ref.author} · <span style="color: var(--text-muted); font-weight: normal;">${ref.tag}</span></div>
-      <div class="ref-title">${ref.title} ↗</div>
+    <a href="${ref.url}" target="_blank" rel="noopener noreferrer" class="ref-item" data-category="${ref.category}" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <span class="ref-category-badge ${ref.category}">${ref.categoryName}</span>
+          <span class="ref-module-tag">${ref.modules}</span>
+        </div>
+        <div class="ref-title">${ref.title} ↗</div>
+        <div class="ref-source" style="margin-top: 0.25rem;">${ref.author}</div>
+        <div class="ref-institution">${ref.institution} · ${ref.publisher} (${ref.year})</div>
+      </div>
+      <div class="ref-topics">
+        ${ref.topics.map(t => `<span class="ref-topic-pill">${t}</span>`).join('')}
+      </div>
     </a>
   `).join('');
+
+  // Setup Category Tabs
+  const tabBtns = document.querySelectorAll('#ref-tab-strip .ref-tab-btn');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const selectedCat = btn.getAttribute('data-category');
+      const items = refGrid.querySelectorAll('.ref-item');
+
+      items.forEach(item => {
+        const itemCat = item.getAttribute('data-category');
+        if (selectedCat === 'all' || itemCat === selectedCat) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
 }
 
 // Sidebar Navigation and Scrollspy

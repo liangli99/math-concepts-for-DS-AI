@@ -31,20 +31,20 @@ function initOptimizationLab() {
     if (!legendStrip) return;
     if (activeMode === 'cvp') {
       legendStrip.innerHTML = `
-        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#38bdf8;font-weight:600;">― Total Revenue TR(Q)</span>
-        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#f43f5e;font-weight:600;">― Total Cost TC(Q)</span>
-        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#94a3b8;">⋯ Fixed Baseline FC</span>
-        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#c084fc;">╌╌ Plant Capacity (1,000 u)</span>
-        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#fbbf24;">● Break-Even Point</span>
-        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#34d399;">↕ Profit Spread</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#0284c7;font-weight:600;">― Total Revenue TR(Q)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#e11d48;font-weight:600;">― Total Cost TC(Q)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#64748b;font-weight:600;">⋯ Fixed Baseline FC</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#9333ea;font-weight:600;">╌╌ Plant Capacity (1,000 u)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#d97706;font-weight:600;">● Break-Even Point</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#059669;font-weight:600;">↕ Profit Spread</span>
       `;
     } else {
       legendStrip.innerHTML = `
-        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#34d399;font-weight:600;">― Net Profit Curve Z(Q)</span>
-        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#94a3b8;">⋯ Zero-Profit Line ($0)</span>
-        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#c084fc;">╌╌ Capacity Limit (1,000 u)</span>
-        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#fbbf24;">● Break-Even Volume</span>
-        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#10b981;font-weight:600;">★ Optimal Max Profit</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#059669;font-weight:600;">― Net Profit Curve Z(Q)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#64748b;font-weight:600;">⋯ Zero-Profit Line ($0)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#9333ea;font-weight:600;">╌╌ Capacity Limit (1,000 u)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#d97706;font-weight:600;">● Break-Even Volume</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#059669;font-weight:600;">★ Optimal Max Profit</span>
       `;
     }
   }

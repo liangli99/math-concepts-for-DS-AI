@@ -188,11 +188,21 @@
           </div>
           <div class="formula-box">
             <div>$$\mathbf{y} = \mathbf{W}\mathbf{x} + \mathbf{b}$$</div>
-            <span class="formula-caption">Neural Network Layer Affine Transformation</span>
+            <span class="formula-caption">Network Layer Affine Transformation</span>
           </div>
           <div class="formula-box">
-            <div>$$\mathbf{A} = \mathbf{U}\mathbf{\Sigma}\mathbf{V}^T, \quad \mathbf{A}\mathbf{v} = \lambda\mathbf{v}$$</div>
-            <span class="formula-caption">Singular Value Decomposition (SVD) & Eigen-system</span>
+            <div>$$\mathbf{A} = \mathbf{U}\mathbf{\Sigma}\mathbf{V}^T$$</div>
+            <span class="formula-caption">Singular Value Decomposition (SVD)</span>
+            <div style="font-size: 0.84rem; color: var(--text-secondary); text-align: left; margin-top: 0.65rem; line-height: 1.6; border-top: 1px dashed var(--border-color); padding-top: 0.55rem;">
+              <div style="margin-bottom: 0.25rem;">• <strong>$\mathbf{A} \in \mathbb{R}^{m \times n}$:</strong> Original data matrix with $m$ sample observations and $n$ features (rectangular or square).</div>
+              <div style="margin-bottom: 0.25rem;">• <strong>$\mathbf{U} \in \mathbb{R}^{m \times m}$:</strong> Orthogonal matrix of <em>left-singular vectors</em> (eigenvectors of $\mathbf{A}\mathbf{A}^T$), spanning the sample/row space ($\mathbf{U}^T\mathbf{U} = \mathbf{I}$).</div>
+              <div style="margin-bottom: 0.25rem;">• <strong>$\mathbf{\Sigma} \in \mathbb{R}^{m \times n}$:</strong> Diagonal matrix of non-negative <em>singular values</em> ($\sigma_1 \ge \sigma_2 \ge \dots \ge 0$), representing variance/energy scaling along principal axes.</div>
+              <div>• <strong>$\mathbf{V} \in \mathbb{R}^{n \times n}$ ($\mathbf{V}^T$):</strong> Orthogonal matrix of <em>right-singular vectors</em> (eigenvectors of $\mathbf{A}^T\mathbf{A}$), spanning the feature/column space ($\mathbf{V}^T\mathbf{V} = \mathbf{I}$).</div>
+            </div>
+          </div>
+          <div class="formula-box">
+            <div>$$\mathbf{A}\mathbf{v} = \lambda\mathbf{v}$$</div>
+            <span class="formula-caption">Eigenvalue &amp; Eigenvector Equation (for square matrix $\mathbf{A} \in \mathbb{R}^{n \times n}$)</span>
           </div>
 
           <ul class="concept-list">
@@ -202,11 +212,11 @@
             </li>
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
-              <div><strong>Eigenvalues ($\lambda$) & Eigenvectors ($\mathbf{v}$):</strong> Invariant directions where matrix transformations only scale vectors without changing their direction—the foundation of Principal Component Analysis (PCA).</div>
+              <div><strong>Eigenvalues ($\lambda$) & Eigenvectors ($\mathbf{v}$):</strong> Invariant directions where square matrix transformations only scale vectors by scalar $\lambda$ without changing direction ($\mathbf{A}\mathbf{v}=\lambda\mathbf{v}$)—the foundation of Principal Component Analysis (PCA).</div>
             </li>
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
-              <div><strong>Singular Value Decomposition (SVD):</strong> Factorizes any $m \times n$ matrix into orthogonal components and singular values for low-rank approximation, noise filtering, and recommender systems.</div>
+              <div><strong>Singular Value Decomposition (SVD):</strong> Factorizes any $m \times n$ matrix $\mathbf{A}$ into $\mathbf{U}\mathbf{\Sigma}\mathbf{V}^T$, separating data into orthogonal left-singular vectors $\mathbf{U}$, singular spectrum $\mathbf{\Sigma}$, and right-singular vectors $\mathbf{V}$ for optimal low-rank matrix approximation, noise filtering, and recommender systems.</div>
             </li>
           </ul>
 
@@ -221,7 +231,7 @@
             <div class="ai-connect-body">
               <div class="ai-connect-row">
                 <span class="ai-connect-icon">🏗️</span>
-                <div><strong>Model Architecture:</strong> Every layer in a neural network computes $\mathbf{a}^{(l)} = \mathbf{W}^{(l)}\mathbf{x} + \mathbf{b}^{(l)}$—a matrix-vector product. Deep networks are simply a composition of linear algebra operations interleaved with non-linearities.</div>
+                <div><strong>Model Architecture:</strong> Every layer in a neural network computes $\mathbf{y} = \mathbf{W}\mathbf{x} + \mathbf{b}$ (a matrix-vector product). Deep networks are simply a composition of linear algebra operations interleaved with non-linearities.</div>
               </div>
               <div class="ai-connect-row">
                 <span class="ai-connect-icon">🎓</span>
@@ -382,7 +392,7 @@
 
             <div class="lab-controls">
               <div class="control-group">
-                <label class="control-label">Display Mode &amp; Error View:</label>
+                <label class="control-label"><span>Display Mode &amp; Error View:</span></label>
                 <select id="ts-mode-select" class="select-input">
                   <option value="all">Observed + Model + Forecast Horizon</option>
                   <option value="errors">Forecast Errors &amp; Residual Spikes (e_t)</option>
@@ -391,15 +401,15 @@
                 </select>
               </div>
               <div class="control-group">
-                <label class="control-label">Trend Slope (m): <span id="ts-trend-val" class="control-value">0.40</span></label>
+                <label class="control-label"><span style="white-space: nowrap;">Trend Slope ($m$):</span> <span id="ts-trend-val" class="control-value">0.40</span></label>
                 <input type="range" id="ts-trend-slider" class="range-slider" min="-0.2" max="1.0" step="0.05" value="0.40">
               </div>
               <div class="control-group">
-                <label class="control-label">Seasonal Amplitude: <span id="ts-season-val" class="control-value">1.5</span></label>
+                <label class="control-label"><span style="white-space: nowrap;">Seasonal Amplitude ($A$):</span> <span id="ts-season-val" class="control-value">1.5</span></label>
                 <input type="range" id="ts-season-slider" class="range-slider" min="0" max="3.5" step="0.2" value="1.5">
               </div>
               <div class="control-group">
-                <label class="control-label">Noise Level σ (Residual Std Dev): <span id="ts-noise-input-val" class="control-value">0.5</span></label>
+                <label class="control-label"><span style="white-space: nowrap;">Noise Level $\sigma$ (Std Dev):</span> <span id="ts-noise-input-val" class="control-value">0.5</span></label>
                 <input type="range" id="ts-noise-slider" class="range-slider" min="0.1" max="1.5" step="0.1" value="0.5">
               </div>
             </div>
@@ -432,6 +442,111 @@
               <div class="metric-card">
                 <span class="metric-title">Forecast Horizon (h)</span>
                 <span id="ts-forecast-val" class="metric-val highlight-green">+12 steps</span>
+              </div>
+            </div>
+
+            <!-- Simulation Model & Worked Numerical Example Guide -->
+            <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin-top: 1rem; font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--text-primary); font-size: 0.92rem;">
+                  <span>⚡</span> Worked Example: Multi-Component Time Series Decomposition &amp; Forecast Horizon
+                </div>
+                <span style="font-size: 0.76rem; background: rgba(59, 130, 246, 0.1); color: var(--accent-primary); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 4px; padding: 0.2rem 0.55rem; font-weight: 600;">Additive Decomposition &amp; ARIMA Horizon</span>
+              </div>
+
+              <!-- Mathematical Formulation -->
+              <div class="formula-box" style="margin-bottom: 0.85rem;">
+                <div>$$\begin{aligned}
+                  \text{Additive Synthesis Model: } &\quad Y_t = T_t + S_t + C_t + \epsilon_t \\
+                  \text{Linear Secular Trend: } &\quad T_t = 5.0 + m \cdot t \quad (\text{Drift Rate } m = +0.40) \\
+                  \text{Seasonal Harmonic: } &\quad S_t = A \cdot \sin\left(\frac{2\pi t}{12}\right) \quad (\text{Annual Period } P = 12, A = 1.6) \\
+                  \text{Cyclical Wave and Noise: } &\quad C_t = 0.8 \cdot \cos\left(\frac{2\pi t}{24}\right), \quad \epsilon_t \sim \text{Uniform}(-\sigma, \sigma) \\
+                  \text{Out-of-Sample Forecast: } &\quad \hat{Y}_{t+h} = T_{t+h} + S_{t+h} + C_{t+h}, \quad h \in [1, 12] \\
+                  \text{Forecast Error Metrics: } &\quad \text{RMSE} = \sqrt{\frac{1}{N}\sum_{t=1}^N (Y_t - \hat{Y}_t)^2}, \quad \text{MAE} = \frac{1}{N}\sum_{t=1}^N |Y_t - \hat{Y}_t|
+                \end{aligned}$$</div>
+                <span class="formula-caption">Mathematical Synthesis and Horizon Extrapolation at Cutoff $t = 48$ with Horizon $h = 12$</span>
+              </div>
+
+              <!-- 4-Card Step-by-Step Breakdown -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 0.85rem; margin-bottom: 0.85rem;">
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                  <div style="font-weight: 600; color: #0284c7; margin-bottom: 0.35rem;">
+                    Step 1 — Trend Component Drift ($T_t$)
+                  </div>
+                  <div style="margin: 0.35rem 0;">
+                    $$\begin{aligned}
+                      T_{48} &= 5.0 + (0.40 \times 48) \\
+                             &= 5.0 + 19.2 = \mathbf{24.2}
+                    \end{aligned}$$
+                  </div>
+                  <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                    Captures long-term structural trajectory (e.g., secular GDP expansion, cloud compute adoption, population growth). The slope parameter $m = +0.40$ establishes a steady deterministic drift of $+0.40$ units per time step.
+                  </p>
+                </div>
+
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                  <div style="font-weight: 600; color: #9333ea; margin-bottom: 0.35rem;">
+                    Step 2 — Seasonal &amp; Cyclical Waves ($S_t + C_t$)
+                  </div>
+                  <div style="margin: 0.35rem 0;">
+                    $$\begin{aligned}
+                      S_{48} &= 1.6 \sin\left(\frac{2\pi \times 48}{12}\right) = 1.6 \sin(8\pi) = \mathbf{0.0} \\
+                      C_{48} &= 0.8 \cos\left(\frac{2\pi \times 48}{24}\right) = 0.8 \cos(4\pi) = \mathbf{0.80}
+                    \end{aligned}$$
+                  </div>
+                  <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                    Superimposes recurrent intra-year seasonality ($P=12$) and multi-year macroeconomic business oscillations ($P=24$). At the cutoff $t=48$, total deterministic model equals $\hat{Y}_{48} = 24.2 + 0.0 + 0.8 = \mathbf{25.0}$.
+                  </p>
+                </div>
+
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                  <div style="font-weight: 600; color: #f43f5e; margin-bottom: 0.35rem;">
+                    Step 3 — Residual Error Calibration ($e_t$)
+                  </div>
+                  <div style="margin: 0.35rem 0;">
+                    $$\begin{aligned}
+                      e_t &= Y_t - \hat{Y}_t, \quad \text{RMSE} = \sqrt{\frac{1}{N}\sum_{t=1}^N e_t^2} \approx \mathbf{0.308} \\
+                      \text{MAE} &= \frac{1}{N}\sum_{t=1}^N |e_t| \approx \mathbf{0.276}
+                    \end{aligned}$$
+                  </div>
+                  <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                    Vertical red spikes highlight residual errors $e_t$. In a well-specified model, residuals must behave as white noise $\epsilon_t \sim \text{WN}(0, \sigma^2)$ with zero serial autocorrelation (checked via Ljung-Box / ACF test).
+                  </p>
+                </div>
+
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                  <div style="font-weight: 600; color: #059669; margin-bottom: 0.35rem;">
+                    Step 4 — Forecast Horizon &amp; Confidence Cone
+                  </div>
+                  <div style="margin: 0.35rem 0;">
+                    $$\begin{aligned}
+                      \hat{Y}_{48+h} &= T_{48+h} + S_{48+h} + C_{48+h} \\
+                      \text{CI}_{95\%} &= \hat{Y}_{48+h} \pm 1.96 \cdot \sigma \sqrt{1 + 0.15 h}
+                    \end{aligned}$$
+                  </div>
+                  <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                    Extrapolating $h=12$ steps ahead projects expected values while the green shaded uncertainty cone widens. Because future shocks accumulate, forecast variance increases monotonically as $h$ grows.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Deep Learning / Time Series Warning & Insight Box -->
+              <div style="background: var(--bg-card); border-left: 3px solid #3b82f6; border-radius: 0 6px 6px 0; padding: 0.75rem 0.85rem; margin-bottom: 0.85rem; font-size: 0.83rem; line-height: 1.6;">
+                <strong style="color: #3b82f6;">💡 Modern Time Series &amp; AI Frontier — Classical vs Deep Forecasting:</strong><br>
+                Classical ARIMA models require stationarity via differencing $\nabla^d Y_t = (1 - B)^d Y_t$ to remove trend and unit roots. Modern deep architectures like <strong>Temporal Fusion Transformers (TFT)</strong>, <strong>N-BEATS</strong>, and foundational time series models (e.g. Amazon Chronos, TimeGPT) directly learn multi-horizon quantile loss surfaces across thousands of correlated series simultaneously without manual feature engineering.
+              </div>
+
+              <!-- Interactive Visual Decoding Guide -->
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem; font-size: 0.82rem;">
+                <strong style="color: var(--text-primary);">🧭 Visual Decoding Guide:</strong>
+                <ul style="margin: 0.35rem 0 0 1.1rem; padding: 0; line-height: 1.6;">
+                  <li><strong>Solid Cyan Line ($Y_t$):</strong> Observed empirical series across historical intervals $t = 0 \dots 47$.</li>
+                  <li><strong>Amber Dashed Curve ($T_t$):</strong> Underlying deterministic trend and periodic trajectory.</li>
+                  <li><strong>Solid Emerald Line ($\hat{Y}_{t+h}$):</strong> Out-of-sample forward projections across horizon $h = 1 \dots 12$.</li>
+                  <li><strong>Light Green Shaded Cone:</strong> 95% confidence interval ($\pm 1.96 \hat{\sigma}_h$) widening with uncertainty.</li>
+                  <li><strong>Vertical Purple Dashed Line:</strong> Forecast Horizon Origin separating historical fitting ($t \le 48$) from out-of-sample prediction.</li>
+                  <li><strong>Red Spikes ($e_t$):</strong> Residual error deviations visible when switching the display dropdown to <em>"Forecast Errors &amp; Residual Spikes"</em>.</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -609,15 +724,21 @@
         <!-- Theory Card -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">📉 3A · Linear, Polynomial &amp; Logistic Regression</h3>
+            <h3 class="card-title">📉 Linear, Polynomial &amp; Logistic Regression</h3>
           </div>
           <div class="formula-box">
             <div>$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p + \varepsilon, \quad \varepsilon \sim \mathcal{N}(0,\sigma^2)$$</div>
             <span class="formula-caption">Multiple Linear Regression (MLR) — $\beta_j$ [units: $y$-units per $x_j$-unit]; $\varepsilon$: i.i.d. Gaussian error with variance $\sigma^2$</span>
           </div>
           <div class="formula-box">
-            <div>$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}, \quad R^2 = 1 - \frac{\text{SSE}}{\text{SST}} \in [0,1]$$</div>
-            <span class="formula-caption">OLS Normal Equations &amp; $R^2$ — SSE $= \sum(y_i - \hat{y}_i)^2$, SST $= \sum(y_i - \bar{y})^2$ (both in $y$-units$^2$); $R^2=1$: perfect fit</span>
+            <div>$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}, \quad R^2 = 1 - \frac{\text{SSE}}{\text{SST}} = \frac{\text{SSR}}{\text{SST}} \in [0,1]$$</div>
+            <span class="formula-caption">OLS Normal Equations &amp; Coefficient of Determination ($R^2$)</span>
+            <div style="font-size: 0.84rem; color: var(--text-secondary); text-align: left; margin-top: 0.65rem; line-height: 1.6; border-top: 1px dashed var(--border-color); padding-top: 0.55rem;">
+              <div style="margin-bottom: 0.35rem;">• <strong>$\text{SST} = \sum_{i=1}^n (y_i - \bar{y})^2$ (Total Sum of Squares):</strong> Quantifies the <em>total baseline variance</em> in the response variable $y$ around its sample mean $\bar{y} = \frac{1}{n}\sum y_i$, representing the total dispersion before fitting any model.</div>
+              <div style="margin-bottom: 0.35rem;">• <strong>$\text{SSE} = \sum_{i=1}^n (y_i - \hat{y}_i)^2 = \sum e_i^2$ (Sum of Squared Errors / Residual Sum of Squares):</strong> Quantifies the <em>unexplained residual variance</em>—the sum of squared discrepancies between actual observations $y_i$ and model predictions $\hat{y}_i$. OLS directly minimizes this value.</div>
+              <div style="margin-bottom: 0.35rem;">• <strong>$\text{SSR} = \sum_{i=1}^n (\hat{y}_i - \bar{y})^2$ (Regression / Explained Sum of Squares):</strong> Quantifies the variation explained by the model, satisfying the identity $\text{SST} = \text{SSR} + \text{SSE}$ ($\text{Total} = \text{Explained} + \text{Unexplained}$).</div>
+              <div>• <strong>Goodness-of-Fit ($R^2$):</strong> The ratio $\frac{\text{SSR}}{\text{SST}} = 1 - \frac{\text{SSE}}{\text{SST}}$ measures the proportion of total variance explained. $R^2 = 1$ indicates a perfect fit ($\text{SSE} = 0$, all residuals zero); $R^2 = 0$ indicates the model performs no better than guessing the constant mean $\bar{y}$ ($\text{SSE} = \text{SST}$).</div>
+            </div>
           </div>
 
           <ul class="concept-list">
@@ -667,21 +788,21 @@
         <!-- Interactive Lab -->
         <div class="lab-card">
           <div class="lab-header">
-            <h3 class="card-title">🎮 Polynomial Curve Fitter & Residual Analyzer</h3>
+            <h3 class="card-title">🎮 Polynomial Curve Fitter &amp; Residual Analyzer</h3>
             <span class="lab-badge pulse">Live OLS Engine</span>
           </div>
 
           <div class="lab-controls">
             <div class="control-group">
-              <label class="control-label">Polynomial Degree ($d$): <span id="reg-degree-val" class="control-value">1</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Polynomial Degree ($d$):</span> <span id="reg-degree-val" class="control-value">1</span></label>
               <input type="range" id="reg-degree-slider" class="range-slider" min="1" max="5" step="1" value="1">
             </div>
             <div class="control-group">
-              <label class="control-label">Observation Noise ($\sigma$): <span id="reg-noise-val" class="control-value">1.2</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Observation Noise ($\sigma$):</span> <span id="reg-noise-val" class="control-value">1.2</span></label>
               <input type="range" id="reg-noise-slider" class="range-slider" min="0.2" max="3.0" step="0.2" value="1.2">
             </div>
             <div class="control-group">
-              <label class="control-label">Sample Size ($N$): <span id="reg-npoints-val" class="control-value">25</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Sample Size ($N$):</span> <span id="reg-npoints-val" class="control-value">25</span></label>
               <input type="range" id="reg-npoints-slider" class="range-slider" min="10" max="60" step="5" value="25">
             </div>
           </div>
@@ -705,6 +826,111 @@
               <span id="reg-mse-val" class="metric-val highlight-rose">0.000</span>
             </div>
           </div>
+
+          <!-- Simulation Model & Worked Numerical Example Guide -->
+          <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin-top: 1rem; font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--text-primary); font-size: 0.92rem;">
+                <span>⚡</span> Worked Example: Polynomial Regression, OLS Normal Equations &amp; Residual Analysis
+              </div>
+              <span style="font-size: 0.76rem; background: rgba(59, 130, 246, 0.1); color: var(--accent-primary); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 4px; padding: 0.2rem 0.55rem; font-weight: 600;">OLS Normal Equation &amp; Bias-Variance</span>
+            </div>
+
+            <!-- Mathematical Formulation -->
+            <div class="formula-box" style="margin-bottom: 0.85rem;">
+              <div>$$\begin{aligned}
+                \text{Polynomial Hypothesis: } &\quad \hat{y}(x) = \beta_0 + \beta_1 x + \beta_2 x^2 + \dots + \beta_d x^d = \sum_{j=0}^d \beta_j x^j = \boldsymbol{\beta}^T \boldsymbol{\phi}(x) \\
+                \text{Vandermonde Design Matrix: } &\quad \mathbf{X} = \begin{bmatrix} 1 & x_1 & x_1^2 & \dots & x_1^d \\ 1 & x_2 & x_2^2 & \dots & x_2^d \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_N & x_N^2 & \dots & x_N^d \end{bmatrix} \in \mathbb{R}^{N \times (d+1)}, \quad \mathbf{y} = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_N \end{bmatrix} \\
+                \text{Closed-Form OLS Solution: } &\quad \hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y} \\
+                \text{Residual Vector and Loss: } &\quad \mathbf{e} = \mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}}, \quad \text{MSE} = \frac{1}{N} \sum_{i=1}^N e_i^2 = \frac{1}{N} \|\mathbf{e}\|_2^2 \\
+                \text{Goodness of Fit (R-Squared): } &\quad R^2 = 1 - \frac{\text{SSE}}{\text{SST}} = 1 - \frac{\sum_{i=1}^N (y_i - \hat{y}_i)^2}{\sum_{i=1}^N (y_i - \bar{y})^2}
+              \end{aligned}$$</div>
+              <span class="formula-caption">Ordinary Least Squares Projection onto the Column Space $\text{Col}(\mathbf{X})$ with Sample Size $N = 25$</span>
+            </div>
+
+            <!-- 4-Card Step-by-Step Breakdown -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 0.85rem; margin-bottom: 0.85rem;">
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                <div style="font-weight: 600; color: #0284c7; margin-bottom: 0.35rem;">
+                  Step 1 — Polynomial Feature Expansion ($\boldsymbol{\phi}(x)$)
+                </div>
+                <div style="margin: 0.35rem 0;">
+                  $$\begin{aligned}
+                    \boldsymbol{\phi}(x) &= [1, x, x^2, \dots, x^d]^T \\
+                    \mathbf{X}_{i, :} &= [1, x_i, x_i^2, \dots, x_i^d]
+                  \end{aligned}$$
+                </div>
+                <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                  Even though the curve is non-linear in input variable $x$, it is <strong>strictly linear in the parameter coefficients $\boldsymbol{\beta}$</strong>! This powerful mathematical transformation maps 1D inputs into higher-dimensional linear feature spaces.
+                </p>
+              </div>
+
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                <div style="font-weight: 600; color: #9333ea; margin-bottom: 0.35rem;">
+                  Step 2 — OLS Normal Equation Solution ($\hat{\boldsymbol{\beta}}$)
+                </div>
+                <div style="margin: 0.35rem 0;">
+                  $$\begin{aligned}
+                    \nabla_{\boldsymbol{\beta}} \text{SSE} &= -2\mathbf{X}^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta}) = \mathbf{0} \\
+                    \implies \mathbf{X}^T \mathbf{X} \hat{\boldsymbol{\beta}} &= \mathbf{X}^T \mathbf{y} \implies \hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+                  \end{aligned}$$
+                </div>
+                <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                  By setting the gradient of squared errors to zero, the engine solves the $(d+1) \times (d+1)$ Gram system via Gaussian elimination with partial pivoting in real time, finding the globally unique optimal coefficient vector without iteration.
+                </p>
+              </div>
+
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                <div style="font-weight: 600; color: #f43f5e; margin-bottom: 0.35rem;">
+                  Step 3 — Residual Analysis &amp; Orthogonality
+                </div>
+                <div style="margin: 0.35rem 0;">
+                  $$\begin{aligned}
+                    e_i &= y_i - \hat{y}_i = y_i - \sum_{j=0}^d \hat{\beta}_j x_i^j \\
+                    \mathbf{X}^T \mathbf{e} &= \mathbf{0} \iff \sum_{i=1}^N e_i = 0, \quad \sum_{i=1}^N e_i x_i^j = 0
+                  \end{aligned}$$
+                </div>
+                <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                  The vertical dashed red stems show residuals $e_i$. OLS guarantees the residual vector $\mathbf{e}$ is geometrically orthogonal to the hyperplane spanned by feature vectors $\mathbf{X}$, meaning no linear signal remains unextracted.
+                </p>
+              </div>
+
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                <div style="font-weight: 600; color: #059669; margin-bottom: 0.35rem;">
+                  Step 4 — Goodness of Fit ($R^2$) &amp; Bias-Variance
+                </div>
+                <div style="margin: 0.35rem 0;">
+                  $$\begin{aligned}
+                    R^2 &= 1 - \frac{\text{SSE}}{\text{SST}} \in (-\infty, 1] \\
+                    d=1: &\quad R^2 \approx 0.00, \quad \text{MSE} \approx 1.42 \quad (\text{High Bias / Underfitting}) \\
+                    d=3: &\quad R^2 \approx 0.85, \quad \text{MSE} \approx 0.28 \quad (\text{Optimal Bias-Variance})
+                  \end{aligned}$$
+                </div>
+                <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                  $R^2$ indicates the proportion of total variance explained by the model. At degree $d=1$, the linear line severely underfits the cubic data generator. Raising $d$ to 3 drastically drops MSE and increases $R^2$.
+                </p>
+              </div>
+            </div>
+
+            <!-- Deep Learning / Regularization Warning & Insight Box -->
+            <div style="background: var(--bg-card); border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 0.75rem 0.85rem; margin-bottom: 0.85rem; font-size: 0.83rem; line-height: 1.6;">
+              <strong style="color: #f43f5e;">⚠️ Machine Learning Warning — Overfitting &amp; Runge's Phenomenon:</strong><br>
+              Increasing polynomial degree to $d \ge 5$ allows the curve to pass through noisy points, driving training MSE down while test generalization error explodes due to wild oscillations near interval boundaries (Runge's phenomenon).
+              <strong>Modern Solution:</strong> Introduce <strong>Ridge ($L_2$) regularization</strong>: $\hat{\boldsymbol{\beta}}_{\text{ridge}} = (\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$ or <strong>Lasso ($L_1$) sparsity</strong> ($\|\boldsymbol{\beta}\|_1$), which underpins weight decay in modern Deep Learning.
+            </div>
+
+            <!-- Interactive Visual Decoding Guide -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem; font-size: 0.82rem;">
+              <strong style="color: var(--text-primary);">🧭 Visual Decoding Guide:</strong>
+              <ul style="margin: 0.35rem 0 0 1.1rem; padding: 0; line-height: 1.6;">
+                <li><strong>Blue Glowing Scatter Points:</strong> Sampled empirical observations $(x_i, y_i)$ perturbed by random Gaussian noise $\sigma$.</li>
+                <li><strong>Solid Cyan Curve:</strong> OLS fitted polynomial curve $\hat{y}(x) = \sum_{j=0}^d \hat{\beta}_j x^j$.</li>
+                <li><strong>Red Dashed Vertical Lines:</strong> Residual error offsets $e_i = y_i - \hat{y}_i$ minimized quadratically by least squares.</li>
+                <li><strong>Equation Readout:</strong> Real-time analytical coefficients $\hat{\beta}_j$ solved instantaneously via the Normal Equation.</li>
+                <li><strong>Interactive Experiment:</strong> Set degree $d=1$ (flat line, high bias), then increase $d=3$ to watch the curve naturally fit the true inflection points without overfitting!</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -725,25 +951,41 @@
         <!-- Theory Card -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">🧠 Layer Stacking & Activation Functions</h3>
+            <h3 class="card-title">🧠 Layer Stacking &amp; Activation Functions</h3>
           </div>
           <div class="formula-box">
-            <div>$$\mathbf{a}^{(l)} = \sigma\left(\mathbf{W}^{(l)}\mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}\right)$$</div>
-            <span class="formula-caption">Layer Forward Pass Transformation</span>
+            <div>$$\mathbf{y} = \mathbf{W}\mathbf{x} + \mathbf{b}, \quad \mathbf{a} = \sigma(\mathbf{y}) = \sigma(\mathbf{W}\mathbf{x} + \mathbf{b})$$</div>
+            <div>$$\text{Multi-layer: } \mathbf{y}^{(l)} = \mathbf{W}^{(l)}\mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}, \quad \mathbf{a}^{(l)} = \sigma\left(\mathbf{y}^{(l)}\right) \quad (\text{with } \mathbf{a}^{(0)} = \mathbf{x})$$</div>
+            <span class="formula-caption">Layer Forward Pass — Affine Combination $\mathbf{y} = \mathbf{W}\mathbf{x} + \mathbf{b}$ &amp; Non-Linear Activation $\mathbf{a}$</span>
+            <div style="font-size: 0.84rem; color: var(--text-secondary); text-align: left; margin-top: 0.65rem; line-height: 1.6; border-top: 1px dashed var(--border-color); padding-top: 0.55rem;">
+              <div style="margin-bottom: 0.3rem;">• <strong>$\mathbf{x} \in \mathbb{R}^d$:</strong> Input feature vector to the network layer (or previous layer activations $\mathbf{a}^{(l-1)}$ where $\mathbf{a}^{(0)} = \mathbf{x}$).</div>
+              <div style="margin-bottom: 0.3rem;">• <strong>$\mathbf{W} \in \mathbb{R}^{m \times d}$:</strong> Learnable weight matrix representing synaptic connection strengths that rotate and scale input features across $m$ hidden neurons.</div>
+              <div style="margin-bottom: 0.3rem;">• <strong>$\mathbf{b} \in \mathbb{R}^m$:</strong> Learnable bias vector, shifting each neuron's activation threshold independently of feature values.</div>
+              <div style="margin-bottom: 0.3rem;">• <strong>$\mathbf{y} \in \mathbb{R}^m$:</strong> Affine pre-activation vector $\mathbf{y} = \mathbf{W}\mathbf{x} + \mathbf{b}$, directly uniting this layer formulation with linear regression and linear algebra.</div>
+              <div style="margin-bottom: 0.3rem;">• <strong>$\sigma(\cdot)$:</strong> Non-linear activation function evaluated element-wise, breaking linearity so layered architectures can approximate non-linear surfaces.</div>
+              <div>• <strong>$\mathbf{a} \in \mathbb{R}^m$:</strong> Output activation vector produced by the layer, forwarded as inputs to the next network layer.</div>
+            </div>
           </div>
           <div class="formula-box">
-            <div>$$\text{GELU}(z) = z \cdot \Phi(z) \approx 0.5z\left(1 + \tanh\left(\sqrt{\frac{2}{\pi}}(z + 0.044715z^3)\right)\right)$$</div>
-            <span class="formula-caption">Gaussian Error Linear Unit (LLMs & Transformers)</span>
+            <div>$$\sigma(y) = \frac{1}{1 + e^{-y}}, \quad \sigma'(y) = \sigma(y)\big(1 - \sigma(y)\big) = a(1 - a)$$</div>
+            <div>$$\boldsymbol{\delta} = \frac{\partial \mathcal{L}}{\partial \mathbf{y}} = \frac{\partial \mathcal{L}}{\partial \mathbf{a}} \odot \sigma'(\mathbf{y}), \quad \Delta\mathbf{W} = -\alpha\,\boldsymbol{\delta}\mathbf{x}^T, \quad \Delta\mathbf{b} = -\alpha\,\boldsymbol{\delta}$$</div>
+            <span class="formula-caption">Sigmoid Function &amp; Delta Sensitivity ($\boldsymbol{\delta}$) Parameter Update Rules ($\Delta\mathbf{W}, \Delta\mathbf{b}$)</span>
+            <div style="font-size: 0.84rem; color: var(--text-secondary); text-align: left; margin-top: 0.65rem; line-height: 1.6; border-top: 1px dashed var(--border-color); padding-top: 0.55rem;">
+              <div style="margin-bottom: 0.3rem;">• <strong>Sigmoid Activation $\sigma(y) \in (0, 1)$:</strong> S-shaped logistic activation function mapping continuous pre-activations $y \in (-\infty, \infty)$ into bounded outputs $[0, 1]$.</div>
+              <div style="margin-bottom: 0.3rem;">• <strong>Sigmoid Derivative $\sigma'(y) = a(1 - a)$:</strong> Exact closed-form derivative expressed directly in terms of post-activation $a$, peaking at $\sigma'(0) = 0.25$ and vanishing as $|y| \to \infty$.</div>
+              <div style="margin-bottom: 0.3rem;">• <strong>Delta Sensitivity Sign ($\boldsymbol{\delta} = \frac{\partial \mathcal{L}}{\partial \mathbf{y}}$):</strong> Measures the sensitivity of loss $\mathcal{L}$ with respect to the affine pre-activation $\mathbf{y} = \mathbf{W}\mathbf{x} + \mathbf{b}$, scaling error signals through $\sigma'(\mathbf{y})$.</div>
+              <div>• <strong>Parameter Update Signs ($\Delta\mathbf{W}, \Delta\mathbf{b}$):</strong> In gradient descent with learning rate $\alpha$, weights and biases update via $\mathbf{W} \leftarrow \mathbf{W} + \Delta\mathbf{W}$ and $\mathbf{b} \leftarrow \mathbf{b} + \Delta\mathbf{b}$, where $\Delta\mathbf{W} = -\alpha \boldsymbol{\delta} \mathbf{x}^T$ and $\Delta\mathbf{b} = -\alpha \boldsymbol{\delta}$.</div>
+            </div>
           </div>
 
           <ul class="concept-list">
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
-              <div><strong>Non-Linear Activations:</strong> Without non-linear activations $\sigma(z)$, any multi-layer neural network collapses into a single linear regression $y = W_{\text{eff}}x + b$.</div>
+              <div><strong>Non-Linear Activations:</strong> Without non-linear activations $\sigma(y)$, any multi-layer neural network collapses into a single linear regression $y = W_{\text{eff}}x + b$.</div>
             </li>
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
-              <div><strong>ReLU vs GELU vs Sigmoid:</strong> ReLU avoids vanishing gradients in positive domains; GELU introduces smooth probabilistic gating standard in GPT/BERT architectures.</div>
+              <div><strong>Sigmoid &amp; the Delta Rule ($\boldsymbol{\delta}$):</strong> Sigmoid $\sigma(y) = 1/(1+e^{-y})$ squashes outputs to $(0, 1)$ with derivative $\sigma'(y) = a(1-a)$. Error backpropagation computes sensitivity $\boldsymbol{\delta} = \partial\mathcal{L}/\partial\mathbf{y}$, yielding exact parameter adjustments $\Delta\mathbf{W} = -\alpha\boldsymbol{\delta}\mathbf{x}^T$ and $\Delta\mathbf{b} = -\alpha\boldsymbol{\delta}$.</div>
             </li>
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
@@ -779,27 +1021,31 @@
         <!-- Interactive Lab -->
         <div class="lab-card">
           <div class="lab-header">
-            <h3 class="card-title">🎮 Activation Function & Derivative Visualizer</h3>
+            <h3 class="card-title">🎮 Activation Function &amp; Derivative Visualizer</h3>
             <span class="lab-badge pulse">Live Neuron</span>
           </div>
 
-          <div class="lab-controls">
-            <div class="control-group">
-              <label class="control-label">Activation Function $\sigma(z)$:</label>
-              <select id="nn-act-select" class="select-input">
-                <option value="relu">ReLU (Rectified Linear)</option>
-                <option value="gelu">GELU (Gaussian Error Linear)</option>
-                <option value="sigmoid">Sigmoid / Logistic</option>
-                <option value="tanh">Hyperbolic Tangent (Tanh)</option>
-                <option value="leaky_relu">Leaky ReLU (α=0.1)</option>
+          <div class="lab-controls" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem;">
+            <div class="control-group" style="grid-column: 1 / -1;">
+              <label class="control-label"><span>Activation Function ($\sigma(z)$):</span></label>
+              <select id="nn-act-select" class="select-input" style="width: 100%;">
+                <option value="sigmoid" selected>Sigmoid / Logistic: σ(z) = 1 / (1 + e^-z)</option>
+                <option value="relu">ReLU (Rectified Linear Unit): σ(z) = max(0, z)</option>
+                <option value="gelu">GELU (Gaussian Error Linear Unit): Transformer Default</option>
+                <option value="tanh">Hyperbolic Tangent: σ(z) = tanh(z)</option>
+                <option value="leaky_relu">Leaky ReLU (α=0.1): σ(z) = max(0.1z, z)</option>
               </select>
             </div>
             <div class="control-group">
-              <label class="control-label">Weight $w_1$: <span id="nn-w1-slider-val" class="control-value">1.5</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Weight ($w_1$):</span> <span id="nn-w1-slider-val" class="control-value">1.5</span></label>
               <input type="range" id="nn-w1-slider" class="range-slider" min="-3" max="3" step="0.1" value="1.5">
             </div>
             <div class="control-group">
-              <label class="control-label">Bias $b$: <span id="nn-bias-slider-val" class="control-value">0.2</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Weight ($w_2$):</span> <span id="nn-w2-slider-val" class="control-value">-0.8</span></label>
+              <input type="range" id="nn-w2-slider" class="range-slider" min="-3" max="3" step="0.1" value="-0.8">
+            </div>
+            <div class="control-group">
+              <label class="control-label"><span style="white-space: nowrap;">Bias ($b$):</span> <span id="nn-bias-slider-val" class="control-value">0.2</span></label>
               <input type="range" id="nn-bias-slider" class="range-slider" min="-3" max="3" step="0.1" value="0.2">
             </div>
           </div>
@@ -810,16 +1056,118 @@
 
           <div class="metrics-strip">
             <div class="metric-card">
-              <span class="metric-title">Neuron Output a = σ(z)</span>
-              <span id="nn-output-val" class="metric-val highlight-cyan">1.400</span>
+              <span class="metric-title" style="white-space: nowrap;">Neuron Output a = σ(z)</span>
+              <span id="nn-output-val" class="metric-val highlight-cyan">0.858</span>
             </div>
             <div class="metric-card">
-              <span class="metric-title">Local Gradient σ'(z)</span>
-              <span id="nn-grad-val" class="metric-val highlight-green">1.000</span>
+              <span class="metric-title" style="white-space: nowrap;">Local Gradient σ'(z)</span>
+              <span id="nn-grad-val" class="metric-val highlight-green">0.122</span>
             </div>
-            <div class="metric-card" style="grid-column: span 2;">
-              <span class="metric-title">Transformation Readout</span>
-              <span id="nn-formula-val" class="metric-val" style="font-size: 0.95rem;">z=1.40 → a=1.40</span>
+            <div class="metric-card">
+              <span class="metric-title" style="white-space: nowrap;">Transformation Readout</span>
+              <span id="nn-formula-val" class="metric-val" style="font-size: 1.05rem;">z=1.80 → a=0.86</span>
+            </div>
+          </div>
+
+          <!-- Simulation Model & Worked Numerical Example Guide -->
+          <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin-top: 1rem; font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--text-primary); font-size: 0.92rem;">
+                <span>⚡</span> Worked Example: Single-Neuron Forward Pass &amp; Gradient Flow
+              </div>
+              <span style="font-size: 0.76rem; background: rgba(59, 130, 246, 0.1); color: var(--accent-primary); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 4px; padding: 0.2rem 0.55rem; font-weight: 600;">Feedforward &amp; Backpropagation</span>
+            </div>
+
+            <!-- Mathematical Formulation -->
+            <div class="formula-box" style="margin-bottom: 0.85rem;">
+              <div>$$\begin{aligned}
+                \text{Affine Pre-Activation: } &\quad z = \mathbf{w}^T\mathbf{x} + b = w_1 x_1 + w_2 x_2 + b \\
+                \text{Non-Linear Output: } &\quad a = \sigma(z) = \frac{1}{1 + e^{-z}} \\
+                \text{Local Error Gradient: } &\quad \sigma'(z) = a(1 - a) = \frac{\partial a}{\partial z}
+              \end{aligned}$$</div>
+              <span class="formula-caption">Neuron State Equations with Test Input Vector $\mathbf{x} = [x_1, x_2]^T = [0.8, -0.5]^T$</span>
+            </div>
+
+            <!-- 4-Card Step-by-Step Breakdown -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 0.85rem; margin-bottom: 0.85rem;">
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                <div style="font-weight: 600; color: #0284c7; margin-bottom: 0.35rem;">
+                  Step 1 — Affine Pre-Activation ($z = 1.80$)
+                </div>
+                <div style="margin: 0.35rem 0;">
+                  $$\begin{aligned}
+                    z &= \mathbf{w}^T\mathbf{x} + b \\
+                      &= (1.5)(0.8) + (-0.8)(-0.5) + 0.2 \\
+                      &= 1.20 + 0.40 + 0.20 = \mathbf{1.80}
+                  \end{aligned}$$
+                </div>
+                <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                  The neuron computes the weighted sum of incoming feature signals $\mathbf{x}$ plus bias $b$. This is identical to a multivariate regression prediction before transformation.
+                </p>
+              </div>
+
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                <div style="font-weight: 600; color: #9333ea; margin-bottom: 0.35rem;">
+                  Step 2 — Non-Linear Firing Rate ($a = 0.858$)
+                </div>
+                <div style="margin: 0.35rem 0;">
+                  $$\begin{aligned}
+                    a &= \sigma(1.80) = \frac{1}{1 + e^{-1.80}} \\
+                      &= \frac{1}{1 + 0.1653} \approx \mathbf{0.858}
+                  \end{aligned}$$
+                </div>
+                <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                  Sigmoid squashes the real line into $(0, 1)$. Since $z = +1.80 > 0$, the neuron fires strongly with an activation strength / probability of $85.8\%$.
+                </p>
+              </div>
+
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                <div style="font-weight: 600; color: #059669; margin-bottom: 0.35rem;">
+                  Step 3 — Local Gradient ($\sigma'(z) = 0.122$)
+                </div>
+                <div style="margin: 0.35rem 0;">
+                  $$\begin{aligned}
+                    \sigma'(1.80) &= a(1 - a) \\
+                                  &= 0.858 \times (1 - 0.858) \approx \mathbf{0.122}
+                  \end{aligned}$$
+                </div>
+                <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                  During backpropagation, incoming error $\frac{\partial \mathcal{L}}{\partial a}$ is multiplied by $\sigma'(z)$. Because the neuron is moving toward saturation ($a \to 1$), the gradient has decayed by over $50\%$ from its peak of $0.25$.
+                </p>
+              </div>
+
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.85rem; overflow-x: auto;">
+                <div style="font-weight: 600; color: #d97706; margin-bottom: 0.35rem;">
+                  Step 4 — Weight Update Vector ($\Delta\mathbf{w}$)
+                </div>
+                <div style="margin: 0.35rem 0;">
+                  $$\begin{aligned}
+                    \delta &= \frac{\partial \mathcal{L}}{\partial z} = \frac{\partial \mathcal{L}}{\partial a} \cdot \sigma'(z) \\
+                    \Delta w_1 &= -\alpha \cdot \delta \cdot x_1
+                  \end{aligned}$$
+                </div>
+                <p style="margin: 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55;">
+                  Weight adjustments are directly proportional to the feature input $x_1 = 0.8$ and the local gradient $\sigma'(z) = 0.122$. If $\sigma'(z) \approx 0$, learning completely stalls!
+                </p>
+              </div>
+            </div>
+
+            <!-- Deep Learning Insight Box: The Vanishing Gradient Problem -->
+            <div style="background: var(--bg-card); border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 0.75rem 0.85rem; margin-bottom: 0.85rem; font-size: 0.83rem; line-height: 1.6;">
+              <strong style="color: #f43f5e;">⚠️ Deep Learning Warning — The Vanishing Gradient Problem:</strong><br>
+              Sigmoid's maximum derivative is $\sigma'(0) = 0.25$. When stacking $L$ layers in a deep network, chain rule multiplication scales error by $(\sigma')^L \le (0.25)^L$. For a 10-layer network, $(0.25)^{10} \approx 9.5 \times 10^{-7}$, causing early layers to stop learning entirely.
+              <strong>Modern Solution:</strong> Switch the dropdown to <strong>ReLU</strong> ($\sigma'(z) = 1$ for $z > 0$) or <strong>GELU</strong> (Transformer standard) to eliminate vanishing gradients!
+            </div>
+
+            <!-- Interactive Visual Decoding Guide -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem; font-size: 0.82rem;">
+              <strong style="color: var(--text-primary);">🧭 Interactive Canvas Decoding Guide:</strong>
+              <ul style="margin: 0.35rem 0 0 1.1rem; padding: 0; line-height: 1.6;">
+                <li><strong>Purple Solid Curve:</strong> Activation function profile $\sigma(z)$ mapping input pre-activation to output firing rate $a \in [0, 1]$.</li>
+                <li><strong>Cyan Dashed Curve:</strong> Local derivative curve $\sigma'(z)$ representing backpropagation transmission capacity.</li>
+                <li><strong>Pink Glowing Dot:</strong> Active operating point $(z, \sigma(z))$ computed live from your weight and bias slider settings.</li>
+                <li><strong>Experiment:</strong> Increase $w_1$ to drive the neuron into the right flat saturation plateau ($z > 3.0$), and notice the cyan gradient drop to nearly zero!</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -1025,22 +1373,69 @@
         <!-- Theory Card -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">⚡ Prior, Likelihood & Posterior Updates</h3>
+            <h3 class="card-title">⚡ Prior, Likelihood &amp; Posterior Updates</h3>
           </div>
           <div class="formula-box">
-            <div>$$P(A_i | B) = \frac{P(B | A_i) P(A_i)}{\sum_j P(B | A_j) P(A_j)} = \frac{\text{Likelihood} \times \text{Prior}}{\text{Evidence}}$$</div>
-            <span class="formula-caption">Bayes' Theorem Formulation</span>
+            <div>$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) = \sum_{j=1}^k P(B \mid A_j) P(A_j)$$</div>
+            <span class="formula-caption">Foundations — Conditional Probability Definition &amp; Law of Total Probability (Marginal Evidence $P(B)$)</span>
+          </div>
+          <div class="formula-box">
+            <div>$$\begin{aligned}
+              P(A_i \mid B) &= \frac{P(B \mid A_i) P(A_i)}{P(B)} = \frac{P(B \mid A_i) P(A_i)}{\sum_j P(B \mid A_j) P(A_j)} \\
+              &= \frac{\text{Likelihood} \times \text{Prior}}{\text{Evidence}}
+            \end{aligned}$$</div>
+            <span class="formula-caption">Bayes' Theorem Formulation — Updating Prior Belief $P(A_i)$ into Posterior $P(A_i \mid B)$ upon Evidence $B$</span>
+            <div style="font-size: 0.84rem; color: var(--text-secondary); text-align: left; margin-top: 0.65rem; line-height: 1.6; border-top: 1px dashed var(--border-color); padding-top: 0.55rem;">
+              <div style="margin-bottom: 0.3rem;">• <strong>Prior $P(A_i)$:</strong> Baseline probability of hypothesis $A_i$ prior to observing new empirical evidence.</div>
+              <div style="margin-bottom: 0.3rem;">• <strong>Likelihood $P(B \mid A_i)$:</strong> Probability that evidence $B$ occurs given that state $A_i$ is true.</div>
+              <div style="margin-bottom: 0.3rem;">• <strong>Marginal Evidence $P(B)$:</strong> Total normalizing probability of evidence $B$ summed across all mutually exclusive hypotheses via Total Probability.</div>
+              <div>• <strong>Posterior $P(A_i \mid B)$:</strong> Updated probability of hypothesis $A_i$ after conditioning on observed evidence $B$.</div>
+            </div>
           </div>
 
-          <div class="hero-pill" style="margin-top: 0.75rem;">Document Worked Example: Dual-Supplier Defect Tracing</div>
-          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
-            Supplier 1 ($A_1$) provides <strong>65%</strong> of parts with a <strong>2% defect rate</strong>. Supplier 2 ($A_2$) provides <strong>35%</strong> of parts with a <strong>5% defect rate</strong>.
-            When a defective part ($B$) is discovered, Bayes' theorem reveals that it is <strong>57.4% likely</strong> to originate from Supplier 2 despite Supplier 1 supplying the majority of inventory.
-          </p>
-
-          <div id="bayes-calc-breakdown" class="bayes-calc-box" style="margin-top: 1rem;">
-            <!-- Dynamic breakdown injected via JS -->
+          <!-- Core Theoretical Principles of Bayesian Inference -->
+          <div class="hero-pill" style="margin-top: 1.25rem; background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+            ✦ Core Principles of Bayesian Inference
           </div>
+
+          <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.95rem; margin-top: 0.75rem; font-size: 0.85rem; line-height: 1.65; color: var(--text-secondary);">
+            <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.6rem; font-size: 0.88rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>🧠</span> Foundational Mechanics of Bayesian Reasoning
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr; gap: 0.65rem;">
+              <div style="border-left: 3px solid #0284c7; padding-left: 0.65rem;">
+                <strong style="color: #0284c7;">1. Belief Updating Under Empirical Evidence:</strong><br>
+                Unlike frequentist statistics which treats parameters as fixed unknown constants, Bayesian inference treats unknown states as random variables. Prior beliefs $P(A_i)$ are systematically adjusted as data accumulates, converging to the posterior $P(A_i \mid B)$.
+              </div>
+              <div style="border-left: 3px solid #9333ea; padding-left: 0.65rem;">
+                <strong style="color: #9333ea;">2. Inverting Conditional Probabilities (Effect $\to$ Cause):</strong><br>
+                Observing forward likelihood $P(\text{Symptoms} \mid \text{Disease})$ or $P(\text{Defect} \mid \text{Supplier})$ is straightforward. Bayes' Theorem mathematically inverts this arrow to answer the diagnostic inverse question: <em>Given that an adverse symptom or defect is observed, what is the probability of each causal hypothesis?</em>
+              </div>
+              <div style="border-left: 3px solid #f43f5e; padding-left: 0.65rem;">
+                <strong style="color: #f43f5e;">3. The Base Rate Fallacy in Decision Science:</strong><br>
+                Intuition often ignores base rates $P(A_i)$ and over-indexes on raw likelihoods $P(B \mid A_i)$. When baseline rates are asymmetric, a low-volume source with higher error rates can produce more absolute defects than a massive reliable source—making Bayesian conditioning essential to avoid costly diagnostic errors.
+              </div>
+            </div>
+          </div>
+
+          <ul class="concept-list" style="margin-top: 1.1rem;">
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Prior vs. Posterior:</strong> Priors $P(A)$ encode historical baseline rates; Posteriors $P(A \mid B)$ update this belief once concrete empirical evidence $B$ is observed.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Law of Total Probability:</strong> Decomposes marginal evidence $P(B) = \sum_j P(B \mid A_j)P(A_j)$ by partitioning the entire sample space across mutually exclusive hypotheses.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Base Rate Fallacy &amp; Root Cause Analysis:</strong> High likelihoods from low-volume sources can easily overwhelm high-volume sources—demonstrating why raw defect rates mislead without Bayesian conditioning.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Naïve Bayes Classification:</strong> Assumes conditional independence between features given the class label ($P(\mathbf{x} \mid y) = \prod_i P(x_i \mid y)$), enabling scalable spam detection and sentiment classification.</div>
+            </li>
+          </ul>
 
           <div class="app-tags">
             <span class="app-tag">Naïve Bayes Spam Filtering</span>
@@ -1074,17 +1469,17 @@
             <span class="lab-badge pulse">Live Tree</span>
           </div>
 
-          <div class="lab-controls">
+          <div class="lab-controls" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem;">
             <div class="control-group">
-              <label class="control-label">Supplier 1 Share $P(A_1)$: <span id="bayes-pa1-val" class="control-value">65%</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Supplier 1 Share ($P(A_1)$):</span> <span id="bayes-pa1-val" class="control-value">65%</span></label>
               <input type="range" id="bayes-pa1-slider" class="range-slider" min="0.1" max="0.9" step="0.05" value="0.65">
             </div>
             <div class="control-group">
-              <label class="control-label">Supplier 1 Defect Rate: <span id="bayes-d1-val" class="control-value">2.0%</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Supplier 1 Defect ($P(B \mid A_1)$):</span> <span id="bayes-d1-val" class="control-value">2.0%</span></label>
               <input type="range" id="bayes-d1-slider" class="range-slider" min="0.005" max="0.15" step="0.005" value="0.02">
             </div>
             <div class="control-group">
-              <label class="control-label">Supplier 2 Defect Rate: <span id="bayes-d2-val" class="control-value">5.0%</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Supplier 2 Defect ($P(B \mid A_2)$):</span> <span id="bayes-d2-val" class="control-value">5.0%</span></label>
               <input type="range" id="bayes-d2-slider" class="range-slider" min="0.005" max="0.15" step="0.005" value="0.05">
             </div>
           </div>
@@ -1095,16 +1490,81 @@
 
           <div class="metrics-strip">
             <div class="metric-card">
-              <span class="metric-title">Posterior P(A₁ | Defect)</span>
+              <span class="metric-title" style="white-space: nowrap;">Posterior P(A₁ | Defect)</span>
               <span id="bayes-posta1-val" class="metric-val highlight-cyan">42.6%</span>
             </div>
             <div class="metric-card">
-              <span class="metric-title">Posterior P(A₂ | Defect)</span>
+              <span class="metric-title" style="white-space: nowrap;">Posterior P(A₂ | Defect)</span>
               <span id="bayes-posta2-val" class="metric-val highlight-rose">57.4%</span>
             </div>
             <div class="metric-card">
-              <span class="metric-title">Total Defect Rate P(B)</span>
+              <span class="metric-title" style="white-space: nowrap;">Total Defect Rate P(B)</span>
               <span id="bayes-totaldef-val" class="metric-val">3.05%</span>
+            </div>
+          </div>
+
+          <!-- MOVED & ENHANCED: Simulation Model & Worked Numerical Example Guide -->
+          <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin-top: 1rem; font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--text-primary); font-size: 0.92rem;">
+                <span>🔬</span> Worked Example: Dual-Supplier Defect Tracing via Bayes' Theorem
+              </div>
+              <span style="font-size: 0.76rem; background: rgba(59, 130, 246, 0.1); color: var(--accent-primary); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 4px; padding: 0.2rem 0.55rem; font-weight: 600;">Root Cause Analysis</span>
+            </div>
+
+            <p style="margin: 0 0 0.75rem 0; font-size: 0.84rem; color: var(--text-secondary); line-height: 1.6;">
+              A manufacturing plant sources parts from two vendors: Supplier 1 ($A_1$) provides <strong>65%</strong> of parts with a <strong>2% defect rate</strong> ($P(B \mid A_1) = 0.02$). Supplier 2 ($A_2$) delivers <strong>35%</strong> with a <strong>5% defect rate</strong> ($P(B \mid A_2) = 0.05$). When quality inspection discovers a defective unit ($B$), we invert conditional probabilities to identify the root cause:
+            </p>
+
+            <!-- 2-Step Mathematical Equations Box -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; margin-bottom: 0.85rem;">
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem;">
+                <div style="font-weight: 600; color: #0284c7; margin-bottom: 0.25rem;">
+                  Step 1 — Total Defect Probability (Evidence $P(B)$)
+                </div>
+                <div style="font-size: 0.82rem; line-height: 1.55;">
+                  Via the Law of Total Probability:
+                  $$\begin{aligned}
+                    P(B) &= P(B \mid A_1)P(A_1) + P(B \mid A_2)P(A_2) \\
+                         &= (0.02 \times 0.65) + (0.05 \times 0.35) \\
+                         &= 0.0130 + 0.0175 = \mathbf{3.05\%}
+                  \end{aligned}$$
+                </div>
+              </div>
+
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem;">
+                <div style="font-weight: 600; color: #9333ea; margin-bottom: 0.25rem;">
+                  Step 2 — Posterior Source Attribution
+                </div>
+                <div style="font-size: 0.82rem; line-height: 1.55;">
+                  Applying Bayes' Inversion Formula:
+                  $$\begin{aligned}
+                    P(A_1 \mid B) &= \frac{0.0130}{0.0305} \approx \mathbf{42.6\%} \quad \text{(Supplier 1)} \\
+                    P(A_2 \mid B) &= \frac{0.0175}{0.0305} \approx \mathbf{57.4\%} \quad \text{(Supplier 2)}
+                  \end{aligned}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- Dynamic Live Calculation Box (Injected and updated via JS) -->
+            <div id="bayes-calc-breakdown" class="bayes-calc-box" style="margin-bottom: 0.85rem;">
+              <!-- Dynamic real-time parameter evaluation injected via JS -->
+            </div>
+
+            <!-- Key Insight Box -->
+            <div style="background: var(--bg-card); border-left: 3px solid #d97706; border-radius: 0 6px 6px 0; padding: 0.65rem 0.85rem; margin-bottom: 0.85rem; font-size: 0.83rem; line-height: 1.6;">
+              <strong style="color: #d97706;">💡 Key Managerial Insight (The Base Rate Fallacy):</strong>
+              Even though Supplier 1 delivers nearly double the volume of inventory ($65\%$ vs. $35\%$), a defective part is <strong>$57.4\%$ likely to have come from Supplier 2</strong>! This reversal occurs because Supplier 2's defect rate is $2.5\times$ higher ($5\%$ vs. $2\%$). Naively blaming Supplier 1 because "they supply most parts" is a classic operational error.
+            </div>
+
+            <!-- Tree Flow Decoding Guide -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem; font-size: 0.82rem;">
+              <strong style="color: var(--text-primary);">🧭 Tree Flow Visual Decoding Guide:</strong>
+              <ul style="margin: 0.35rem 0 0 1.1rem; padding: 0; line-height: 1.6;">
+                <li><strong>Root $\to$ Middle Branches (Priors):</strong> The tree divides at the source into Supplier 1 ($65\%$, blue) and Supplier 2 ($35\%$, purple).</li>
+                <li><strong>Middle $\to$ Leaf Nodes (Likelihoods):</strong> Each vendor branch forks into Defective parts (red node) vs. Good parts (green node).</li>
+                <li><strong>Leaf Labels (Posteriors):</strong> The red defect leaf labels display the normalized posterior probability $P(A_i \mid B)$ computed live. Drag the sliders above to see branches and posteriors adjust dynamically!</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -1127,27 +1587,69 @@
         <!-- Theory Card -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">🎰 Risk Distributions & Law of Large Numbers</h3>
-          </div>
-          <div class="formula-box">
-            <div>$$E[f(X)] \approx \frac{1}{N} \sum_{i=1}^N f(x_i), \quad x_i \sim P(X)$$</div>
-            <span class="formula-caption">Monte Carlo Expectation Estimator</span>
+            <h3 class="card-title">🎰 Monte Carlo Simulation: Foundations &amp; Core Principles</h3>
           </div>
 
-          <ul class="concept-list">
+          <!-- Section 1: What is Monte Carlo Simulation? -->
+          <div class="hero-pill" style="margin-top: 0.5rem; background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+            ✦ What is Monte Carlo Simulation?
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-top: 0.35rem;">
+            <strong>Monte Carlo Simulation</strong> is a computational technique that relies on <strong>repeated pseudo-random sampling</strong> to model complex physical, financial, or data systems under uncertainty. Rather than producing a single deterministic point estimate from static averages, Monte Carlo assigns <strong>probability distributions</strong> to uncertain inputs ($X_1 \sim P_1, X_2 \sim P_2, \dots$), simulates thousands of possible realizations ($N \gg 1$), and generates the <strong>full probability distribution of outcomes</strong>—quantifying expected values, variance, and extreme tail risks.
+          </p>
+
+          <!-- Core Formulas -->
+          <div class="formula-box" style="margin-top: 0.85rem;">
+            <div>$$\begin{aligned}
+              \hat{\mu}_N &= \frac{1}{N} \sum_{i=1}^N f(X_i) \xrightarrow[N \to \infty]{\text{a.s.}} E[f(X)] = \int_{\Omega} f(x) p(x)\,dx \\
+              \text{SE}(\hat{\mu}_N) &= \frac{\sigma_f}{\sqrt{N}} = \sqrt{\frac{\text{Var}(f(X))}{N}} = \mathcal{O}\left(\frac{1}{\sqrt{N}}\right)
+            \end{aligned}$$</div>
+            <span class="formula-caption">Monte Carlo Expectation Estimator, Law of Large Numbers (LLN) &amp; Dimension-Free Error Convergence</span>
+            <div style="font-size: 0.84rem; color: var(--text-secondary); text-align: left; margin-top: 0.65rem; line-height: 1.6; border-top: 1px dashed var(--border-color); padding-top: 0.55rem;">
+              <div style="margin-bottom: 0.3rem;">• <strong>$X_i \sim P(X)$:</strong> $N$ independent, identically distributed (i.i.d.) random draws from input distributions.</div>
+              <div style="margin-bottom: 0.3rem;">• <strong>$f(X)$:</strong> Mathematical transfer function (e.g., portfolio value, system lifetime, option payoff).</div>
+              <div style="margin-bottom: 0.3rem;">• <strong>$\hat{\mu}_N$:</strong> Unbiased sample mean approximating the true intractable continuous integral $E[f(X)]$.</div>
+              <div>• <strong>Dimension-Free $\mathcal{O}(1/\sqrt{N})$ Rate:</strong> By the Central Limit Theorem, error decreases with $1/\sqrt{N}$ <em>regardless</em> of input dimensionality $d$, conquering the "curse of dimensionality" that breaks standard numerical grid integration.</div>
+            </div>
+          </div>
+
+          <div class="formula-box">
+            <div>$$\text{VaR}_{1-\alpha} = -\text{Percentile}_\alpha(Y), \quad \text{CVaR}_{1-\alpha} = E\left[Y \mid Y \le -\text{VaR}_{1-\alpha}\right]$$</div>
+            <span class="formula-caption">Tail Risk Metrics — Value-at-Risk ($\text{VaR}_{95\%}$) &amp; Conditional Value-at-Risk ($\text{CVaR}$) from $N$ Simulated Outcomes</span>
+          </div>
+
+          <!-- Section 2: Core Principles -->
+          <div class="hero-pill" style="margin-top: 1.25rem; background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3);">
+            ✦ Core Mathematical Principles of Monte Carlo Methods
+          </div>
+
+          <ul class="concept-list" style="margin-top: 0.75rem;">
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
-              <div><strong>Uncertainty Modeling:</strong> Assigns statistical distributions (Normal, Log-normal, Poisson) to uncertain inputs (asset prices, demand surges).</div>
+              <div><strong>Principle 1 — Stochastic Random Sampling:</strong> Replaces rigid deterministic constants with realistic probability distributions (Gaussian, Log-normal, Uniform, Poisson) reflecting inherent real-world uncertainty in inputs (asset returns, customer churn, component failure rates).</div>
             </li>
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
-              <div><strong>Value-at-Risk (VaR 95%):</strong> The 5th percentile cutoff representing the maximum expected loss over a specific horizon at a 95% confidence level.</div>
+              <div><strong>Principle 2 — The Law of Large Numbers (LLN):</strong> Guarantees that as the number of simulated trials $N$ approaches infinity ($N \to \infty$), the empirical sample mean $\hat{\mu}_N$ converges almost surely to the true expected value $E[f(X)]$.</div>
             </li>
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
-              <div><strong>Scalability:</strong> Accuracy scales as $\mathcal{O}(1/\sqrt{N})$, meaning quadrupling samples $N$ halves the standard error.</div>
+              <div><strong>Principle 3 — The Central Limit Theorem (CLT) &amp; Error Bounds:</strong> The distribution of the estimation error $(\hat{\mu}_N - \mu)$ converges to a normal distribution with standard deviation $\sigma_f / \sqrt{N}$. Quadrupling trials ($4N$) cuts error in half, enabling predictable confidence intervals $[\hat{\mu} \pm 1.96 \cdot \text{SE}]$.</div>
+            </li>
+            <li class="concept-item">
+              <span class="concept-bullet">✦</span>
+              <div><strong>Principle 4 — Empirical Distribution &amp; Tail Risk Extraction:</strong> By sorting the $N$ simulated outcomes, practitioners obtain the complete empirical Cumulative Distribution Function (CDF). This enables direct extraction of non-linear risk metrics like $\text{VaR}_{95\%}$ without assuming output normality.</div>
             </li>
           </ul>
+
+          <!-- Section 3: Standard 4-Step Simulation Procedure -->
+          <div style="background: rgba(15, 23, 42, 0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.85rem 1rem; margin-top: 0.85rem; font-size: 0.84rem; line-height: 1.65; color: var(--text-secondary);">
+            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.35rem;">🔄 Standard 4-Step Monte Carlo Workflow:</div>
+            <div><strong>1. Model Specification:</strong> Formulate the transfer function $Y = f(X_1, X_2, \dots, X_k)$.</div>
+            <div><strong>2. Probability Mapping:</strong> Define distribution models $P(X_j)$ for all uncertain inputs.</div>
+            <div><strong>3. Stochastic Iteration:</strong> Generate $N$ pseudo-random realizations ($N=10,000+$) and evaluate $y_i = f(x_{i,1}, \dots, x_{i,k})$.</div>
+            <div><strong>4. Statistical Synthesis:</strong> Compute mean $\hat{\mu}$, variance $\sigma^2$, confidence intervals, and tail percentiles ($\text{VaR}_{95\%}$).</div>
+          </div>
 
           <div class="app-tags">
             <span class="app-tag">Portfolio Value-at-Risk (VaR)</span>
@@ -1223,6 +1725,39 @@
               <span id="mc-ci-val" class="metric-val" style="font-size: 0.88rem;">[$8,330, $13,270]</span>
             </div>
           </div>
+
+          <!-- Interactive Simulation Explanation Guide -->
+          <div style="background: rgba(15, 23, 42, 0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.95rem 1.1rem; margin-top: 1rem; font-size: 0.84rem; line-height: 1.65; color: var(--text-secondary);">
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>💡 Simulation Explanation &amp; Visual Decoding Guide</span>
+            </div>
+
+            <div style="margin-bottom: 0.55rem;">
+              <strong style="color: var(--accent-primary);">1. What is this Simulation Doing? (Stochastic Asset Modeling)</strong><br>
+              This simulator models the 1-year future value of an initial investment ($V_0 = \$10{,}000$) subject to market uncertainty. Rather than assuming a single static return, it generates $N$ independent stochastic market scenarios ($N = 1{,}000 \dots 10{,}000$). In each trial $i$, annual return $R_i$ is sampled from a Gaussian distribution $R \sim \mathcal{N}(\mu, \sigma^2)$ via the Box-Muller transform:
+              $$V_i = V_0 \times (1 + R_i) = \$10{,}000 \times \left(1 + \mu + \sigma \cdot Z_i\right), \quad Z_i \sim \mathcal{N}(0, 1)$$
+            </div>
+
+            <div style="margin-bottom: 0.55rem;">
+              <strong style="color: var(--accent-primary);">2. How to Read the Outcome Histogram:</strong>
+              <div style="margin-left: 0.25rem; margin-top: 0.25rem;">
+                • <strong style="color: #f59e0b;">Initial &dollar;10K Line (Orange Dashed):</strong> The break-even capital preservation benchmark ($V = \$10{,}000$).<br>
+                • <strong style="color: #f43f5e;">Red / Pink Bars ($V < \$10{,}000$):</strong> Simulation trials resulting in a net financial loss (capital depletion).<br>
+                • <strong style="color: #10b981;">Green Bars ($V \ge \$10{,}000$):</strong> Simulation trials yielding a net financial profit (capital growth).<br>
+                • <strong>Distribution Width &amp; Shape:</strong> The bell-shaped spread shows outcome likelihood. Raising volatility $\sigma$ flattens the curve, expanding both the left tail (severe loss risk) and right tail (windfall gain potential).
+              </div>
+            </div>
+
+            <div>
+              <strong style="color: var(--accent-primary);">3. Deciphering the 4 Risk Metrics:</strong>
+              <div style="margin-left: 0.25rem; margin-top: 0.25rem;">
+                • <strong>Mean Final Value ($\hat{\mu}_V = \frac{1}{N}\sum V_i$):</strong> The expected portfolio wealth across all simulated futures under the Law of Large Numbers (LLN).<br>
+                • <strong>Standard Deviation ($\hat{\sigma}_V$):</strong> The dollar dispersion / volatility representing the typical spread around the mean.<br>
+                • <strong>VaR 95% (Value-at-Risk = $V_0 - \text{Percentile}_5$):</strong> The maximum expected dollar loss at a 95% confidence level. There is only a 5% probability that your loss exceeds this amount.<br>
+                • <strong>90% Confidence Span ($[\text{Percentile}_5, \text{Percentile}_{95}]$):</strong> The central range containing 90% of all simulated outcomes, excluding the extreme 5% left-tail crash and 5% right-tail surge.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1260,6 +1795,28 @@
           <div class="formula-box">
             <div>$$D_M(\mathbf{x}, \mathbf{c}_k) = \sqrt{(\mathbf{x} - \mathbf{c}_k)^T \mathbf{\Sigma}_k^{-1} (\mathbf{x} - \mathbf{c}_k)}$$</div>
             <span class="formula-caption">Mahalanobis Distance — Measures cluster proximity accounting for feature covariance matrix $\mathbf{\Sigma}_k$</span>
+          </div>
+
+          <!-- Worked Example Section: Simpson's Paradox in Bivariate Clustering -->
+          <div class="hero-pill" style="margin-top: 1.25rem; background: rgba(245, 158, 11, 0.12); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);">
+            ✦ Worked Example: Simpson's Paradox in Bivariate Clustering
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-top: 0.4rem;">
+            When multi-group data is aggregated without accounting for latent cluster memberships, the pooled correlation can <strong>completely reverse sign</strong>. Consider $N=120$ observations partitioned across 3 sub-populations (Clusters A, B, and C):
+          </p>
+
+          <div style="background: rgba(15, 23, 42, 0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.85rem 1rem; margin-top: 0.6rem; font-size: 0.85rem; line-height: 1.65; color: var(--text-secondary);">
+            <div style="margin-bottom: 0.45rem;">
+              <strong style="color: #10b981;">1. Local Within-Cluster Relationship ($\bar{\rho}_k \approx +0.85$ to $+0.90$):</strong><br>
+              Within every individual cluster $S_k$, Feature $X$ and Feature $Y$ exhibit strong positive linear correlation ($\rho_k > 0$). When $X$ increases, $Y$ increases consistently within Cluster A, Cluster B, and Cluster C.
+            </div>
+            <div style="margin-bottom: 0.45rem;">
+              <strong style="color: #f43f5e;">2. Global Aggregate Relationship ($\rho_{\text{global}} \approx -0.75$ to $-0.80$):</strong><br>
+              When all data points are pooled together and a global regression line is fitted, the correlation flips to strongly <strong>negative</strong> ($\rho < 0$)! This reversal occurs because the cluster centroids $\mathbf{c}_1, \mathbf{c}_2, \mathbf{c}_3$ are arranged along a downward trajectory (higher average $X$ corresponds to lower average $Y$).
+            </div>
+            <div style="padding-top: 0.45rem; border-top: 1px dashed var(--border-color); font-size: 0.82rem; color: var(--text-muted);">
+              <strong>💡 Practical Data Science Warning:</strong> An algorithm analyzing only the aggregated pair $(X, Y)$ would falsely conclude that $X$ and $Y$ are inversely related. Discovering the latent clusters via K-Means or GMMs is critical to avoid catastrophic policy errors.
+            </div>
           </div>
 
           <ul class="concept-list">
@@ -1313,10 +1870,10 @@
             <span class="lab-badge pulse">Live 2D Feature Space</span>
           </div>
 
-          <div class="lab-controls">
-            <div class="control-group">
-              <label class="control-label">Data Distribution &amp; Cluster Topology:</label>
-              <select id="cluster-topology-select" class="select-input">
+          <div class="lab-controls" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem;">
+            <div class="control-group" style="grid-column: 1 / -1;">
+              <label class="control-label"><span>Data Distribution &amp; Cluster Topology:</span></label>
+              <select id="cluster-topology-select" class="select-input" style="width: 100%;">
                 <option value="simpson">Simpson's Paradox (Positive Clusters, Negative Global)</option>
                 <option value="twoclusters">Bimodal Clusters (Customer Segments)</option>
                 <option value="gaussian3">3 Isotropic Gaussian Clusters</option>
@@ -1324,26 +1881,26 @@
               </select>
             </div>
             <div class="control-group">
-              <label class="control-label">Cluster Separation ($d$): <span id="cluster-sep-val" class="control-value">2.5</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Cluster Separation ($d$):</span> <span id="cluster-sep-val" class="control-value">2.5</span></label>
               <input type="range" id="cluster-sep-slider" class="range-slider" min="0.5" max="5.0" step="0.1" value="2.5">
             </div>
             <div class="control-group">
-              <label class="control-label">Intra-Cluster Noise ($\sigma$): <span id="cluster-noise-val" class="control-value">0.35</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Intra-Cluster Noise ($\sigma$):</span> <span id="cluster-noise-val" class="control-value">0.35</span></label>
               <input type="range" id="cluster-noise-slider" class="range-slider" min="0.1" max="1.0" step="0.05" value="0.35">
             </div>
             <div class="control-group">
-              <label class="control-label">Sample Count ($N$): <span id="cluster-npoints-val" class="control-value">120</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Sample Count ($N$):</span> <span id="cluster-npoints-val" class="control-value">120</span></label>
               <input type="range" id="cluster-npoints-slider" class="range-slider" min="60" max="300" step="15" value="120">
             </div>
           </div>
 
-          <div class="lab-legend-strip" style="display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 8px; padding: 0.5rem 0.75rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
-            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #38bdf8;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #38bdf8;"></span> Cluster A</span>
-            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #c084fc;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #c084fc;"></span> Cluster B</span>
-            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #fbbf24;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #fbbf24;"></span> Cluster C</span>
-            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #f8fafc;">◆ Centroid (cₖ)</span>
-            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #10b981;">― Intra-Cluster Slope</span>
-            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #94a3b8;">╌╌ Global OLS</span>
+          <div class="lab-legend-strip" style="display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.55rem 0.85rem; margin-bottom: 0.75rem; font-size: 0.8rem; font-weight: 500;">
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #0284c7; font-weight: 600;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #0284c7;"></span> Cluster A</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #9333ea; font-weight: 600;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #9333ea;"></span> Cluster B</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #d97706; font-weight: 600;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #d97706;"></span> Cluster C</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: var(--text-primary); font-weight: 600;">◆ Centroid ($c_k$)</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #059669; font-weight: 600;">― Intra-Cluster Slope</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: var(--text-muted); font-weight: 600;">╌╌ Global OLS</span>
           </div>
 
           <div class="canvas-container">
@@ -1352,20 +1909,61 @@
 
           <div class="metrics-strip">
             <div class="metric-card">
-              <span class="metric-title">Global Pearson (ρ)</span>
+              <span class="metric-title" style="white-space: nowrap;">Global Pearson $\rho$</span>
               <span id="cluster-global-corr-val" class="metric-val highlight-cyan">-0.720</span>
             </div>
             <div class="metric-card">
-              <span class="metric-title">Intra-Cluster Avg (ρ̄ₖ)</span>
+              <span class="metric-title" style="white-space: nowrap;">Intra-Cluster $\bar{\rho}_k$</span>
               <span id="cluster-intra-corr-val" class="metric-val highlight-green">+0.842</span>
             </div>
             <div class="metric-card">
-              <span class="metric-title">Total Inertia (J_WCSS)</span>
+              <span class="metric-title" style="white-space: nowrap;">Total Inertia $J_{\text{WCSS}}$</span>
               <span id="cluster-inertia-val" class="metric-val">42.50</span>
             </div>
             <div class="metric-card">
-              <span class="metric-title">Diagnostic Regime</span>
+              <span class="metric-title" style="white-space: nowrap;">Diagnostic Regime</span>
               <span id="cluster-status-val" class="metric-val highlight-yellow" style="font-size:0.82rem;">⚠️ Simpson's Paradox</span>
+            </div>
+          </div>
+
+          <!-- Simulation Walkthrough & Decoding Guide -->
+          <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin-top: 1rem; font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; font-weight: 700; color: var(--text-primary); font-size: 0.9rem;">
+              <span>🧭</span> Visual Decoding &amp; Simulation Guide
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem;">
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem;">
+                <div style="font-weight: 600; color: #0284c7; margin-bottom: 0.25rem;">
+                  1. Local Clusters &amp; Ellipses ($c_1, c_2, c_3$)
+                </div>
+                <div>
+                  Points are grouped into clusters A, B, and C with centroid labels $c_k$. Dashed ellipses depict the $1.8\sigma$ covariance contours. Solid colored lines denote the localized OLS linear regression slope for each individual cluster.
+                </div>
+              </div>
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem;">
+                <div style="font-weight: 600; color: #f43f5e; margin-bottom: 0.25rem;">
+                  2. The Reversal Paradox (Local vs. Global)
+                </div>
+                <div>
+                  Each individual cluster has a positive upward slope ($\bar{\rho}_k \approx +0.90$). However, the aggregate centroids trend downward, causing the pooled dashed line to slope negatively ($\rho_{\text{global}} \approx -0.78$). This visualizes <strong>Simpson's Paradox</strong>.
+                </div>
+              </div>
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem;">
+                <div style="font-weight: 600; color: #059669; margin-bottom: 0.25rem;">
+                  3. Total Inertia ($J_{\text{WCSS}}$)
+                </div>
+                <div>
+                  $J_{\text{WCSS}} = \sum_{k=1}^K \sum_{\mathbf{x} \in S_k} \|\mathbf{x} - \mathbf{c}_k\|^2$ measures intra-cluster variance. Increasing <em>Intra-Cluster Noise ($\sigma$)</em> increases dispersion around centroids and raises inertia.
+                </div>
+              </div>
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem;">
+                <div style="font-weight: 600; color: #d97706; margin-bottom: 0.25rem;">
+                  4. Interactive Experimentation
+                </div>
+                <div>
+                  Adjust <em>Cluster Separation ($d$)</em> to test whether the paradox persists when clusters merge. Switch topologies to <em>Bimodal Clusters</em> or <em>3 Gaussian Clusters</em> to observe standard non-paradoxical cluster behavior.
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1392,10 +1990,10 @@
           </div>
 
           <!-- General Optimization Theory -->
-          <div class="hero-pill" style="margin-bottom:0.75rem;">✦ General Optimization Theory &amp; Constrained Models</div>
+          <div class="hero-pill" style="margin-bottom:0.75rem;">✦ General Optimization Framework</div>
           
           <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.85rem;">
-            <strong>Mathematical Optimization</strong> is the formal science of selecting the best decision vector $\mathbf{x}^* \in \mathbb{R}^n$ to minimize an objective loss or maximize an objective utility, constrained within a feasible decision space governed by equality and inequality boundaries.
+            <strong>Mathematical Optimization</strong> is the formal discipline of selecting the best decision vector $\mathbf{x}^* \in \mathbb{R}^n$ from a set of available alternatives to minimize an objective loss $f(\mathbf{x})$ (or maximize utility/reward), subject to explicit operational, financial, or physical constraints.
           </p>
 
           <div class="formula-box">
@@ -1408,93 +2006,78 @@
             <span class="formula-caption">Canonical Mathematical Formulation of Constrained Optimization</span>
           </div>
 
-          <div class="formula-box">
-            <div>$$\begin{aligned}
-              \text{Lagrangian: } &\quad \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu}) = f(\mathbf{x}) + \sum_{i=1}^m \lambda_i g_i(\mathbf{x}) + \sum_{j=1}^p \mu_j h_j(\mathbf{x}) \\
-              \text{Stationarity: } &\quad \nabla_{\mathbf{x}} f(\mathbf{x}^*) + \sum_{i=1}^m \lambda_i \nabla g_i(\mathbf{x}^*) + \sum_{j=1}^p \mu_j \nabla h_j(\mathbf{x}^*) = \mathbf{0} \\
-              \text{Primal Feasible: } &\quad g_i(\mathbf{x}^*) \le 0, \quad h_j(\mathbf{x}^*) = 0 \\
-              \text{Dual Feasible: } &\quad \lambda_i \ge 0 \quad (\forall i = 1, \dots, m) \\
-              \text{Slackness: } &\quad \lambda_i \cdot g_i(\mathbf{x}^*) = 0 \quad (\text{Complementary Condition})
-            \end{aligned}$$</div>
-            <span class="formula-caption">Lagrange Multipliers &amp; Karush-Kuhn-Tucker (KKT) First-Order Necessary Conditions</span>
+          <!-- Enhanced General Explanation of Optimization Theory -->
+          <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.95rem; margin-top: 1rem; font-size: 0.85rem; line-height: 1.65; color: var(--text-secondary);">
+            <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.6rem; font-size: 0.88rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>📐</span> Foundational Anatomy of an Optimization Problem
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr; gap: 0.65rem;">
+              <div style="border-left: 3px solid #0284c7; padding-left: 0.65rem;">
+                <strong style="color: #0284c7;">1. Objective Function $f(\mathbf{x})$:</strong><br>
+                The quantified performance metric to be minimized or maximized. In machine learning, this is the loss or risk function (e.g., Mean Squared Error, Cross-Entropy); in business and operations research, it represents production cost or net enterprise profit.
+              </div>
+              <div style="border-left: 3px solid #9333ea; padding-left: 0.65rem;">
+                <strong style="color: #9333ea;">2. Decision Variables $\mathbf{x} = [x_1, x_2, \dots, x_n]^T$:</strong><br>
+                The parameters or actions directly under our control. In neural networks, $\mathbf{x}$ encompasses millions of synaptic weights and biases; in manufacturing operations, $\mathbf{x}$ represents unit production volumes, inventory quantities, and resource allocations.
+              </div>
+              <div style="border-left: 3px solid #059669; padding-left: 0.65rem;">
+                <strong style="color: #059669;">3. Constraints &amp; Feasible Space $\mathcal{X}$:</strong><br>
+                The boundaries and operational limitations that restrict valid choices. Inequality bounds $g_i(\mathbf{x}) \le 0$ enforce capacity limits, budget ceilings, or non-negativity ($x \ge 0$). Equality constraints $h_j(\mathbf{x}) = 0$ represent conservation rules. The set of points satisfying all rules simultaneously is the <em>feasible region</em> $\mathcal{X}$.
+              </div>
+            </div>
           </div>
 
-          <!-- Example: Profit Maximization -->
-          <div class="hero-pill" style="margin-top:1.5rem;margin-bottom:0.75rem;">✦ Example: Profit Maximization &amp; Constrained Equations</div>
+          <!-- Intuitive Constrained vs. Unconstrained & Lagrange Multipliers -->
+          <div class="hero-pill" style="margin-top:1.25rem; margin-bottom:0.75rem; background: rgba(59, 130, 246, 0.1); color: var(--accent-primary); border: 1px solid rgba(59, 130, 246, 0.25);">
+            ✦ Constrained vs. Unconstrained: Boundary Solutions &amp; Shadow Prices
+          </div>
 
           <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.85rem;">
-            As a direct industrial application, consider an enterprise determining optimal production volume $Q$. Total revenue grows with sales, but operations incur fixed overhead, unit variable production expenditures, and scrap/waste penalties, strictly bounded by plant capacity and budget ceilings.
+            In <strong>unconstrained optimization</strong>, we seek an interior point where the gradient is zero ($\nabla f(\mathbf{x}^*) = \mathbf{0}$). In <strong>constrained optimization</strong>, the unconstrained optimum is often unattainable because it lies outside the allowable domain; hence, the best valid solution frequently rests on an <em>active constraint boundary</em> ($g_i(\mathbf{x}^*) = 0$).
           </p>
 
           <div class="formula-box">
-            <div>$$\begin{aligned}
-              \max_{Q} \quad Z(Q) &= R(Q) - TC(Q) \\
-              &= (P \cdot Q) - \left[ FC + (VC \cdot Q) + (C_w \cdot W(Q)) \right] \\
-              \text{s.t.} \quad 0 &\le Q \le Q_{\max} \quad &\text{(Plant Capacity Limit)} \\
-              FC &+ (VC \cdot Q) \le B \quad &\text{(Budgetary Capital Cap)} \\
-              \text{Break-Even: } \quad Q_{\text{BE}} &= \frac{FC}{P - VC - C_w \cdot w} \quad &\big(Z(Q_{\text{BE}}) = 0\big)
-            \end{aligned}$$</div>
-            <span class="formula-caption">Constrained Profit Maximization Model with Waste Penalty ($W(Q) = w \cdot Q$) &amp; Break-Even Equation</span>
+            <div>$$\nabla f(\mathbf{x}^*) = -\sum_{i=1}^m \lambda_i \nabla g_i(\mathbf{x}^*) \quad \text{where } \lambda_i \ge 0, \quad \lambda_i \cdot g_i(\mathbf{x}^*) = 0$$</div>
+            <span class="formula-caption">Geometric Boundary Optimality — Gradient Counterbalanced by Constraint Normals &amp; Shadow Prices ($\lambda_i$)</span>
           </div>
 
-          <!-- Worked Real-World Numerical Example Box -->
-          <div class="hero-pill" style="margin-top: 1.25rem;">Worked Numerical Example: Factory Production Optimization</div>
-          <div class="worked-example-box">
-            <div style="margin-bottom: 0.65rem;">
-              <strong style="color: #38bdf8;">Given Operating Parameters (from our interactive lab):</strong><br>
-              Unit Selling Price $P = \$50/\text{unit}$, Fixed Overhead $FC = \$8,000/\text{month}$, Unit Variable Cost $VC = \$20/\text{unit}$, Waste Penalty $C_w = \$10/\text{unit of scrap}$, Waste Rate $w = 8\% = 0.08$ scrap per unit produced, and Factory Capacity $Q_{\max} = 1,000\text{ units/month}$.
-            </div>
-            <div style="margin-bottom: 0.65rem;">
-              <strong style="color: #34d399;">Step 1 — Effective Unit Contribution Margin ($CM$):</strong><br>
-              $$CM = P - VC - (C_w \times w) = \$50 - \$20 - (\$10 \times 0.08) = \$29.20/\text{unit}$$
-              Every additional unit produced nets $\$29.20$ to absorb fixed overhead and yield operating profit.
-            </div>
-            <div style="margin-bottom: 0.65rem;">
-              <strong style="color: #fbbf24;">Step 2 — Break-Even Production Volume ($Q_{\text{BE}}$):</strong><br>
-              $$Q_{\text{BE}} = \frac{FC}{CM} = \frac{\$8,000}{\$29.20} \approx 273.97 \implies 274\text{ units}$$
-              Below $274$ units, the firm operates at a net loss ($Z < 0$); above $274$ units, operations are profitable.
+          <div style="background: rgba(15, 23, 42, 0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.85rem 1rem; margin-top: 0.65rem; font-size: 0.84rem; line-height: 1.65; color: var(--text-secondary);">
+            <div style="margin-bottom: 0.45rem;">
+              <strong style="color: #d97706;">💡 Geometric Intuition:</strong>
+              At an optimal boundary point, any step that would decrease the objective $f(\mathbf{x})$ pushes outside the feasible region $\nabla g_i$. The objective's gradient is directly counterbalanced by the constraint boundary.
             </div>
             <div>
-              <strong style="color: #f43f5e;">Step 3 — Constrained Optimal Solution ($Q^*$) &amp; Shadow Price ($\lambda$):</strong><br>
-              Since $CM = \$29.20 > 0$, the profit function is strictly monotonically increasing in $Q$. The optimum occurs exactly on the boundary constraint $Q^* = Q_{\max} = 1,000\text{ units}$:
-              $$Z(Q^*) = (\$29.20 \times 1,000) - \$8,000 = \$29,200 - \$8,000 = \$21,200$$
-              The active constraint $Q - Q_{\max} \le 0$ has dual Lagrange multiplier (shadow price) $\lambda = \frac{dZ^*}{dQ_{\max}} = \$29.20/\text{unit}$, representing the marginal profit gained by expanding plant capacity by one additional unit.
+              <strong style="color: #0284c7;">📈 Economic Meaning of $\lambda_i$ (Shadow Price):</strong>
+              $$\lambda_i = -\frac{\partial f^*}{\partial b_i}$$
+              The Lagrange multiplier $\lambda_i$ represents the <em>marginal sensitivity</em>—how much the optimal objective value improves if the $i$-th constraint bound $b_i$ is relaxed by 1 unit. If a constraint is inactive (slack), $\lambda_i = 0$. If active, $\lambda_i > 0$ informs managers exactly how much additional budget or capacity expansion is worth.
             </div>
           </div>
 
           <ul class="concept-list" style="margin-top: 1.25rem;">
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
-              <div><strong>General Mathematical Optimization:</strong> Canonical framework minimizing loss $f(\mathbf{x})$ over a constrained domain $\mathcal{S} = \{\mathbf{x} \mid g_i(\mathbf{x}) \le 0, h_j(\mathbf{x}) = 0\}$.</div>
+              <div><strong>Linear vs. Non-Linear Optimization:</strong> In Linear Programming (LP), objectives and constraints are straight lines; the optimum is guaranteed to reside at a boundary corner vertex (solved efficiently via the Simplex or Interior-Point algorithms). Non-linear models explore curved multi-dimensional landscapes.</div>
             </li>
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
-              <div><strong>Constrained vs. Unconstrained:</strong> Unconstrained problems set $\nabla f(\mathbf{x}) = \mathbf{0}$; constrained problems balance objective gradients against active constraint boundary normals via KKT multipliers ($\nabla f = -\sum \lambda_i \nabla g_i$).</div>
+              <div><strong>Convex vs. Non-Convex Landscapes:</strong> A problem is <em>convex</em> when the objective curves upward and the feasible region has no indentations. In convex optimization, <strong>any local minimum is guaranteed to be the global minimum</strong>. Deep neural networks navigate non-convex landscapes with multiple local minima and saddle points.</div>
             </li>
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
-              <div><strong>Complementary Slackness ($\lambda_i g_i(\mathbf{x}) = 0$):</strong> If a constraint is inactive ($g_i < 0$), its multiplier $\lambda_i = 0$. If active ($g_i = 0$), $\lambda_i > 0$ represents the <em>shadow price</em> (sensitivity of optimal objective to relaxing that constraint).</div>
+              <div><strong>Boundary Activation &amp; Complementary Slackness:</strong> If a constraint is not binding ($g_i(\mathbf{x}) < 0$), moving marginally leaves feasibility intact ($\lambda_i = 0$). If binding ($g_i(\mathbf{x}) = 0$), the boundary restricts further improvement, and $\lambda_i > 0$ reveals the constraint's economic shadow price.</div>
             </li>
             <li class="concept-item">
               <span class="concept-bullet">✦</span>
-              <div><strong>Profit Objective Function $Z(Q)$:</strong> Balances total revenue $P \cdot Q$ against fixed expenditures $FC$, volume-dependent variable costs $VC \cdot Q$, and scrap disposal penalties $C_w \cdot W(Q)$.</div>
-            </li>
-            <li class="concept-item">
-              <span class="concept-bullet">✦</span>
-              <div><strong>Unit Contribution Margin ($CM = P - VC - C_w \cdot w$):</strong> The net incremental revenue delivered by producing one more unit above direct marginal costs.</div>
-            </li>
-            <li class="concept-item">
-              <span class="concept-bullet">✦</span>
-              <div><strong>Break-Even Threshold ($Q_{\text{BE}} = FC / CM$):</strong> The critical production quantity where cumulative revenues exactly equal total costs ($Z = 0$).</div>
+              <div><strong>Modern Algorithmic Solvers:</strong> Unconstrained continuous functions use Gradient Descent, Adam, or Quasi-Newton (L-BFGS); constrained problems employ Quadratic Programming (QP), Augmented Lagrangian methods, or Sequential Minimal Optimization (SMO).</div>
             </li>
           </ul>
 
           <div class="app-tags">
-            <span class="app-tag">General Optimization Theory</span>
-            <span class="app-tag purple">KKT &amp; Lagrange Multipliers</span>
-            <span class="app-tag green">Constrained Profit Maximization</span>
-            <span class="app-tag amber">Cost-Volume-Profit (CVP) Analysis</span>
-            <span class="app-tag">Operations Research (LP/MIP)</span>
+            <span class="app-tag">Mathematical Optimization</span>
+            <span class="app-tag purple">Convex vs Non-Convex</span>
+            <span class="app-tag green">Constraint Boundaries</span>
+            <span class="app-tag amber">Shadow Price (λ)</span>
+            <span class="app-tag">Gradient &amp; Dual Solvers</span>
           </div>
 
           <div class="ai-connect-block">
@@ -1519,25 +2102,25 @@
         <!-- Interactive Lab -->
         <div class="lab-card">
           <div class="lab-header">
-            <h3 class="card-title">🎮 Constrained Profit Solver & Sensitivity Curve</h3>
+            <h3 class="card-title">🎮 Constrained Profit Solver &amp; Sensitivity Curve</h3>
             <span class="lab-badge pulse">Live Solver</span>
           </div>
 
-          <div class="lab-controls">
+          <div class="lab-controls" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.85rem;">
             <div class="control-group">
-              <label class="control-label">Unit Price (P): <span id="opt-price-val" class="control-value">$50</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Unit Price ($P$):</span> <span id="opt-price-val" class="control-value">$50</span></label>
               <input type="range" id="opt-price-slider" class="range-slider" min="25" max="100" step="1" value="50">
             </div>
             <div class="control-group">
-              <label class="control-label">Fixed Operating Cost (FC): <span id="opt-fc-val" class="control-value">$8,000</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Fixed Operating Cost ($FC$):</span> <span id="opt-fc-val" class="control-value">$8,000</span></label>
               <input type="range" id="opt-fc-slider" class="range-slider" min="2000" max="20000" step="500" value="8000">
             </div>
             <div class="control-group">
-              <label class="control-label">Unit Variable Cost (VC): <span id="opt-vc-val" class="control-value">$20</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Unit Variable Cost ($VC$):</span> <span id="opt-vc-val" class="control-value">$20</span></label>
               <input type="range" id="opt-vc-slider" class="range-slider" min="5" max="50" step="1" value="20">
             </div>
             <div class="control-group">
-              <label class="control-label">Waste Penalty Cost (Cw): <span id="opt-cw-val" class="control-value">$10</span></label>
+              <label class="control-label"><span style="white-space: nowrap;">Waste Penalty Cost ($C_w$):</span> <span id="opt-cw-val" class="control-value">$10</span></label>
               <input type="range" id="opt-cw-slider" class="range-slider" min="0" max="30" step="1" value="10">
             </div>
           </div>
@@ -1548,7 +2131,7 @@
             <button type="button" id="opt-mode-profit" style="padding:0.4rem 1rem;font-size:0.8rem;font-weight:600;border-radius:6px;background:rgba(255,255,255,0.06);color:#94a3b8;border:1px solid rgba(255,255,255,0.12);cursor:pointer;transition:all 0.2s;">📈 Net Profit Curve Z(Q)</button>
           </div>
 
-          <div id="opt-legend-strip" class="lab-legend-strip" style="display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 8px; padding: 0.5rem 0.85rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
+          <div id="opt-legend-strip" class="lab-legend-strip" style="display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.5rem 0.85rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
             <!-- Dynamically updated based on active mode -->
           </div>
 
@@ -1558,18 +2141,89 @@
 
           <div class="metrics-strip">
             <div class="metric-card">
-              <span class="metric-title">Max Profit (at Cap)</span>
+              <span class="metric-title" style="white-space: nowrap;">Max Profit (at Cap)</span>
               <span id="opt-maxprofit-val" class="metric-val highlight-green">$21,200</span>
             </div>
             <div class="metric-card">
-              <span class="metric-title">Break-Even Volume</span>
+              <span class="metric-title" style="white-space: nowrap;">Break-Even Volume</span>
               <span id="opt-beqty-val" class="metric-val highlight-amber">274 units</span>
             </div>
             <div class="metric-card">
-              <span class="metric-title">Unit Contribution Margin</span>
+              <span class="metric-title" style="white-space: nowrap;">Unit Contribution Margin</span>
               <span id="opt-margin-val" class="metric-val highlight-cyan">$29.20 / unit</span>
             </div>
           </div>
+
+          <!-- MOVED & EXPANDED: Simulation Model & Worked Numerical Example Guide -->
+          <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin-top: 1rem; font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-weight: 700; color: var(--text-primary); font-size: 0.92rem;">
+              <span>🏭</span> Simulation Model &amp; Worked Numerical Example Guide
+            </div>
+
+            <!-- Mathematical Model Formulation for this Example -->
+            <div class="formula-box" style="margin-bottom: 0.85rem;">
+              <div>$$\begin{aligned}
+                \max_{Q} \quad Z(Q) &= R(Q) - TC(Q) = (P \cdot Q) - \left[ FC + (VC \cdot Q) + (C_w \cdot w \cdot Q) \right] \\
+                \text{subject to} \quad & 0 \le Q \le Q_{\max} \quad \text{(Factory Capacity Ceiling = 1,000 units)} \\
+                \text{Break-Even: } \quad Q_{\text{BE}} &= \frac{FC}{P - VC - C_w \cdot w} \quad \text{where } Z(Q_{\text{BE}}) = 0
+              \end{aligned}$$</div>
+              <span class="formula-caption">Constrained Factory Profit Model with Scrap Waste Penalty ($w = 8\%$) &amp; Break-Even Volume</span>
+            </div>
+
+            <!-- 4-Card Step-by-Step Breakdown -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.75rem; margin-bottom: 0.85rem;">
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem;">
+                <div style="font-weight: 600; color: #0284c7; margin-bottom: 0.25rem;">
+                  Step 1. Effective Contribution Margin ($CM$)
+                </div>
+                <div>
+                  $$CM = P - VC - (C_w \times w)$$
+                  At current parameters: $\$50 - \$20 - (\$10 \times 0.08) = \mathbf{\$29.20/\text{unit}}$. Every unit produced yields $\$29.20$ net marginal profit to absorb fixed overhead.
+                </div>
+              </div>
+
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem;">
+                <div style="font-weight: 600; color: #d97706; margin-bottom: 0.25rem;">
+                  Step 2. Break-Even Production Volume ($Q_{\text{BE}}$)
+                </div>
+                <div>
+                  $$Q_{\text{BE}} = \frac{FC}{CM} = \frac{\$8,000}{\$29.20} \approx \mathbf{274\text{ units}}$$
+                  Below $274$ units, the enterprise incurs an operating loss ($Z < 0$). At $Q = 274$, total revenue exactly equals total costs. Above $274$, operations enter the profit surplus zone.
+                </div>
+              </div>
+
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem;">
+                <div style="font-weight: 600; color: #059669; margin-bottom: 0.25rem;">
+                  Step 3. Constrained Optimum ($Q^*$)
+                </div>
+                <div>
+                  $$Z(Q^*) = (CM \times Q_{\max}) - FC = \mathbf{\$21,200}$$
+                  Since $CM > 0$, profit grows strictly with volume. The unconstrained optimum would be $\infty$, but the physical capacity constraint $Q \le 1,000$ bounds production directly on the boundary at $Q^* = 1,000\text{ units}$.
+                </div>
+              </div>
+
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem;">
+                <div style="font-weight: 600; color: #9333ea; margin-bottom: 0.25rem;">
+                  Step 4. Shadow Price ($\lambda$) &amp; Sensitivity
+                </div>
+                <div>
+                  $$\lambda = \frac{dZ^*}{dQ_{\max}} = CM = \mathbf{\$29.20/\text{unit}}$$
+                  Because the capacity ceiling is binding ($Q^* = Q_{\max}$), its Lagrange multiplier equals $\$29.20$. Expanding factory capacity by $+1$ unit directly yields $\$29.20$ in extra monthly profit.
+                </div>
+              </div>
+            </div>
+
+            <!-- Visual Decoding Guide for the Chart -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem; font-size: 0.82rem;">
+              <strong style="color: var(--text-primary);">🧭 How to Read the Interactive Curves:</strong>
+              <ul style="margin: 0.35rem 0 0 1.1rem; padding: 0; line-height: 1.6;">
+                <li><strong>CVP Break-Even View:</strong> Blue line depicts Total Revenue $TR(Q) = P \cdot Q$; Red line depicts Total Cost $TC(Q) = FC + (VC + C_w \cdot w)Q$. Their intersection marks the yellow Break-Even Point ($Q_{\text{BE}}$). The green vertical bracket at $Q=1,000$ reveals the $\$21,200$ net profit spread.</li>
+                <li><strong>Net Profit Curve View:</strong> Directly plots $Z(Q)$. The trajectory starts at negative fixed overhead ($-\$8,000$), crosses zero at $Q=274$, and terminates at the green star on the capacity boundary wall ($1,000\text{ units}, \$21,200$).</li>
+                <li><strong>Interactive Sensitivity Analysis:</strong> Drag the Fixed Cost ($FC$) slider to watch the break-even point shift horizontally, or increase Variable Cost ($VC$) or Waste Penalty ($C_w$) to observe margin compression in real time.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
     </section>
@@ -1588,15 +2242,66 @@
         </div>
       </div>
 
+      <!-- Curriculum Stat Cards Strip -->
+      <div class="synthesis-stat-strip">
+        <div class="synthesis-stat-card">
+          <div class="synthesis-stat-icon">🏛️</div>
+          <div>
+            <div class="synthesis-stat-val">10 Modules</div>
+            <div class="synthesis-stat-label">Foundational Pillars</div>
+          </div>
+        </div>
+        <div class="synthesis-stat-card">
+          <div class="synthesis-stat-icon">📐</div>
+          <div>
+            <div class="synthesis-stat-val">40+ Equations</div>
+            <div class="synthesis-stat-label">Rigorous Formulations</div>
+          </div>
+        </div>
+        <div class="synthesis-stat-card">
+          <div class="synthesis-stat-icon">🤖</div>
+          <div>
+            <div class="synthesis-stat-val">25+ AI Architectures</div>
+            <div class="synthesis-stat-label">Real-World Deployments</div>
+          </div>
+        </div>
+        <div class="synthesis-stat-card">
+          <div class="synthesis-stat-icon">⚡</div>
+          <div>
+            <div class="synthesis-stat-val">100% Synced</div>
+            <div class="synthesis-stat-label">Math-to-Code Mapping</div>
+          </div>
+        </div>
+      </div>
+
       <div class="card">
-        <div class="matrix-container">
+        <!-- Interactive Toolbar: Category Pills + Search Box -->
+        <div class="synthesis-toolbar">
+          <div class="synthesis-filter-pills" id="matrix-filter-pills">
+            <button class="filter-pill active" data-category="all">All Modules (10)</button>
+            <button class="filter-pill" data-category="Representation &amp; Deep Learning">Deep Learning (2)</button>
+            <button class="filter-pill" data-category="Optimization &amp; Parameter Upgrades">Optimization (2)</button>
+            <button class="filter-pill" data-category="Sequential Modeling &amp; Forecasting">Time Series (1)</button>
+            <button class="filter-pill" data-category="Predictive Modeling">Regression (1)</button>
+            <button class="filter-pill" data-category="Statistical Inference &amp; Uncertainty">Probability (1)</button>
+            <button class="filter-pill" data-category="Probabilistic AI">Bayesian (1)</button>
+            <button class="filter-pill" data-category="Stochastic Simulation">Monte Carlo (1)</button>
+            <button class="filter-pill" data-category="Unsupervised Learning &amp; Feature Geometry">Clustering (1)</button>
+          </div>
+          <div class="synthesis-search-box">
+            <span>🔍</span>
+            <input type="text" id="matrix-search-input" placeholder="Search concepts, math, models..." autocomplete="off">
+          </div>
+        </div>
+
+        <div class="matrix-container" style="margin-top: 0.5rem;">
           <table class="matrix-table">
             <thead>
               <tr>
-                <th style="width: 20%;">Curriculum Module &amp; Area</th>
-                <th style="width: 36%;">Core Concept &amp; United Mathematical Equations</th>
-                <th style="width: 18%;">Key Algorithms &amp; Techniques</th>
-                <th style="width: 26%;">Typical AI &amp; Data Science Applications</th>
+                <th style="width: 22%;">Curriculum Module &amp; Lab</th>
+                <th style="width: 38%;">Core Concept &amp; Synchronized Mathematical Equations</th>
+                <th style="width: 16%;">Key Algorithms &amp; Techniques</th>
+                <th style="width: 24%;">Production AI &amp; Enterprise Applications</th>
               </tr>
             </thead>
             <tbody id="synthesis-table-body">
@@ -1614,13 +2319,35 @@
       <div class="section-header">
         <div>
           <span class="section-tag">Module 11 · Bibliography</span>
-          <h2 class="section-title">Academic References & Video Lectures</h2>
-          <p class="section-desc">Primary references, research monographs, and video lectures cited across the curriculum.</p>
+          <h2 class="section-title">Academic References &amp; Video Lectures</h2>
+          <p class="section-desc">Curated academic bibliography, foundational research monographs, university lecture series, and production engineering primers cited across the curriculum.</p>
         </div>
       </div>
 
-      <div id="references-grid" class="ref-grid">
-        <!-- Dynamically populated from ACADEMIC_REFERENCES -->
+      <div class="card">
+        <!-- Bibliography Category Filter Tabs -->
+        <div class="ref-tab-strip" id="ref-tab-strip">
+          <button class="ref-tab-btn active" data-category="all">
+            <span>📚 All Sources</span>
+            <span class="ref-tab-count" id="ref-count-all">20</span>
+          </button>
+          <button class="ref-tab-btn" data-category="textbook">
+            <span>📖 Foundational Textbooks</span>
+            <span class="ref-tab-count" id="ref-count-textbook">8</span>
+          </button>
+          <button class="ref-tab-btn" data-category="video">
+            <span>🎥 University Video Lectures</span>
+            <span class="ref-tab-count" id="ref-count-video">7</span>
+          </button>
+          <button class="ref-tab-btn" data-category="primer">
+            <span>🛠️ Industry Engineering Primers</span>
+            <span class="ref-tab-count" id="ref-count-primer">5</span>
+          </button>
+        </div>
+
+        <div id="references-grid" class="ref-grid">
+          <!-- Dynamically populated from ACADEMIC_REFERENCES -->
+        </div>
       </div>
     </section>
 

@@ -54,8 +54,8 @@ function initNeuralNetworkLab() {
   };
 
   function update() {
-    const actKey = actSelect ? actSelect.value : 'relu';
-    const act = activations[actKey] || activations.relu;
+    const actKey = actSelect ? actSelect.value : 'sigmoid';
+    const act = activations[actKey] || activations.sigmoid;
     const w1 = parseFloat(weight1Slider ? weight1Slider.value : 1.5);
     const w2 = parseFloat(weight2Slider ? weight2Slider.value : -0.8);
     const b = parseFloat(biasSlider ? biasSlider.value : 0.2);
@@ -179,7 +179,7 @@ function initNeuralNetworkLab() {
     ctx.font = '600 11px Inter, sans-serif';
     ctx.fillStyle = '#8b5cf6';
     ctx.fillText('— Activation σ(z)', 40, 25);
-    ctx.fillStyle = '#06b6d4';
+    ctx.fillStyle = '#0284c7';
     ctx.fillText('-- Derivative σ\'(z) [Gradient]', 180, 25);
   }
 
