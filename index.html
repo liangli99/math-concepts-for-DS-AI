@@ -48,11 +48,11 @@
         <span>📌</span> Overview
       </a>
       <a href="#linear-algebra" class="nav-item">
-        <span>📐</span> 1. Linear Algebra
+        <span>📐</span> 1. Linear Algebra &amp; Tensors
         <span class="nav-badge">Lab</span>
       </a>
       <a href="#calculus" class="nav-item">
-        <span>📈</span> 2. Calculus &amp; Gradients
+        <span>📈</span> 2. Calculus &amp; Error Gradients
         <span class="nav-badge">Lab</span>
       </a>
       <a href="#regression" class="nav-item">
@@ -68,7 +68,7 @@
         <span class="nav-badge">Lab</span>
       </a>
       <a href="#bayes" class="nav-item">
-        <span>⚡</span> 6. Bayes' Theorem
+        <span>⚡</span> 6. Bayes' Theorem &amp; Inference
         <span class="nav-badge">Lab</span>
       </a>
       <a href="#monte-carlo" class="nav-item">
@@ -80,13 +80,13 @@
         <span class="nav-badge">Lab</span>
       </a>
       <a href="#optimization" class="nav-item">
-        <span>🎯</span> 9. Optimization Theory
+        <span>🎯</span> 9. Optimization &amp; Profit Models
         <span class="nav-badge">Lab</span>
       </a>
 
       <div class="nav-category" style="margin-top: 1rem;">Synthesis &amp; Reference</div>
       <a href="#synthesis" class="nav-item">
-        <span>🗺️</span> 10. Knowledge Mapping
+        <span>🗺️</span> 10. Knowledge Matrix
       </a>
       <a href="#references" class="nav-item">
         <span>📚</span> 11. Academic References
@@ -302,7 +302,7 @@
       </div>
 
       <!-- ─── Integrated Subsection: Time Series Analysis & Temporal Representations ─── -->
-      <div class="subsection-divider" style="margin-top: 2.75rem; padding-top: 1.75rem; border-top: 1px solid var(--formula-border);">
+      <div id="time-series" class="subsection-divider" style="margin-top: 2.75rem; padding-top: 1.75rem; border-top: 1px solid var(--formula-border);">
         <div style="margin-bottom: 1.5rem;">
           <h2 class="section-title" style="margin: 0;">Time Series Analysis and Forecasting</h2>
           <p class="section-desc" style="margin-top: 0.35rem;">Time series data is an ordered sequence of observations indexed over discrete time $t$. Classical models decompose series into deterministic trend, periodic seasonality, cyclical fluctuations, and stochastic noise. Autoregressive (AR) and modern deep sequence models forecast future values $\hat{Y}_{t+h}$, where forecasting error residuals $e_{t+h} = Y_{t+h} - \hat{Y}_{t+h}$ quantify model accuracy and drive coefficient optimization.</p>
@@ -2178,7 +2178,7 @@
                 </div>
                 <div>
                   $$CM = P - VC - (C_w \times w)$$
-                  At current parameters: $\$50 - \$20 - (\$10 \times 0.08) = \mathbf{\$29.20/\text{unit}}$. Every unit produced yields $\$29.20$ net marginal profit to absorb fixed overhead.
+                  At current parameters: $\$50 - \$20 - (\$10 \times 0.08) = \mathbf{\$29.20\text{/unit}}$. Every unit produced yields $\$29.20$ net marginal profit to absorb fixed overhead.
                 </div>
               </div>
 
@@ -2187,7 +2187,7 @@
                   Step 2. Break-Even Production Volume ($Q_{\text{BE}}$)
                 </div>
                 <div>
-                  $$Q_{\text{BE}} = \frac{FC}{CM} = \frac{\$8,000}{\$29.20} \approx \mathbf{274\text{ units}}$$
+                  $$Q_{\text{BE}} = \frac{FC}{CM} = \frac{\$8{,}000}{\$29.20} \approx \mathbf{274\text{ units}}$$
                   Below $274$ units, the enterprise incurs an operating loss ($Z < 0$). At $Q = 274$, total revenue exactly equals total costs. Above $274$, operations enter the profit surplus zone.
                 </div>
               </div>
@@ -2197,7 +2197,7 @@
                   Step 3. Constrained Optimum ($Q^*$)
                 </div>
                 <div>
-                  $$Z(Q^*) = (CM \times Q_{\max}) - FC = \mathbf{\$21,200}$$
+                  $$Z(Q^*) = (CM \times Q_{\max}) - FC = \mathbf{\$21{,}200}$$
                   Since $CM > 0$, profit grows strictly with volume. The unconstrained optimum would be $\infty$, but the physical capacity constraint $Q \le 1,000$ bounds production directly on the boundary at $Q^* = 1,000\text{ units}$.
                 </div>
               </div>
@@ -2207,7 +2207,7 @@
                   Step 4. Shadow Price ($\lambda$) &amp; Sensitivity
                 </div>
                 <div>
-                  $$\lambda = \frac{dZ^*}{dQ_{\max}} = CM = \mathbf{\$29.20/\text{unit}}$$
+                  $$\lambda = \frac{dZ^*}{dQ_{\max}} = CM = \mathbf{\$29.20\text{/unit}}$$
                   Because the capacity ceiling is binding ($Q^* = Q_{\max}$), its Lagrange multiplier equals $\$29.20$. Expanding factory capacity by $+1$ unit directly yields $\$29.20$ in extra monthly profit.
                 </div>
               </div>
@@ -2220,6 +2220,360 @@
                 <li><strong>CVP Break-Even View:</strong> Blue line depicts Total Revenue $TR(Q) = P \cdot Q$; Red line depicts Total Cost $TC(Q) = FC + (VC + C_w \cdot w)Q$. Their intersection marks the yellow Break-Even Point ($Q_{\text{BE}}$). The green vertical bracket at $Q=1,000$ reveals the $\$21,200$ net profit spread.</li>
                 <li><strong>Net Profit Curve View:</strong> Directly plots $Z(Q)$. The trajectory starts at negative fixed overhead ($-\$8,000$), crosses zero at $Q=274$, and terminates at the green star on the capacity boundary wall ($1,000\text{ units}, \$21,200$).</li>
                 <li><strong>Interactive Sensitivity Analysis:</strong> Drag the Fixed Cost ($FC$) slider to watch the break-even point shift horizontally, or increase Variable Cost ($VC$) or Waste Penalty ($C_w$) to observe margin compression in real time.</li>
+              </ul>
+            </div>
+          </div>
+          <!-- ─── Example 2: The Profit Model Becomes a Random Variable (Monte Carlo Simulation) ─── -->
+          <div class="pmc-block" style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 2px dashed rgba(37, 99, 235, 0.25);">
+            <div class="pmc-title">
+              <div class="pmc-title-main">
+                <span>🎲</span> Example 2 · The Profit Model Becomes a Random Variable (Monte Carlo Simulation)
+              </div>
+              <span class="pmc-badge">Stochastic Decision Theory</span>
+            </div>
+
+            <p class="pmc-intro">
+              Same enterprise profit model, but sales volume $Q$, scrap waste $W$, and supplier unit cost $VC$ are now <strong>stochastic random variables</strong>. Profit $Z$ is no longer a single deterministic number, but a full probability distribution. "Maximize $Z$" must be restated as an objective over this distribution, allowing management to evaluate expected return, variance, and extreme downside tail risk.
+            </p>
+
+            <!-- Stochastic Model & Decision Rules Overview -->
+            <div class="pmc-overview-grid">
+              <!-- Card 1: Objective Function & Parameter Table -->
+              <div class="pmc-overview-card">
+                <div class="pmc-card-header">
+                  <span>📐</span> Objective Function &amp; Probability Distributions
+                </div>
+                <div class="pmc-formula-clean">
+                  <div style="background: rgba(16, 185, 129, 0.05); padding: 0.6rem 0.8rem; border-radius: 6px; border-left: 3px solid #10b981; margin-bottom: 0.5rem;">
+                    $$\operatorname{Max} \; Z = \mathbf{\color{#10b981}{P \cdot Q}} - \left[ FC + \mathbf{\color{#f59e0b}{VC \cdot Q}} + \mathbf{\color{#ef4444}{W \cdot C_w}} \right]$$
+                    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">
+                      <span style="color:#10b981;font-weight:600;">Revenue (green)</span> − <span style="color:var(--text-secondary);">fixed cost</span> − <span style="color:#f59e0b;font-weight:600;">variable cost (amber)</span> − <span style="color:#ef4444;font-weight:600;">waste cost (red)</span>
+                    </div>
+                  </div>
+                  <table class="pmc-table" style="margin-top: 0.5rem; font-size: 0.78rem;">
+                    <thead>
+                      <tr><th>Input</th><th>Distribution</th><th>Mean</th><th>SD</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td><strong>Sales quantity $Q$</strong></td><td>Normal</td><td>1,000</td><td>150</td></tr>
+                      <tr><td><strong>Waste quantity $W$</strong></td><td>Normal</td><td>80</td><td>20</td></tr>
+                      <tr><td><strong>Variable cost $VC$</strong></td><td>Normal (independent)</td><td>30</td><td>3</td></tr>
+                      <tr><td><strong>$\operatorname{Corr}(Q, W)$</strong></td><td>$\rho$</td><td>0.6</td><td>—</td></tr>
+                      <tr><td><strong>Price $P$</strong></td><td>Decision variable</td><td>60</td><td>—</td></tr>
+                      <tr><td><strong>Fixed cost $FC$</strong></td><td>Constant</td><td>20,000</td><td>—</td></tr>
+                      <tr><td><strong>Disposal cost $C_w$</strong></td><td>Constant</td><td>15</td><td>—</td></tr>
+                    </tbody>
+                  </table>
+                  <div style="font-size: 0.70rem; color: var(--text-muted); margin-top: 0.35rem; font-style: italic;">
+                    Parameters are illustrative; replace with ERP/CRM estimates for a real case.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 2: Decision Rules Under Uncertainty -->
+              <div class="pmc-overview-card">
+                <div class="pmc-card-header">
+                  <span>🎯</span> The Profit Model Becomes a Random Variable: Decision Rules
+                </div>
+                <p style="font-size: 0.8rem; margin: 0 0 0.4rem 0; color: var(--text-secondary);">
+                  Because $Q, W$ and $VC$ are random, $Z$ is random too. <strong>"Maximize $Z$" must be restated as a decision rule:</strong>
+                </p>
+                <div class="pmc-rules-list">
+                  <div class="pmc-rule-item">
+                    <span class="pmc-rule-badge neutral">Expected profit</span>
+                    <span class="pmc-rule-math">$\max_P \; E[Z]$</span>
+                  </div>
+                  <div class="pmc-rule-item">
+                    <span class="pmc-rule-badge variance">Mean–variance</span>
+                    <span class="pmc-rule-math">$\max_P \; E[Z] - \lambda\,\operatorname{Var}(Z)$</span>
+                  </div>
+                  <div class="pmc-rule-item">
+                    <span class="pmc-rule-badge chance">Chance constraint</span>
+                    <span class="pmc-rule-math">$\max_P \; E[Z] \quad \text{s.t.} \quad P(Z &lt; 0) \le \alpha$</span>
+                  </div>
+                </div>
+                <div class="pmc-callout" style="margin-top: 0.5rem;">
+                  <strong>Core Takeaway:</strong> Report a distribution, not a single point estimate. An expected profit of $\$8{,}785$ looks healthy, yet $4.0\%$ of operating trials still incur a net loss ($Z &lt; 0$).
+                </div>
+              </div>
+            </div>
+
+            <!-- Strategic Presets -->
+            <div class="pmc-presets">
+              <span class="pmc-presets-label">⚡ Quick Scenarios:</span>
+              <button type="button" class="pmc-preset-btn active" id="pmc-preset-base">🎯 Baseline ($60, ρ=0.6)</button>
+              <button type="button" class="pmc-preset-btn" id="pmc-preset-neutral">💰 Max Expected Profit ($65.60)</button>
+              <button type="button" class="pmc-preset-btn" id="pmc-preset-averse">🛡️ Shield Bad Year ($62.50)</button>
+              <button type="button" class="pmc-preset-btn" id="pmc-preset-uncorr">⚠️ Slump Risk (ρ=−0.6)</button>
+            </div>
+
+            <!-- Live Monte Carlo Controls -->
+            <div class="lab-controls" style="grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));">
+              <div class="control-group">
+                <label class="control-label"><span>Unit Price ($P$):</span> <span id="pmc-price-val" class="control-value">$60.0</span></label>
+                <input type="range" id="pmc-price-slider" class="range-slider" min="50" max="80" step="0.5" value="60">
+              </div>
+              <div class="control-group">
+                <label class="control-label"><span>Correlation $\rho(Q, W)$:</span> <span id="pmc-rho-val" class="control-value">+0.6</span></label>
+                <input type="range" id="pmc-rho-slider" class="range-slider" min="-0.9" max="0.9" step="0.1" value="0.6">
+              </div>
+              <div class="control-group">
+                <label class="control-label"><span>Simulated Scenarios:</span></label>
+                <select id="pmc-trials-select" class="select-input">
+                  <option value="10000">10,000 runs (Instant)</option>
+                  <option value="50000" selected>50,000 runs (High Fidelity)</option>
+                  <option value="200000">200,000 runs (Full Production Scale)</option>
+                </select>
+              </div>
+              <div class="control-group">
+                <label class="control-label"><span>Demand Model:</span></label>
+                <label class="pmc-check">
+                  <input type="checkbox" id="pmc-demand-check" checked>
+                  <span>Elastic Demand ($Q = 2{,}500 - 25P$)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Mode Switcher & Re-run Toolbar -->
+            <div class="pmc-toolbar">
+              <div class="pmc-mode-group">
+                <button type="button" id="pmc-mode-dist" class="pmc-toggle active">📊 Profit Distribution &amp; Tail Risk</button>
+                <button type="button" id="pmc-mode-sweep" class="pmc-toggle">📈 Price Sweep: Mean vs. Bad Year</button>
+                <button type="button" id="pmc-mode-tornado" class="pmc-toggle">🌪️ Risk Drivers Tornado (β Sensitivity)</button>
+              </div>
+              <button type="button" id="pmc-rerun-btn" class="btn btn-outline btn-sm">🎲 Re-run (New Seed)</button>
+            </div>
+
+            <!-- Dynamic Legend Strip -->
+            <div id="pmc-legend-strip" class="pmc-legend">
+              <!-- Dynamically populated based on active visualization mode -->
+            </div>
+
+            <!-- Interactive Simulation Canvas -->
+            <div class="canvas-container" style="height: 340px;">
+              <canvas id="pmc-canvas"></canvas>
+            </div>
+
+            <!-- Live Metrics Strip -->
+            <div class="metrics-strip pmc-metrics">
+              <div class="metric-card pmc-metric-card">
+                <span class="pmc-metric-title">Expected Profit $E[Z]$</span>
+                <span id="pmc-mean-val" class="pmc-metric-val highlight-green">$8,785</span>
+                <span id="pmc-mean-sub" class="pmc-metric-sub">Analytic: $8,800 (Δ 0.2%)</span>
+              </div>
+              <div class="metric-card pmc-metric-card">
+                <span class="pmc-metric-title">Std. Deviation $SD[Z]$</span>
+                <span id="pmc-sd-val" class="pmc-metric-val highlight-cyan">$5,279</span>
+                <span id="pmc-sd-sub" class="pmc-metric-sub">Analytic: $5,284 (Δ 0.1%)</span>
+              </div>
+              <div class="metric-card pmc-metric-card">
+                <span class="pmc-metric-title">Probability of Loss</span>
+                <span id="pmc-ploss-val" class="pmc-metric-val highlight-rose">4.0%</span>
+                <span class="pmc-metric-sub">Scenarios with $Z &lt; 0$</span>
+              </div>
+              <div class="metric-card pmc-metric-card">
+                <span class="pmc-metric-title">CVaR (Worst 5% Avg)</span>
+                <span id="pmc-cvar-val" class="pmc-metric-val highlight-amber">−$1,415</span>
+                <span class="pmc-metric-sub">Expected tail shortfall</span>
+              </div>
+            </div>
+
+            <!-- Spread of Outcomes Band -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.85rem 1rem; margin-top: 0.75rem;">
+              <div style="font-weight: 700; font-size: 0.84rem; color: var(--text-primary); margin-bottom: 0.4rem;">
+                Spread of outcomes ($P = 60, \rho = 0.6$)
+              </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.76rem; color: var(--text-secondary); margin-bottom: 0.35rem;">
+                <span>5th percentile: <strong id="pmc-p5-val">$464</strong></span>
+                <span style="color:#e11d48;font-weight:600;">Break-even: $0</span>
+                <span>Median: <strong id="pmc-p50-val">$8,581</strong></span>
+                <span>95th percentile: <strong id="pmc-p95-val">$17,795</strong></span>
+              </div>
+              <div style="position: relative; height: 16px; background: rgba(56, 189, 248, 0.15); border-radius: 8px; margin: 0.4rem 0; border: 1px solid rgba(56, 189, 248, 0.35);">
+                <div style="position: absolute; left: 15%; right: 15%; height: 100%; background: rgba(37, 99, 235, 0.4); border-radius: 8px;"></div>
+                <div style="position: absolute; left: 15%; top: -3px; bottom: -3px; width: 6px; background: #0284c7; border-radius: 3px;" title="5th percentile: $464"></div>
+                <div style="position: absolute; left: 12%; top: -8px; width: 1px; height: 32px; border-left: 2px dashed #e11d48;" title="Break-even: $0"></div>
+                <div style="position: absolute; left: 50%; top: -3px; bottom: -3px; width: 6px; background: #2563eb; border-radius: 3px;" title="Median: $8,581"></div>
+                <div style="position: absolute; right: 15%; top: -3px; bottom: -3px; width: 6px; background: #0284c7; border-radius: 3px;" title="95th percentile: $17,795"></div>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--text-muted); margin-top: 0.35rem;">
+                <span>90% of simulated scenarios fall in the shaded band: [<span id="pmc-ci-span">$464, $17,795</span>].</span>
+                <span style="font-style: italic;"><strong>CVaR (Conditional Value at Risk)</strong> answers: <em>"When things go badly, how bad is it on average?"</em> (−$1,415)</span>
+              </div>
+            </div>
+
+            <!-- Structured Review Cards -->
+            <div class="pmc-review-grid" style="margin-top: 1rem;">
+              <!-- Card 1: Monte Carlo Validation -->
+              <div class="pmc-review-card">
+                <div class="pmc-review-header" style="color: #0284c7;">
+                  <span>🔬</span> Step A · Monte Carlo Engine &amp; Statistical Validation
+                </div>
+                <div style="font-size: 0.82rem; line-height: 1.5;">
+                  Draw standard normal noise $z_1, z_2, z_3 \sim \mathcal{N}(0, 1)$, then inject correlation via Cholesky factor $L$:
+                  $$\begin{pmatrix} Q \\ W \end{pmatrix} = \begin{pmatrix} \mu_Q \\ \mu_W \end{pmatrix} + \begin{pmatrix} 150 & 0 \\ 20\rho & 20\sqrt{1-\rho^2} \end{pmatrix} \begin{pmatrix} z_1 \\ z_2 \end{pmatrix}$$
+                  $VC = 30 + 3\,z_3$. Repeat across 50,000+ scenarios and validate against closed-form statistics:
+                </div>
+                <table class="pmc-table">
+                  <thead>
+                    <tr><th>Statistic</th><th>Monte Carlo</th><th>Formula</th><th>Difference</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Expected Profit $E[Z]$</td><td>$8,785</td><td>$8,800</td><td style="color:#059669;font-weight:600;">0.2% ✔</td></tr>
+                    <tr><td>Std. Deviation $SD[Z]$</td><td>$5,279</td><td>$5,284</td><td style="color:#059669;font-weight:600;">0.1% ✔</td></tr>
+                    <tr><td>Correlation $\rho(Q, W)$</td><td>0.598</td><td>0.600</td><td style="color:#059669;font-weight:600;">0.3% ✔</td></tr>
+                  </tbody>
+                </table>
+                <div class="pmc-callout">
+                  <strong>Why Simulate?</strong> Formulas only yield the mean and variance. Monte Carlo reveals the entire empirical shape, right skew, and exact tail loss risk.
+                </div>
+              </div>
+
+                                                        <!-- Card 2: Natural Hedge (Step B) -->
+              <div class="pmc-review-card">
+                <div class="pmc-review-header" style="color: #059669;">
+                  <span>🛡️</span> Step B · Correlation is an Operational Hedge
+                </div>
+                <div style="font-size: 0.82rem; line-height: 1.5;">
+                  Expanding the profit variance reveals how correlation directly scales risk:
+                  $$\operatorname{Var}(Z) = \operatorname{Var}((P-VC)Q) + C_w^2\sigma_W^2 - \mathbf{2C_w(P-\mu_{VC})\rho\,\sigma_Q\sigma_W}$$
+                  Because $\rho$ enters with a minus sign, positive correlation shrinks profit variance without affecting expected profit!
+                </div>
+
+                <!-- Side-by-side Plot & Analysis Layout -->
+                <div class="pmc-step-layout">
+                  <div class="pmc-plot-pane" id="pmc-step-b-plot">
+                    <!-- Dynamically rendered SVG from live Monte Carlo simulation -->
+                  </div>
+                  <div class="pmc-analysis-pane">
+                    <table class="pmc-table pmc-table-blue">
+                      <thead>
+                        <tr><th>$\rho(Q, W)$</th><th>$E[Z]$</th><th>$SD[Z]$</th></tr>
+                      </thead>
+                      <tbody id="pmc-step-b-tbody">
+                        <!-- Dynamically populated from simulation across rho scenarios -->
+                        <tr><td>−0.6</td><td>$8,784</td><td>$5,577</td></tr>
+                        <tr><td>0.0</td><td>$8,784</td><td>$5,430</td></tr>
+                        <tr><td>+0.6</td><td>$8,785</td><td>$5,279</td></tr>
+                        <tr><td>+0.9</td><td>$8,785</td><td>$5,202</td></tr>
+                      </tbody>
+                    </table>
+
+                    <div class="pmc-callout" style="border-left-color: #059669; background: rgba(5, 150, 105, 0.05); font-size: 0.79rem;">
+                      <p style="margin: 0 0 0.35rem 0;"><strong>Positive $\rho$ is a natural hedge:</strong> waste costs are high in the same scenarios where sales revenue is high.</p>
+                      <p style="margin: 0 0 0.35rem 0;"><strong>Negative $\rho$ compounds risk:</strong> waste peaks when sales slump (e.g., unsold perishable stock).</p>
+                      <p style="margin: 0; font-style: italic; color: var(--text-secondary);">$\operatorname{Var}(Z)$ contains $-2 \cdot C_w \cdot \mu_M \cdot \rho \cdot \sigma_Q \cdot \sigma_W$, so $\rho$ moves the variance only.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 3: Optimizing Price Analysis (Step C) -->
+              <div class="pmc-review-card">
+                <div class="pmc-review-header" style="color: #9333ea;">
+                  <span>⚖️</span> Step C · Optimizing Price Analysis: Risk-Neutral vs. Risk-Averse
+                </div>
+                <div style="font-size: 0.82rem; line-height: 1.5;">
+                  With empirical demand curve $Q(P) = 2{,}500 - 25P$ and proportional scrap waste $W(Q) = 0.08Q$:
+                  $$\frac{dE[Z]}{dP} = 3{,}280 - 50P = 0 \implies P^*_{\text{neutral}} = \mathbf{\$65.60} \approx \$65$$
+                  Under risk neutrality, $P^* = \$65.60$ maximizes expected profit ($E[Z] = \$9{,}558$), but exposes the company to a $4.1\%$ loss risk.
+                </div>
+
+                <!-- Side-by-side Plot & Analysis Layout -->
+                <div class="pmc-step-layout">
+                  <div class="pmc-plot-pane" id="pmc-step-c-plot">
+                    <!-- Dynamically rendered SVG from live Monte Carlo price sweep simulation -->
+                  </div>
+                  <div class="pmc-analysis-pane">
+                    <div style="font-size: 0.78rem; font-style: italic; color: var(--text-secondary); margin-bottom: 0.15rem;">
+                      <strong>Regression Inputs:</strong> $Q = 2{,}500 - 25P, \quad W = 0.08Q$
+                    </div>
+
+                    <div class="pmc-kpi-card green">
+                      <div class="pmc-kpi-title" style="color: #059669;">Maximize expected profit</div>
+                      <div class="pmc-kpi-val" style="color: #059669;" id="pmc-step-c-opt-mean-val">
+                        P &approx; 65.0 <span style="font-size: 0.78rem; font-weight: normal; color: var(--text-muted);">(simulated peak)</span>
+                      </div>
+                      <div class="pmc-kpi-sub" id="pmc-step-c-opt-mean-sub">
+                        E[Z] = $9,558 &middot; P(loss) = 4.1%
+                      </div>
+                    </div>
+
+                    <div class="pmc-kpi-card rose">
+                      <div class="pmc-kpi-title" style="color: #e11d48;">Protect the bad year</div>
+                      <div class="pmc-kpi-val" style="color: #e11d48;" id="pmc-step-c-opt-p5-val">
+                        P &approx; 62.5
+                      </div>
+                      <div class="pmc-kpi-sub" id="pmc-step-c-opt-p5-sub">
+                        Best 5th percentile ($647) &middot; lowest P(loss) (3.8%), giving up only $230 in expected profit
+                      </div>
+                    </div>
+
+                    <div class="pmc-callout" style="border-left-color: #9333ea; font-size: 0.77rem;" id="pmc-step-c-tradeoff-callout">
+                      <strong>Strategic Pricing Trade-Off:</strong> Setting P = $62.50 gives up only <strong>$230</strong> (2.4%) in expected profit, but shields the bad year, boosting the 5th percentile cashflow by +$165 (from $482 to $647) and reducing loss risk to 3.8%.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 4: Sensitivity Tornado (Step D) -->
+              <div class="pmc-review-card">
+                <div class="pmc-review-header" style="color: #e11d48;">
+                  <span>🌪️</span> Step D · Sensitivity Analysis: Which Lever Drives Risk?
+                </div>
+                <div style="font-size: 0.82rem; line-height: 1.5;">
+                  Regress simulated profit on standardized inputs. Standardized coefficient $\beta_j \approx \frac{\partial Z}{\partial x_j}\frac{\sigma_j}{\sigma_Z}$:
+                </div>
+
+                <!-- Side-by-side Plot & Analysis Layout -->
+                <div class="pmc-step-layout">
+                  <div class="pmc-plot-pane" id="pmc-step-d-plot">
+                    <!-- Dynamically rendered SVG from live standardized regression sensitivity simulation -->
+                  </div>
+                  <div class="pmc-analysis-pane">
+                    <div class="pmc-lever-card">
+                      <div class="pmc-lever-badge" style="color: #10b981;" id="pmc-step-d-beta-q">+0.85</div>
+                      <div class="pmc-lever-info">
+                        <div class="pmc-lever-name">Sales volume</div>
+                        <div class="pmc-lever-desc">Largest driver: forecasting and demand stability matter most.</div>
+                      </div>
+                    </div>
+
+                    <div class="pmc-lever-card">
+                      <div class="pmc-lever-badge" style="color: #f59e0b;" id="pmc-step-d-beta-vc">−0.57</div>
+                      <div class="pmc-lever-info">
+                        <div class="pmc-lever-name">Unit-cost uncertainty</div>
+                        <div class="pmc-lever-desc">VC multiplies all ~1,000 units: fixed-price supplier contracts cut risk sharply.</div>
+                      </div>
+                    </div>
+
+                    <div class="pmc-lever-card">
+                      <div class="pmc-lever-badge" style="color: #ef4444;" id="pmc-step-d-beta-w">−0.06</div>
+                      <div class="pmc-lever-info">
+                        <div class="pmc-lever-name">Waste</div>
+                        <div class="pmc-lever-desc">~80 units $\times$ $15: small lever for risk at these volumes.</div>
+                      </div>
+                    </div>
+
+                    <div class="pmc-callout" style="border-left-color: #e11d48; font-size: 0.77rem;" id="pmc-step-d-callout">
+                      <strong>Strategic Priority:</strong> Unit cost uncertainty drives risk <strong>~10× more</strong> than waste (β = -0.57 vs -0.06). Lock in fixed-price supply contracts before investing heavily in scrap reduction!
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Executive Takeaways -->
+            <div class="pmc-takeaways" style="margin-top: 1rem;">
+              <div class="pmc-takeaways-title">
+                <span>🧭</span> Executive Review &amp; Data Science Synthesis
+              </div>
+              <ul>
+                <li><strong>1. Report a distribution, not a single number:</strong> Although expected profit is $\$8{,}785$, $4.0\%$ of operational scenarios still produce an outright financial loss.</li>
+                <li><strong>2. Correlation controls risk, not expected return:</strong> Moving $\rho(Q, W)$ from $-0.6$ to $+0.9$ lowers loss risk from $5.1\%$ to $3.8\%$, while expected profit remains identical ($\$8{,}785$).</li>
+                <li><strong>3. Optimal price depends on risk appetite:</strong> $P \approx \$65.60$ maximizes expected profit ($\$9{,}558$), whereas $P \approx \$62.50$ protects cashflow during catastrophic quarters for just $\$230$ less in expected upside.</li>
+                <li><strong>4. Stabilize unit cost before cutting waste:</strong> Procurement unit cost multiplies all volume, generating $\sim 10\times$ higher sensitivity ($\beta = -0.57$) than defect scrap ($\beta = -0.06$).</li>
+                <li><strong>5. Validate with formulas, extend with Monte Carlo:</strong> Simulation verified closed-form CVP statistics to within $0.2\%$, then unlocked non-linear tail metrics (CVaR, chance-constraints, and percentiles) that formulas cannot derive.</li>
               </ul>
             </div>
           </div>
@@ -2280,13 +2634,14 @@
           <div class="synthesis-filter-pills" id="matrix-filter-pills">
             <button class="filter-pill active" data-category="all">All Modules (10)</button>
             <button class="filter-pill" data-category="Representation &amp; Deep Learning">Deep Learning (2)</button>
-            <button class="filter-pill" data-category="Optimization &amp; Parameter Upgrades">Optimization (2)</button>
             <button class="filter-pill" data-category="Sequential Modeling &amp; Forecasting">Time Series (1)</button>
+            <button class="filter-pill" data-category="Optimization &amp; Parameter Upgrades">Calculus Gradients (1)</button>
             <button class="filter-pill" data-category="Predictive Modeling">Regression (1)</button>
             <button class="filter-pill" data-category="Statistical Inference &amp; Uncertainty">Probability (1)</button>
             <button class="filter-pill" data-category="Probabilistic AI">Bayesian (1)</button>
             <button class="filter-pill" data-category="Stochastic Simulation">Monte Carlo (1)</button>
             <button class="filter-pill" data-category="Unsupervised Learning &amp; Feature Geometry">Clustering (1)</button>
+            <button class="filter-pill" data-category="Operations Research &amp; Decision Theory">Optimization &amp; CVP (1)</button>
           </div>
           <div class="synthesis-search-box">
             <span>🔍</span>

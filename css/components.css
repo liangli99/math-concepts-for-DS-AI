@@ -264,14 +264,241 @@
   border-left-color: var(--accent-secondary);
 }
 
+/* Bayes Worked Numerical Example & Inversion Visualizer */
+.bayes-example-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-glass-border);
+  border-top: 3px solid #7c3aed;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.bayes-example-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.bayes-example-title-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--text-primary);
+}
+
+.bayes-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  background: rgba(124, 58, 237, 0.1);
+  color: #7c3aed;
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Two-Vendor Setup Grid */
+.bayes-setup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+
+.bayes-vendor-card {
+  background: rgba(0, 0, 0, 0.015);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bayes-vendor-card.vendor-1 {
+  border-left: 3px solid #0284c7;
+}
+
+.bayes-vendor-card.vendor-2 {
+  border-left: 3px solid #e11d48;
+}
+
+.bayes-vendor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--text-primary);
+}
+
+.bayes-vendor-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.vendor-1 .bayes-vendor-tag {
+  background: rgba(2, 132, 199, 0.1);
+  color: #0284c7;
+}
+
+.vendor-2 .bayes-vendor-tag {
+  background: rgba(225, 29, 72, 0.1);
+  color: #e11d48;
+}
+
+.bayes-vendor-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.79rem;
+}
+
+.bayes-vendor-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.2rem 0.4rem;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+  border: 1px solid var(--bg-glass-border);
+}
+
+.bayes-vendor-row strong {
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+/* Steps Grid */
+.bayes-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+
+.bayes-step-card {
+  background: rgba(0, 0, 0, 0.015);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.bayes-step-title {
+  font-weight: 700;
+  font-size: 0.86rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Prior vs Posterior Inversion Shift Visualizer */
+.bayes-shift-card {
+  background: rgba(124, 58, 237, 0.03);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.bayes-shift-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.bayes-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.bayes-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.77rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.bayes-stacked-bar {
+  display: flex;
+  height: 24px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--bg-glass-border);
+}
+
+.bayes-bar-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #ffffff;
+  transition: width 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 4px;
+}
+
+.bayes-bar-seg.s1 {
+  background: #0284c7;
+}
+
+.bayes-bar-seg.s2 {
+  background: #e11d48;
+}
+
+.bayes-shift-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  padding-top: 0.4rem;
+  border-top: 1px dashed rgba(124, 58, 237, 0.25);
+}
+
+.bayes-shift-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+}
+
 .bayes-calc-box {
   background: var(--lab-controls-bg);
   border: 1px dashed var(--accent-primary);
   border-radius: var(--radius-sm);
-  padding: 1rem;
-  text-align: center;
-  font-family: var(--font-mono);
-  font-size: 0.95rem;
+  padding: 0.85rem;
+  text-align: left;
+  font-size: 0.85rem;
   color: var(--text-primary);
 }
 
@@ -689,4 +916,582 @@
 [data-theme="dark"] .ref-topic-pill {
   background: rgba(255, 255, 255, 0.04);
 }
+
+/* Module 01: Sample Vector Chips */
+.linalg-sample-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--bg-glass-border);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.linalg-sample-chip:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.linalg-sample-chip.active {
+  background: rgba(37, 99, 235, 0.12);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.25);
+}
+
+[data-theme="dark"] .linalg-sample-chip.active {
+  background: rgba(2, 132, 199, 0.22);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.35);
+}
+
+/* Module 01: Rank metric cards (one color per rank, single-line values) */
+.linalg-metrics .metric-card {
+  border-top: 3px solid var(--linalg-rank-color, var(--accent-primary));
+  min-width: 0;
+}
+.linalg-metrics .metric-val {
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--linalg-rank-color, var(--text-primary));
+}
+.linalg-metric-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.linalg-m-data   { --linalg-rank-color: #0284c7; }
+.linalg-m-vector { --linalg-rank-color: #7c3aed; }
+.linalg-m-matrix { --linalg-rank-color: #d97706; }
+.linalg-m-tensor { --linalg-rank-color: #059669; }
+[data-theme="dark"] .linalg-m-data   { --linalg-rank-color: #38bdf8; }
+[data-theme="dark"] .linalg-m-vector { --linalg-rank-color: #a78bfa; }
+[data-theme="dark"] .linalg-m-matrix { --linalg-rank-color: #fbbf24; }
+[data-theme="dark"] .linalg-m-tensor { --linalg-rank-color: #34d399; }
+
+/* Module 09: Example 2 — Monte Carlo Profit Under Uncertainty */
+.pmc-block {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--bg-glass-border);
+  border-top: 3px solid #9333ea;
+  border-radius: var(--radius-md);
+  background: rgba(147, 51, 234, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.pmc-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pmc-title-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--text-primary);
+}
+
+.pmc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  background: rgba(147, 51, 234, 0.12);
+  color: #9333ea;
+  border: 1px solid rgba(147, 51, 234, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pmc-intro {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+/* Stochastic Model & Decision Rules Grid */
+.pmc-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 0.85rem;
+}
+
+.pmc-overview-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pmc-card-header {
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pmc-formula-clean {
+  background: var(--formula-bg);
+  border: 1px solid var(--formula-border);
+  border-left: 3px solid #9333ea;
+  border-radius: 6px;
+  padding: 0.75rem 0.9rem;
+  margin: 0;
+  overflow-x: auto;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.pmc-rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.pmc-rule-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0.5rem;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: 6px;
+  font-size: 0.83rem;
+}
+
+.pmc-rule-badge {
+  flex-shrink: 0;
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+}
+.pmc-rule-badge.neutral { background: rgba(2, 132, 199, 0.12); color: #0284c7; }
+.pmc-rule-badge.variance { background: rgba(217, 119, 6, 0.12); color: #d97706; }
+.pmc-rule-badge.chance { background: rgba(225, 29, 72, 0.12); color: #e11d48; }
+
+.pmc-rule-math {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Presets Bar */
+.pmc-presets {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.85rem;
+}
+
+.pmc-presets-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 0.25rem;
+}
+
+.pmc-preset-btn {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pmc-preset-btn:hover {
+  background: rgba(147, 51, 234, 0.1);
+  border-color: rgba(147, 51, 234, 0.3);
+  color: #9333ea;
+}
+
+.pmc-preset-btn.active {
+  background: #9333ea;
+  border-color: #9333ea;
+  color: #ffffff;
+}
+
+/* Simulation Controls */
+.pmc-check {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.pmc-check input { cursor: pointer; }
+
+/* Visual Mode Toolbar */
+.pmc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pmc-mode-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.pmc-toggle {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--bg-glass-border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pmc-toggle:hover {
+  border-color: #9333ea;
+  color: #9333ea;
+}
+
+.pmc-toggle.active {
+  background: #9333ea;
+  border-color: #9333ea;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(147, 51, 234, 0.25);
+}
+
+.pmc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.85rem;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.76rem;
+}
+
+/* Metrics & Percentiles */
+.pmc-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.65rem;
+}
+
+.pmc-metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pmc-metric-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pmc-metric-val {
+  font-size: 1.35rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  margin-top: 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pmc-metric-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.pmc-percentiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.85rem;
+  font-size: 0.79rem;
+  font-family: var(--font-mono);
+}
+
+.pmc-percentiles strong {
+  color: var(--text-primary);
+}
+
+.pmc-muted {
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+}
+
+/* Structured Step Review Cards */
+.pmc-review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 0.85rem;
+}
+
+.pmc-review-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.pmc-review-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.pmc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  margin: 0.25rem 0;
+}
+
+.pmc-table th, .pmc-table td {
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid var(--bg-glass-border);
+  text-align: center;
+}
+
+.pmc-table th {
+  color: var(--text-primary);
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.pmc-callout {
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  background: rgba(0, 0, 0, 0.02);
+  border-left: 3px solid #9333ea;
+}
+
+/* Executive Takeaways */
+.pmc-takeaways {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-glass-border);
+  border-left: 4px solid #9333ea;
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.1rem;
+  font-size: 0.83rem;
+}
+
+.pmc-takeaways-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.pmc-takeaways ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.pmc-takeaways li strong {
+  color: var(--text-primary);
+}
+
+/* Step Review Visual Layout & Dedicated Plot Cards */
+.pmc-review-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.pmc-step-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1.25rem;
+  align-items: stretch;
+  margin-top: 0.6rem;
+}
+
+@media (max-width: 960px) {
+  .pmc-step-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pmc-plot-pane {
+  background: rgba(15, 23, 42, 0.02);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 280px;
+}
+
+.pmc-analysis-pane {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.pmc-table-blue th {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.pmc-kpi-card {
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pmc-kpi-card.green {
+  background: rgba(16, 185, 129, 0.05);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.pmc-kpi-card.rose {
+  background: rgba(225, 29, 72, 0.05);
+  border-color: rgba(225, 29, 72, 0.3);
+}
+
+.pmc-kpi-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.pmc-kpi-val {
+  font-size: 1.4rem;
+  font-weight: 800;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.pmc-kpi-sub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.pmc-lever-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+}
+
+.pmc-lever-badge {
+  font-size: 1.25rem;
+  font-weight: 800;
+  min-width: 60px;
+  text-align: right;
+}
+
+.pmc-lever-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.pmc-lever-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.pmc-lever-desc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
 

@@ -48,43 +48,43 @@ function initBayesLab() {
     // Dynamic LaTeX / Formula Breakdown
     if (formulaBreakdown) {
       formulaBreakdown.innerHTML = `
-        <div style="font-size: 0.86rem; line-height: 1.65; text-align: left;">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; border-bottom: 1px dashed var(--border-color); padding-bottom: 0.4rem;">
-            <span style="font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.35rem;">
-              <span>⚡</span> Live Parameter Evaluation
+        <div style="font-size: 0.84rem; line-height: 1.6; text-align: left;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; border-bottom: 1px dashed var(--bg-glass-border); padding-bottom: 0.4rem;">
+            <span style="font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.35rem; font-size: 0.86rem;">
+              <span>⚡</span> Live Parameter Evaluation (Slider Response)
             </span>
-            <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">
-              A₁ = ${(pA1 * 100).toFixed(0)}% | A₂ = ${(pA2 * 100).toFixed(0)}%
+            <span style="font-size: 0.74rem; color: var(--accent-primary); font-family: var(--font-mono); font-weight: 600;">
+              P(A₁) = ${(pA1 * 100).toFixed(0)}% · P(A₂) = ${(pA2 * 100).toFixed(0)}%
             </span>
           </div>
 
-          <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.6rem 0.75rem; margin-bottom: 0.5rem;">
-            <div style="font-size: 0.76rem; font-weight: 600; color: #0284c7; margin-bottom: 0.2rem;">
+          <div style="background: var(--bg-card); border: 1px solid var(--bg-glass-border); border-left: 3px solid #0284c7; border-radius: 6px; padding: 0.65rem 0.85rem; margin-bottom: 0.6rem;">
+            <div style="font-size: 0.76rem; font-weight: 700; color: #0284c7; margin-bottom: 0.2rem;">
               Total Defect Rate P(B) via Law of Total Probability:
             </div>
-            <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-primary);">
+            <div style="font-family: var(--font-mono); font-size: 0.83rem; color: var(--text-primary);">
               P(B) = (${pB_given_A1.toFixed(3)} × ${pA1.toFixed(2)}) + (${pB_given_A2.toFixed(3)} × ${pA2.toFixed(2)})
                    = ${(pB_given_A1 * pA1).toFixed(4)} + ${(pB_given_A2 * pA2).toFixed(4)}
-                   = <strong style="color: #0284c7;">${(pB * 100).toFixed(2)}%</strong>
+                   = <strong style="color: #0284c7; font-size: 0.95rem;">${(pB * 100).toFixed(2)}%</strong>
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.5rem;">
-            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.6rem 0.75rem;">
-              <div style="font-size: 0.76rem; font-weight: 600; color: var(--accent-primary); margin-bottom: 0.2rem;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.6rem;">
+            <div style="background: var(--bg-card); border: 1px solid var(--bg-glass-border); border-left: 3px solid #0284c7; border-radius: 6px; padding: 0.65rem 0.85rem;">
+              <div style="font-size: 0.76rem; font-weight: 700; color: #0284c7; margin-bottom: 0.2rem;">
                 Posterior P(Supplier 1 | Defect):
               </div>
-              <div style="font-family: var(--font-mono); font-size: 0.84rem; color: var(--text-primary);">
-                P(A₁ | B) = ${(pB_given_A1 * pA1).toFixed(4)} / ${pB.toFixed(4)} = <strong style="color: var(--accent-primary); font-size: 0.95rem;">${(pA1_given_B * 100).toFixed(1)}%</strong>
+              <div style="font-family: var(--font-mono); font-size: 0.83rem; color: var(--text-primary);">
+                P(A₁ | B) = ${(pB_given_A1 * pA1).toFixed(4)} / ${pB.toFixed(4)} = <strong style="color: #0284c7; font-size: 0.98rem;">${(pA1_given_B * 100).toFixed(1)}%</strong>
               </div>
             </div>
 
-            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.6rem 0.75rem;">
-              <div style="font-size: 0.76rem; font-weight: 600; color: var(--accent-rose); margin-bottom: 0.2rem;">
+            <div style="background: var(--bg-card); border: 1px solid var(--bg-glass-border); border-left: 3px solid #e11d48; border-radius: 6px; padding: 0.65rem 0.85rem;">
+              <div style="font-size: 0.76rem; font-weight: 700; color: #e11d48; margin-bottom: 0.2rem;">
                 Posterior P(Supplier 2 | Defect):
               </div>
-              <div style="font-family: var(--font-mono); font-size: 0.84rem; color: var(--text-primary);">
-                P(A₂ | B) = ${(pB_given_A2 * pA2).toFixed(4)} / ${pB.toFixed(4)} = <strong style="color: var(--accent-rose); font-size: 0.95rem;">${(pA2_given_B * 100).toFixed(1)}%</strong>
+              <div style="font-family: var(--font-mono); font-size: 0.83rem; color: var(--text-primary);">
+                P(A₂ | B) = ${(pB_given_A2 * pA2).toFixed(4)} / ${pB.toFixed(4)} = <strong style="color: #e11d48; font-size: 0.98rem;">${(pA2_given_B * 100).toFixed(1)}%</strong>
               </div>
             </div>
           </div>

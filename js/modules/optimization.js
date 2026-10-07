@@ -658,4 +658,1241 @@ function initOptimizationLab() {
   setTimeout(resizeAndDraw, 60);
 }
 
-document.addEventListener('DOMContentLoaded', initOptimizationLab);
+// =========================================================================
+// MODULE 09: EXAMPLE 2 — MONTE CARLO PROFIT UNDER UNCERTAINTY
+// =========================================================================
+
+function initProfitMonteCarlo() {
+  const canvas = document.getElementById('pmc-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  // Controls
+  const priceSlider = document.getElementById('pmc-price-slider');
+  const rhoSlider = document.getElementById('pmc-rho-slider');
+  const trialsSelect = document.getElementById('pmc-trials-select');
+  const demandCheck = document.getElementById('pmc-demand-check');
+
+  // Value Badges
+  const priceVal = document.getElementById('pmc-price-val');
+  const rhoVal = document.getElementById('pmc-rho-val');
+
+  // Metric displays
+  const meanVal = document.getElementById('pmc-mean-val');
+  const meanSub = document.getElementById('pmc-mean-sub');
+  const sdVal = document.getElementById('pmc-sd-val');
+  const sdSub = document.getElementById('pmc-sd-sub');
+  const pLossVal = document.getElementById('pmc-ploss-val');
+  const cvarVal = document.getElementById('pmc-cvar-val');
+  const p5Val = document.getElementById('pmc-p5-val');
+  const p50Val = document.getElementById('pmc-p50-val');
+  const p95Val = document.getElementById('pmc-p95-val');
+  const ciSpan = document.getElementById('pmc-ci-span');
+
+  // Mode Buttons
+  const modeDistBtn = document.getElementById('pmc-mode-dist');
+  const modeSweepBtn = document.getElementById('pmc-mode-sweep');
+  const modeTornadoBtn = document.getElementById('pmc-mode-tornado');
+  const rerunBtn = document.getElementById('pmc-rerun-btn');
+  const legendStrip = document.getElementById('pmc-legend-strip');
+
+  // Preset Buttons
+  const presetBase = document.getElementById('pmc-preset-base');
+  const presetNeutral = document.getElementById('pmc-preset-neutral');
+  const presetAverse = document.getElementById('pmc-preset-averse');
+  const presetUncorr = document.getElementById('pmc-preset-uncorr');
+
+  // Simulation Constants from Slide 2
+  const FC = 20000;
+  const Cw = 15;
+  const sigmaQ = 150;
+  const sigmaW = 20;
+  const muVC = 30;
+  const sigmaVC = 3;
+
+  let activeMode = 'dist'; // 'dist', 'sweep', 'tornado'
+  let cachedSimData = null;
+  let hoveredBin = null;
+
+  // Simple PRNG with seed for reproducibility & re-run
+  let randomSeed = 42;
+  function pseudoRandom() {
+    randomSeed = (randomSeed * 1664525 + 1013904223) % 4294967296;
+    return randomSeed / 4294967296;
+  }
+
+  function setMode(mode) {
+    activeMode = mode;
+    const btns = [
+      { id: modeDistBtn, mode: 'dist' },
+      { id: modeSweepBtn, mode: 'sweep' },
+      { id: modeTornadoBtn, mode: 'tornado' }
+    ];
+    btns.forEach(b => {
+      if (!b.id) return;
+      if (b.mode === activeMode) {
+        b.id.classList.add('active');
+      } else {
+        b.id.classList.remove('active');
+      }
+    });
+    updateLegend();
+    draw();
+  }
+
+  function updateLegend() {
+    if (!legendStrip) return;
+    if (activeMode === 'dist') {
+      legendStrip.innerHTML = `
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#f43f5e;font-weight:600;">■ Loss Tail (Z &lt; 0)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#f59e0b;font-weight:600;">■ Worst 5% (CVaR Zone)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#10b981;font-weight:600;">■ Profitable Mass</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#38bdf8;font-weight:600;">╌╌ 90% Confidence Interval</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#10b981;font-weight:600;">― Mean E[Z]</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#06b6d4;font-weight:600;">⋯ Median</span>
+      `;
+    } else if (activeMode === 'sweep') {
+      legendStrip.innerHTML = `
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#38bdf8;font-weight:600;">― Expected Profit E[Z] (Peak @ $65.60)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#10b981;font-weight:600;">― 5th Percentile P₅ (Bad Year Shield @ $62.50)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#f43f5e;font-weight:600;">╌╌ Loss Probability P(Z &lt; 0)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#a855f7;font-weight:600;">▲ Selected Price Slider</span>
+      `;
+    } else {
+      legendStrip.innerHTML = `
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#38bdf8;font-weight:600;">■ Positive Driver (Increases Profit)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#f43f5e;font-weight:600;">■ Negative Risk Lever (Reduces Profit)</span>
+        <span style="display:inline-flex;align-items:center;gap:0.35rem;color:#64748b;font-weight:600;">⋯ Baseline Sensitivity (β = 0)</span>
+      `;
+    }
+  }
+
+  function clearActivePresets() {
+    [presetBase, presetNeutral, presetAverse, presetUncorr].forEach(p => {
+      if (p) p.classList.remove('active');
+    });
+  }
+
+  function applyPreset(price, rho, activeBtn) {
+    if (priceSlider) priceSlider.value = price;
+    if (rhoSlider) rhoSlider.value = rho;
+    clearActivePresets();
+    if (activeBtn) activeBtn.classList.add('active');
+    runSimulationAndRender();
+  }
+
+  // Hook preset buttons
+  if (presetBase) presetBase.addEventListener('click', () => applyPreset(60, 0.6, presetBase));
+  if (presetNeutral) presetNeutral.addEventListener('click', () => applyPreset(65.5, 0.6, presetNeutral));
+  if (presetAverse) presetAverse.addEventListener('click', () => applyPreset(62.5, 0.6, presetAverse));
+  if (presetUncorr) presetUncorr.addEventListener('click', () => applyPreset(60, -0.6, presetUncorr));
+
+  if (modeDistBtn) modeDistBtn.addEventListener('click', () => setMode('dist'));
+  if (modeSweepBtn) modeSweepBtn.addEventListener('click', () => setMode('sweep'));
+  if (modeTornadoBtn) modeTornadoBtn.addEventListener('click', () => setMode('tornado'));
+
+  if (rerunBtn) {
+    rerunBtn.addEventListener('click', () => {
+      randomSeed = Math.floor(Math.random() * 1000000) + 1;
+      runSimulationAndRender();
+    });
+  }
+
+  // Simulation Calculation
+  function runSimulationAndRender() {
+    const P = parseFloat(priceSlider ? priceSlider.value : 60) || 60;
+    const rho = parseFloat(rhoSlider ? rhoSlider.value : 0.6) || 0.6;
+    const N = parseInt(trialsSelect ? trialsSelect.value : 50000, 10) || 50000;
+    const useDemandCurve = demandCheck ? demandCheck.checked : true;
+
+    // Update labels
+    if (priceVal) priceVal.textContent = `$${P.toFixed(1)}`;
+    if (rhoVal) rhoVal.textContent = `${rho >= 0 ? '+' : ''}${rho.toFixed(1)}`;
+
+    // Mean demand and waste
+    const muQ = useDemandCurve ? Math.max(100, 2500 - 25 * P) : 1000;
+    const muW = useDemandCurve ? 0.08 * muQ : 80;
+
+    // Cholesky factor matrix for correlated (Q, W)
+    // L11 = sigmaQ, L12 = 0
+    // L21 = rho * sigmaW, L22 = sqrt(1 - rho^2) * sigmaW
+    const L21 = rho * sigmaW;
+    const L22 = Math.sqrt(Math.max(0, 1 - rho * rho)) * sigmaW;
+
+    // Allocate typed array for simulated profits
+    const profits = new Float32Array(N);
+    let sumZ = 0;
+    let sumZ2 = 0;
+    let lossesCount = 0;
+
+    for (let i = 0; i < N; i++) {
+      // Box-Muller standard normals
+      const u1 = pseudoRandom() || 1e-7;
+      const u2 = pseudoRandom();
+      const r1 = Math.sqrt(-2 * Math.log(u1));
+      const th1 = 2 * Math.PI * u2;
+      const z1 = r1 * Math.cos(th1);
+      const z2 = r1 * Math.sin(th1);
+
+      const u3 = pseudoRandom() || 1e-7;
+      const u4 = pseudoRandom();
+      const z3 = Math.sqrt(-2 * Math.log(u3)) * Math.cos(2 * Math.PI * u4);
+
+      // Random draws
+      const Q = Math.max(0, muQ + sigmaQ * z1);
+      const W = Math.max(0, muW + L21 * z1 + L22 * z2);
+      const VC = muVC + sigmaVC * z3;
+
+      // Profit formula: Z = P*Q - [FC + VC*Q + Cw*W]
+      const Z = P * Q - (FC + VC * Q + Cw * W);
+      profits[i] = Z;
+
+      sumZ += Z;
+      sumZ2 += Z * Z;
+      if (Z < 0) lossesCount++;
+    }
+
+    // Sort to extract exact percentiles and CVaR
+    profits.sort();
+
+    const simMean = sumZ / N;
+    const simVariance = Math.max(0, (sumZ2 / N) - (simMean * simMean));
+    const simSD = Math.sqrt(simVariance);
+    const pLoss = (lossesCount / N) * 100;
+
+    const p5 = profits[Math.floor(N * 0.05)];
+    const p50 = profits[Math.floor(N * 0.50)];
+    const p95 = profits[Math.floor(N * 0.95)];
+
+    // CVaR: average of the worst 5%
+    const cvarCount = Math.max(1, Math.floor(N * 0.05));
+    let cvarSum = 0;
+    for (let i = 0; i < cvarCount; i++) {
+      cvarSum += profits[i];
+    }
+    const cvar = cvarSum / cvarCount;
+
+    // Closed-form analytic statistics (Slides 3 & 6)
+    const muM = P - muVC;
+    const formulaMean = muM * muQ - FC - Cw * muW;
+    const varMQ = (muM * muM * sigmaQ * sigmaQ) + (muQ * muQ * sigmaVC * sigmaVC) + (sigmaVC * sigmaVC * sigmaQ * sigmaQ);
+    const covTerm = -2 * Cw * muM * rho * sigmaQ * sigmaW;
+    const formulaVariance = varMQ + (Cw * Cw * sigmaW * sigmaW) + covTerm;
+    const formulaSD = Math.sqrt(Math.max(0, formulaVariance));
+
+    // Standardized sensitivities (Beta drivers from Slide 8)
+    const betaQ = formulaSD > 0 ? (muM * sigmaQ) / formulaSD : 0;
+    const betaVC = formulaSD > 0 ? (-muQ * sigmaVC) / formulaSD : 0;
+    const betaW = formulaSD > 0 ? (-Cw * sigmaW) / formulaSD : 0;
+
+    // Update DOM Metrics Strip
+    if (meanVal) {
+      meanVal.textContent = `$${Math.round(simMean).toLocaleString()}`;
+      meanVal.style.color = simMean >= 0 ? 'var(--accent-emerald)' : 'var(--accent-rose)';
+    }
+    if (meanSub) {
+      const diffPct = Math.abs((simMean - formulaMean) / formulaMean * 100).toFixed(1);
+      meanSub.textContent = `Formula: $${Math.round(formulaMean).toLocaleString()} (Δ ${diffPct}%)`;
+    }
+
+    if (sdVal) {
+      sdVal.textContent = `$${Math.round(simSD).toLocaleString()}`;
+    }
+    if (sdSub) {
+      const diffPct = Math.abs((simSD - formulaSD) / formulaSD * 100).toFixed(1);
+      sdSub.textContent = `Formula: $${Math.round(formulaSD).toLocaleString()} (Δ ${diffPct}%)`;
+    }
+
+    if (pLossVal) {
+      pLossVal.textContent = `${pLoss.toFixed(1)}%`;
+      pLossVal.style.color = pLoss <= 5.0 ? 'var(--accent-emerald)' : 'var(--accent-rose)';
+    }
+
+    if (cvarVal) {
+      const sign = cvar < 0 ? '−$' : '$';
+      cvarVal.textContent = `${sign}${Math.abs(Math.round(cvar)).toLocaleString()}`;
+      cvarVal.style.color = cvar >= 0 ? 'var(--accent-emerald)' : 'var(--accent-amber)';
+    }
+
+    if (p5Val) p5Val.textContent = `$${Math.round(p5).toLocaleString()}`;
+    if (p50Val) p50Val.textContent = `$${Math.round(p50).toLocaleString()}`;
+    if (p95Val) p95Val.textContent = `$${Math.round(p95).toLocaleString()}`;
+    if (ciSpan) ciSpan.textContent = `$${Math.round(p5).toLocaleString()}, $${Math.round(p95).toLocaleString()}`;
+
+    // Cache simulation state for drawing
+    cachedSimData = {
+      P, rho, N,
+      profits,
+      simMean, simSD, pLoss, cvar,
+      p5, p50, p95,
+      formulaMean, formulaSD,
+      betaQ, betaVC, betaW,
+      muQ, muW
+    };
+
+    draw();
+
+    // Dynamically update Step B, Step C, Step D figures and tables from simulation
+    updateStepBFromSimulation(P, rho, useDemandCurve);
+    updateStepCFromSimulation(rho, useDemandCurve, P);
+    updateStepDFromSimulation(P, rho, useDemandCurve, simSD);
+  }
+
+  function resizeAndDraw() {
+    const parent = canvas.parentElement;
+    if (!parent) return;
+    const rect = parent.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const w = Math.max(320, rect.width || parent.clientWidth || 600);
+    const h = 340;
+
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    canvas.style.width = `${w}px`;
+    canvas.style.height = `${h}px`;
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+
+    draw();
+  }
+
+  function draw() {
+    if (!cachedSimData) return;
+    const parent = canvas.parentElement;
+    const w = Math.max(320, parent ? parent.clientWidth : 600);
+    const h = 340;
+    const pal = window.getCanvasPalette ? window.getCanvasPalette() : {
+      isDark: false,
+      bg: '#ffffff',
+      axis: 'rgba(0,0,0,0.2)',
+      axisLabel: '#475569',
+      grid: 'rgba(0,0,0,0.06)',
+      textPrimary: '#0f172a'
+    };
+
+    ctx.fillStyle = pal.bg;
+    ctx.fillRect(0, 0, w, h);
+
+    if (activeMode === 'dist') {
+      drawDistribution(w, h, pal);
+    } else if (activeMode === 'sweep') {
+      drawPriceSweep(w, h, pal);
+    } else {
+      drawTornado(w, h, pal);
+    }
+  }
+
+  // =========================================================================
+  // MODE 1: HISTOGRAM PROFIT DISTRIBUTION & TAIL RISK
+  // =========================================================================
+  function drawDistribution(w, h, pal) {
+    const { profits, simMean, pLoss, cvar, p5, p50, p95, N } = cachedSimData;
+
+    const marginL = 60;
+    const marginR = 30;
+    const marginT = 38;
+    const marginB = 52;
+    const plotW = w - marginL - marginR;
+    const plotH = h - marginT - marginB;
+
+    // Find histogram range: round to nice multiples of $5,000
+    const minZ = Math.min(-10000, Math.floor(profits[0] / 5000) * 5000);
+    const maxZ = Math.max(25000, Math.ceil(profits[N - 1] / 5000) * 5000);
+    const numBins = 55;
+    const binWidth = (maxZ - minZ) / numBins;
+    const bins = new Int32Array(numBins);
+
+    let maxBinCount = 0;
+    for (let i = 0; i < N; i++) {
+      const z = profits[i];
+      let b = Math.floor((z - minZ) / binWidth);
+      if (b < 0) b = 0;
+      if (b >= numBins) b = numBins - 1;
+      bins[b]++;
+      if (bins[b] > maxBinCount) maxBinCount = bins[b];
+    }
+
+    function toX(val) {
+      return marginL + ((val - minZ) / (maxZ - minZ)) * plotW;
+    }
+    function toY(count) {
+      return marginT + plotH - (count / (maxBinCount * 1.15)) * plotH;
+    }
+
+    // Grid lines
+    ctx.strokeStyle = pal.grid;
+    ctx.lineWidth = 1;
+    for (let zVal = Math.ceil(minZ / 5000) * 5000; zVal <= maxZ; zVal += 5000) {
+      const sx = toX(zVal);
+      ctx.beginPath();
+      ctx.moveTo(sx, marginT);
+      ctx.lineTo(sx, marginT + plotH);
+      ctx.stroke();
+    }
+
+    // 90% Confidence Interval Shaded Background
+    const ciX1 = toX(p5);
+    const ciX2 = toX(p95);
+    ctx.fillStyle = pal.isDark ? 'rgba(56, 189, 248, 0.08)' : 'rgba(56, 189, 248, 0.12)';
+    ctx.fillRect(ciX1, marginT, Math.max(0, ciX2 - ciX1), plotH);
+
+    // Draw Histogram Bars
+    for (let b = 0; b < numBins; b++) {
+      const bMin = minZ + b * binWidth;
+      const bMax = bMin + binWidth;
+      const bMid = (bMin + bMax) / 2;
+      const bx = toX(bMin);
+      const bw = Math.max(1, toX(bMax) - bx - 1);
+      const by = toY(bins[b]);
+      const bh = marginT + plotH - by;
+
+      if (bMid < 0) {
+        // Outright Loss Zone (Red)
+        ctx.fillStyle = pal.isDark ? 'rgba(244, 63, 94, 0.75)' : 'rgba(225, 29, 72, 0.70)';
+      } else if (bMid <= p5) {
+        // CVaR / 5th percentile zone (Amber)
+        ctx.fillStyle = pal.isDark ? 'rgba(245, 158, 11, 0.75)' : 'rgba(217, 119, 6, 0.70)';
+      } else {
+        // Profitable Zone (Teal/Emerald)
+        ctx.fillStyle = pal.isDark ? 'rgba(16, 185, 129, 0.75)' : 'rgba(5, 150, 105, 0.68)';
+      }
+
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(bx, by, bw, bh, [2, 2, 0, 0]);
+      else ctx.rect(bx, by, bw, bh);
+      ctx.fill();
+    }
+
+    // Break-Even Vertical Line ($0)
+    const zeroX = toX(0);
+    ctx.save();
+    ctx.strokeStyle = '#f43f5e';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(zeroX, marginT);
+    ctx.lineTo(zeroX, marginT + plotH);
+    ctx.stroke();
+
+    // Break-even badge
+    ctx.font = '700 10.5px Inter, sans-serif';
+    ctx.fillStyle = '#f43f5e';
+    ctx.textAlign = 'right';
+    ctx.fillText(`Break-Even ($0) · Loss Risk: ${pLoss.toFixed(1)}%`, zeroX - 6, marginT + 14);
+    ctx.restore();
+
+    // 5th Percentile Marker (Amber)
+    const p5X = toX(p5);
+    ctx.save();
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 1.6;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(p5X, marginT + 20);
+    ctx.lineTo(p5X, marginT + plotH);
+    ctx.stroke();
+    ctx.restore();
+
+    // Median Marker (Cyan)
+    const p50X = toX(p50);
+    ctx.save();
+    ctx.strokeStyle = '#06b6d4';
+    ctx.lineWidth = 1.6;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(p50X, marginT + 20);
+    ctx.lineTo(p50X, marginT + plotH);
+    ctx.stroke();
+    ctx.restore();
+
+    // Mean Marker E[Z] (Solid Emerald)
+    const meanX = toX(simMean);
+    ctx.save();
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 2.5;
+    ctx.shadowColor = 'rgba(16, 185, 129, 0.4)';
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    ctx.moveTo(meanX, marginT);
+    ctx.lineTo(meanX, marginT + plotH);
+    ctx.stroke();
+
+    // Mean Badge at Top
+    const meanLabel = `Mean E[Z]: $${Math.round(simMean).toLocaleString()}`;
+    ctx.font = '700 11px Inter, sans-serif';
+    const mW = ctx.measureText(meanLabel).width;
+    const pillW = mW + 16;
+    const pillH = 22;
+    const pillX = Math.min(marginL + plotW - pillW, Math.max(marginL + 2, meanX - pillW / 2));
+    const pillY = marginT - 26;
+
+    ctx.fillStyle = pal.isDark ? 'rgba(15, 23, 42, 0.95)' : 'rgba(255, 255, 255, 0.95)';
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(pillX, pillY, pillW, pillH, 5);
+    else ctx.rect(pillX, pillY, pillW, pillH);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = pal.isDark ? '#34d399' : '#059669';
+    ctx.textAlign = 'center';
+    ctx.fillText(meanLabel, pillX + pillW / 2, pillY + 15);
+    ctx.restore();
+
+    // 90% CI Callout Bracket
+    ctx.save();
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.7)';
+    ctx.lineWidth = 1.4;
+    const bracketY = marginT + plotH + 8;
+    ctx.beginPath();
+    ctx.moveTo(ciX1, bracketY - 4);
+    ctx.lineTo(ciX1, bracketY);
+    ctx.lineTo(ciX2, bracketY);
+    ctx.lineTo(ciX2, bracketY - 4);
+    ctx.stroke();
+
+    ctx.font = '600 10px Inter, sans-serif';
+    ctx.fillStyle = pal.isDark ? '#38bdf8' : '#0284c7';
+    ctx.textAlign = 'center';
+    ctx.fillText('90% of business scenarios fall here', (ciX1 + ciX2) / 2, bracketY + 12);
+    ctx.restore();
+
+    // X Axis Ticks
+    ctx.font = '500 11px Inter, sans-serif';
+    ctx.fillStyle = pal.axisLabel;
+    ctx.textAlign = 'center';
+    for (let zVal = Math.ceil(minZ / 5000) * 5000; zVal <= maxZ; zVal += 5000) {
+      const sx = toX(zVal);
+      const sign = zVal < 0 ? '−$' : (zVal > 0 ? '+$' : '$');
+      ctx.fillText(`${sign}${Math.abs(zVal / 1000)}k`, sx, marginT + plotH + 34);
+    }
+
+    // Axis Title
+    ctx.font = '600 11px Inter, sans-serif';
+    ctx.fillStyle = pal.axisLabel;
+    ctx.textAlign = 'center';
+    ctx.fillText('Simulated Profit Outcome Z ($) →', marginL + plotW / 2, h - 6);
+  }
+
+  // =========================================================================
+  // MODE 2: PRICE SWEEP: MEAN PROFIT VS BAD YEAR SHIELD
+  // =========================================================================
+  function drawPriceSweep(w, h, pal) {
+    const { P: curP, rho } = cachedSimData;
+
+    const marginL = 64;
+    const marginR = 32;
+    const marginT = 35;
+    const marginB = 50;
+    const plotW = w - marginL - marginR;
+    const plotH = h - marginT - marginB;
+
+    const minP = 50;
+    const maxP = 80;
+    const pPoints = [];
+
+    // Optimal price analytic derivations: Risk-neutral vs. Risk-averse
+    // E[Z] = (P - 31.2)(2500 - 25P) - 20000 -> Peak at P* = 65.60
+    let bestMean = -Infinity, bestMeanP = 65.6;
+    let bestP5 = -Infinity, bestP5P = 62.5;
+
+    for (let pVal = minP; pVal <= maxP; pVal += 0.5) {
+      const qVal = Math.max(10, 2500 - 25 * pVal);
+      const wVal = 0.08 * qVal;
+      const muM = pVal - muVC;
+      const meanZ = muM * qVal - FC - Cw * wVal;
+
+      const varMQ = (muM * muM * sigmaQ * sigmaQ) + (qVal * qVal * sigmaVC * sigmaVC) + (sigmaVC * sigmaVC * sigmaQ * sigmaQ);
+      const covTerm = -2 * Cw * muM * rho * sigmaQ * sigmaW;
+      const varZ = varMQ + (Cw * Cw * sigmaW * sigmaW) + covTerm;
+      const sdZ = Math.sqrt(Math.max(0, varZ));
+
+      // 5th percentile approximation: Mean - 1.645 * SD
+      const p5Val = meanZ - 1.645 * sdZ;
+      // Prob of loss approximation
+      const zScore = sdZ > 0 ? (0 - meanZ) / sdZ : -99;
+      const pLossVal = Math.max(0, Math.min(100, (1 - normalCdf(-zScore)) * 100));
+
+      pPoints.push({ p: pVal, mean: meanZ, sd: sdZ, p5: p5Val, pLoss: pLossVal });
+
+      if (meanZ > bestMean) { bestMean = meanZ; bestMeanP = pVal; }
+      if (p5Val > bestP5) { bestP5 = p5Val; bestP5P = pVal; }
+    }
+
+    const yMin = -2000;
+    const yMax = 11000;
+
+    function toX(p) { return marginL + ((p - minP) / (maxP - minP)) * plotW; }
+    function toY(val) { return marginT + plotH - ((val - yMin) / (yMax - yMin)) * plotH; }
+
+    // Grid lines
+    ctx.strokeStyle = pal.grid;
+    ctx.lineWidth = 1;
+    for (let p = 55; p <= 80; p += 5) {
+      const sx = toX(p);
+      ctx.beginPath();
+      ctx.moveTo(sx, marginT);
+      ctx.lineTo(sx, marginT + plotH);
+      ctx.stroke();
+    }
+    for (let y = 0; y <= 10000; y += 2500) {
+      const sy = toY(y);
+      ctx.beginPath();
+      ctx.moveTo(marginL, sy);
+      ctx.lineTo(marginL + plotW, sy);
+      ctx.stroke();
+    }
+
+    // Zero line
+    const zeroY = toY(0);
+    ctx.save();
+    ctx.strokeStyle = pal.axis;
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.moveTo(marginL, zeroY);
+    ctx.lineTo(marginL + plotW, zeroY);
+    ctx.stroke();
+    ctx.restore();
+
+    // 1. Curve: 5th Percentile (Bad Year Outcome) - Emerald
+    ctx.save();
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    pPoints.forEach((pt, idx) => {
+      const x = toX(pt.p);
+      const y = toY(pt.p5);
+      if (idx === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    ctx.restore();
+
+    // 2. Curve: Expected Profit E[Z] - Cyan
+    ctx.save();
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 3.2;
+    ctx.shadowColor = 'rgba(56, 189, 248, 0.4)';
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    pPoints.forEach((pt, idx) => {
+      const x = toX(pt.p);
+      const y = toY(pt.mean);
+      if (idx === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    ctx.restore();
+
+    // Marker: Risk-Neutral Optimum ($65.60, Max Mean)
+    const optMeanX = toX(bestMeanP);
+    const optMeanY = toY(bestMean);
+    ctx.save();
+    ctx.fillStyle = '#38bdf8';
+    ctx.beginPath();
+    ctx.arc(optMeanX, optMeanY, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Callout Badge for Max Expected Profit
+    const badge1 = `Max E[Z]: $${Math.round(bestMean).toLocaleString()} @ P=$${bestMeanP.toFixed(1)}`;
+    ctx.font = '700 10.5px Inter, sans-serif';
+    ctx.fillStyle = pal.isDark ? '#38bdf8' : '#0284c7';
+    ctx.textAlign = 'center';
+    ctx.fillText(badge1, optMeanX, optMeanY - 12);
+    ctx.restore();
+
+    // Marker: Risk-Averse Optimum ($62.50, Max 5th Percentile)
+    const optP5X = toX(bestP5P);
+    const optP5Y = toY(bestP5);
+    ctx.save();
+    ctx.fillStyle = '#10b981';
+    ctx.beginPath();
+    ctx.arc(optP5X, optP5Y, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    const badge2 = `Max P₅ Shield: $${Math.round(bestP5).toLocaleString()} @ P=$${bestP5P.toFixed(1)}`;
+    ctx.font = '700 10.5px Inter, sans-serif';
+    ctx.fillStyle = pal.isDark ? '#34d399' : '#059669';
+    ctx.textAlign = 'center';
+    ctx.fillText(badge2, optP5X, optP5Y - 12);
+    ctx.restore();
+
+    // Cursor for Current Selected Price
+    const curX = toX(curP);
+    ctx.save();
+    ctx.strokeStyle = '#a855f7';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath();
+    ctx.moveTo(curX, marginT);
+    ctx.lineTo(curX, marginT + plotH);
+    ctx.stroke();
+
+    // Indicator label at cursor top
+    ctx.font = '700 11px Inter, sans-serif';
+    ctx.fillStyle = '#a855f7';
+    ctx.textAlign = 'center';
+    ctx.fillText(`P = $${curP.toFixed(1)}`, curX, marginT - 8);
+    ctx.restore();
+
+    // Y Axis Ticks
+    ctx.font = '500 11px Inter, sans-serif';
+    ctx.fillStyle = pal.axisLabel;
+    ctx.textAlign = 'right';
+    for (let y = 0; y <= 10000; y += 2500) {
+      const sy = toY(y);
+      ctx.fillText(`$${(y / 1000).toFixed(1)}k`, marginL - 8, sy + 4);
+    }
+    ctx.fillText('−$2k', marginL - 8, toY(-2000) + 4);
+
+    // X Axis Ticks
+    ctx.textAlign = 'center';
+    for (let p = 50; p <= 80; p += 5) {
+      ctx.fillText(`$${p}`, toX(p), marginT + plotH + 20);
+    }
+
+    // Axis Titles
+    ctx.font = '600 11px Inter, sans-serif';
+    ctx.fillStyle = pal.axisLabel;
+    ctx.textAlign = 'center';
+    ctx.fillText('Unit Selling Price P ($) →', marginL + plotW / 2, h - 8);
+    ctx.textAlign = 'left';
+    ctx.fillText('↑ Annual Profit Outcomes ($)', marginL, 20);
+  }
+
+  // =========================================================================
+  // MODE 3: RISK DRIVERS TORNADO (STANDARDIZED BETA COEFFICIENTS)
+  // =========================================================================
+  function drawTornado(w, h, pal) {
+    const { betaQ, betaVC, betaW } = cachedSimData;
+
+    const marginL = 140;
+    const marginR = 80;
+    const marginT = 45;
+    const marginB = 50;
+    const plotW = w - marginL - marginR;
+    const plotH = h - marginT - marginB;
+
+    const centerX = marginL + plotW / 2;
+    const maxBeta = 1.0;
+
+    function betaToX(b) {
+      return centerX + (b / maxBeta) * (plotW / 2);
+    }
+
+    // Grid lines for Beta
+    ctx.strokeStyle = pal.grid;
+    ctx.lineWidth = 1;
+    [-0.8, -0.6, -0.4, -0.2, 0.2, 0.4, 0.6, 0.8].forEach(b => {
+      const bx = betaToX(b);
+      ctx.beginPath();
+      ctx.moveTo(bx, marginT);
+      ctx.lineTo(bx, marginT + plotH);
+      ctx.stroke();
+    });
+
+    // Center Baseline (Beta = 0)
+    ctx.save();
+    ctx.strokeStyle = pal.axis;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(centerX, marginT);
+    ctx.lineTo(centerX, marginT + plotH);
+    ctx.stroke();
+    ctx.restore();
+
+    const drivers = [
+      {
+        name: 'Sales Volume (Q)',
+        beta: betaQ,
+        color: '#38bdf8',
+        desc: 'Demand stability & forecasting (Largest risk driver)'
+      },
+      {
+        name: 'Unit Cost (VC)',
+        beta: betaVC,
+        color: '#f43f5e',
+        desc: 'Procurement volatility (~10× impact vs waste; lock supplier contracts)'
+      },
+      {
+        name: 'Scrap Waste (W)',
+        beta: betaW,
+        color: '#f59e0b',
+        desc: 'Factory defect scrap (Small risk driver at current volumes)'
+      }
+    ];
+
+    const rowH = plotH / drivers.length;
+    const barH = 28;
+
+    drivers.forEach((d, idx) => {
+      const y = marginT + idx * rowH + (rowH - barH) / 2;
+      const x0 = centerX;
+      const x1 = betaToX(d.beta);
+      const bx = Math.min(x0, x1);
+      const bw = Math.abs(x1 - x0);
+
+      // Bar fill
+      ctx.fillStyle = d.color;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(bx, y, bw, barH, 4);
+      else ctx.rect(bx, y, bw, barH);
+      ctx.fill();
+
+      // Driver Name Label on Left
+      ctx.font = '700 12px Inter, sans-serif';
+      ctx.fillStyle = pal.textPrimary;
+      ctx.textAlign = 'right';
+      ctx.fillText(d.name, marginL - 12, y + 14);
+
+      // Priority Description Subtext
+      ctx.font = '500 9.5px Inter, sans-serif';
+      ctx.fillStyle = pal.axisLabel;
+      ctx.fillText(d.desc, marginL - 12, y + 26);
+
+      // Value Badge on Bar Tip
+      ctx.font = '800 12px Inter, sans-serif';
+      ctx.fillStyle = pal.textPrimary;
+      const valStr = `${d.beta >= 0 ? '+' : ''}${d.beta.toFixed(2)}`;
+      if (d.beta >= 0) {
+        ctx.textAlign = 'left';
+        ctx.fillText(valStr, x1 + 8, y + barH / 2 + 4);
+      } else {
+        ctx.textAlign = 'right';
+        ctx.fillText(valStr, x1 - 8, y + barH / 2 + 4);
+      }
+    });
+
+    // Beta Axis Labels
+    ctx.font = '500 11px Inter, sans-serif';
+    ctx.fillStyle = pal.axisLabel;
+    ctx.textAlign = 'center';
+    [-1.0, -0.5, 0.0, 0.5, 1.0].forEach(b => {
+      ctx.fillText(`${b >= 0 ? '+' : ''}${b.toFixed(1)}`, betaToX(b), marginT + plotH + 20);
+    });
+
+    // Axis Title
+    ctx.font = '600 11px Inter, sans-serif';
+    ctx.fillStyle = pal.axisLabel;
+    ctx.textAlign = 'center';
+    ctx.fillText('Standardized Sensitivity Coefficient β (SD of Profit per 1-SD Change) →', marginL + plotW / 2, h - 8);
+  }
+
+
+  // =========================================================================
+  // DYNAMIC SIMULATION MODULES FOR STEP B, STEP C, STEP D
+  // (Generates figures and metrics dynamically from live simulation)
+  // =========================================================================
+
+  function updateStepBFromSimulation(P, currentRho, useDemandCurve) {
+    const plotContainer = document.getElementById('pmc-step-b-plot');
+    const tbody = document.getElementById('pmc-step-b-tbody');
+    if (!plotContainer && !tbody) return;
+
+    const muQ = useDemandCurve ? Math.max(100, 2500 - 25 * P) : 1000;
+    const muW = useDemandCurve ? 0.08 * muQ : 80;
+    const muM = P - muVC;
+
+    const rhos = [-0.6, -0.3, 0.0, 0.3, 0.6, 0.9];
+    const N_step = 6000;
+
+    const results = rhos.map(rho => {
+      const meanZ = muM * muQ - FC - Cw * muW;
+      const varMQ = (muM * muM * sigmaQ * sigmaQ) + (muQ * muQ * sigmaVC * sigmaVC) + (sigmaVC * sigmaVC * sigmaQ * sigmaQ);
+      const covTerm = -2 * Cw * muM * rho * sigmaQ * sigmaW;
+      const varZ = varMQ + (Cw * Cw * sigmaW * sigmaW) + covTerm;
+      const sdZ = Math.sqrt(Math.max(0, varZ));
+
+      // Fast correlated Monte Carlo draw
+      const L21 = rho * sigmaW;
+      const L22 = Math.sqrt(Math.max(0, 1 - rho * rho)) * sigmaW;
+      let losses = 0;
+      for (let i = 0; i < N_step; i++) {
+        const u1 = pseudoRandom() || 1e-7, u2 = pseudoRandom();
+        const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+        const z2 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
+        const u3 = pseudoRandom() || 1e-7, u4 = pseudoRandom();
+        const z3 = Math.sqrt(-2 * Math.log(u3)) * Math.cos(2 * Math.PI * u4);
+
+        const Q = Math.max(0, muQ + sigmaQ * z1);
+        const W = Math.max(0, muW + L21 * z1 + L22 * z2);
+        const VC = muVC + sigmaVC * z3;
+        const Z = P * Q - (FC + VC * Q + Cw * W);
+        if (Z < 0) losses++;
+      }
+      const ploss = (losses / N_step) * 100;
+      const isCurrent = Math.abs(rho - currentRho) < 0.15;
+      return { rho, meanZ, sdZ, ploss, isCurrent };
+    });
+
+    // Populate Table
+    if (tbody) {
+      tbody.innerHTML = results.map(r => {
+        const rhoLabel = r.rho > 0 ? `+${r.rho.toFixed(1)}` : (r.rho < 0 ? `−${Math.abs(r.rho).toFixed(1)}` : `0.0`);
+        const highlightStyle = r.isCurrent ? ' style="background: rgba(16, 185, 129, 0.12); font-weight: 700;"' : '';
+        const currentBadge = r.isCurrent ? ' <span style="font-size:0.7rem;color:#059669;font-weight:700;">(active)</span>' : '';
+        return `<tr${highlightStyle}><td>${rhoLabel}${currentBadge}</td><td>$${Math.round(r.meanZ).toLocaleString()}</td><td>$${Math.round(r.sdZ).toLocaleString()}</td></tr>`;
+      }).join('');
+    }
+
+    // Render Dynamic SVG Bar Chart
+    if (plotContainer) {
+      const w = 520, h = 310;
+      const padL = 50, padR = 20, padT = 36, padB = 50;
+      const cw = w - padL - padR;
+      const ch = h - padT - padB;
+
+      // Find max ploss for dynamic Y scaling
+      const maxPlossVal = Math.max(...results.map(r => r.ploss), 5.5);
+      const yMax = Math.ceil(maxPlossVal);
+
+      let gridLines = '';
+      for (let pct = 0; pct <= yMax; pct++) {
+        const y = padT + (1.0 - pct / yMax) * ch;
+        const strokeColor = pct === 0 ? 'var(--text-muted, #94a3b8)' : 'rgba(148, 163, 184, 0.25)';
+        const dash = pct === 0 ? '' : 'stroke-dasharray="3,3"';
+        gridLines += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${w - padR}" y2="${y.toFixed(1)}" stroke="${strokeColor}" stroke-width="${pct===0?1.5:1}" ${dash} />\n`;
+        gridLines += `<text x="${padL - 10}" y="${(y + 4).toFixed(1)}" fill="var(--text-muted, #64748b)" font-size="12" font-family="system-ui, sans-serif" text-anchor="end">${pct}%</text>\n`;
+      }
+
+      let barsSvg = '';
+      const barW = 46;
+      const stepX = cw / results.length;
+      results.forEach((r, i) => {
+        const cx = padL + (i + 0.5) * stepX;
+        const barH = Math.max(2, (r.ploss / yMax) * ch);
+        const bx = cx - barW / 2;
+        const by = padT + ch - barH;
+        const rhoLabel = r.rho > 0 ? `+${r.rho.toFixed(1)}` : (r.rho < 0 ? `−${Math.abs(r.rho).toFixed(1)}` : `0.0`);
+
+        const barFill = r.isCurrent ? '#10b981' : '#ef4444';
+        const barStroke = r.isCurrent ? 'stroke="#047857" stroke-width="2.5"' : '';
+
+        barsSvg += `<rect x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${barW}" height="${barH.toFixed(1)}" rx="4" fill="${barFill}" opacity="0.92" ${barStroke}>\n`;
+        barsSvg += `  <title>Simulated ρ = ${rhoLabel}: ${r.ploss.toFixed(2)}% loss probability</title>\n`;
+        barsSvg += `</rect>\n`;
+        barsSvg += `<text x="${cx.toFixed(1)}" y="${(by - 7).toFixed(1)}" fill="var(--text-primary, #0f172a)" font-size="12" font-weight="700" font-family="system-ui, sans-serif" text-anchor="middle">${r.ploss.toFixed(2)}</text>\n`;
+        barsSvg += `<text x="${cx.toFixed(1)}" y="${(padT + ch + 20).toFixed(1)}" fill="${r.isCurrent ? '#059669' : 'var(--text-secondary, #475569)'}" font-size="12" font-weight="${r.isCurrent ? '700' : '500'}" font-family="system-ui, sans-serif" text-anchor="middle">${rhoLabel}</text>\n`;
+      });
+
+      plotContainer.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" class="pmc-step-svg" style="width:100%;height:auto;max-height:330px;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <text x="${w/2}" y="20" fill="var(--text-primary, #0f172a)" font-size="14" font-weight="700" font-family="system-ui, sans-serif" text-anchor="middle">Probability of loss vs. correlation ρ(Q, W) [Simulated]</text>
+          ${gridLines}
+          ${barsSvg}
+          <text x="${w/2}" y="${h - 6}" fill="var(--text-muted, #64748b)" font-size="11.5" font-family="system-ui, sans-serif" text-anchor="middle">Correlation between sales and waste</text>
+        </svg>
+      `;
+    }
+  }
+
+  function updateStepCFromSimulation(currentRho, useDemandCurve, currentP) {
+    const plotContainer = document.getElementById('pmc-step-c-plot');
+    const optMeanVal = document.getElementById('pmc-step-c-opt-mean-val');
+    const optMeanSub = document.getElementById('pmc-step-c-opt-mean-sub');
+    const optP5Val = document.getElementById('pmc-step-c-opt-p5-val');
+    const optP5Sub = document.getElementById('pmc-step-c-opt-p5-sub');
+    const tradeoffCallout = document.getElementById('pmc-step-c-tradeoff-callout');
+
+    const prices = [50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80];
+    let bestMean = -Infinity, bestMeanP = 65.0, bestMeanPLoss = 4.1;
+    let bestP5 = -Infinity, bestP5P = 62.5, bestP5PLoss = 3.8;
+    let meanAtP5 = 9328, p5AtMean = 482;
+
+    const N_price = 2500;
+    const sweepData = prices.map(p => {
+      const qVal = Math.max(10, 2500 - 25 * p);
+      const wVal = 0.08 * qVal;
+      const muM = p - muVC;
+      const meanZ = muM * qVal - FC - Cw * wVal;
+
+      const varMQ = (muM * muM * sigmaQ * sigmaQ) + (qVal * qVal * sigmaVC * sigmaVC) + (sigmaVC * sigmaVC * sigmaQ * sigmaQ);
+      const covTerm = -2 * Cw * muM * currentRho * sigmaQ * sigmaW;
+      const varZ = varMQ + (Cw * Cw * sigmaW * sigmaW) + covTerm;
+      const sdZ = Math.sqrt(Math.max(0, varZ));
+
+      // Empirical fast simulation
+      const L21 = currentRho * sigmaW;
+      const L22 = Math.sqrt(Math.max(0, 1 - currentRho * currentRho)) * sigmaW;
+      const profits = new Float32Array(N_price);
+      let losses = 0;
+      for (let i = 0; i < N_price; i++) {
+        const u1 = pseudoRandom() || 1e-7, u2 = pseudoRandom();
+        const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+        const z2 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
+        const u3 = pseudoRandom() || 1e-7, u4 = pseudoRandom();
+        const z3 = Math.sqrt(-2 * Math.log(u3)) * Math.cos(2 * Math.PI * u4);
+
+        const Q = Math.max(0, qVal + sigmaQ * z1);
+        const W = Math.max(0, wVal + L21 * z1 + L22 * z2);
+        const VC = muVC + sigmaVC * z3;
+        const Z = p * Q - (FC + VC * Q + Cw * W);
+        profits[i] = Z;
+        if (Z < 0) losses++;
+      }
+      profits.sort();
+      const p5Val = profits[Math.floor(N_price * 0.05)];
+      const ploss = (losses / N_price) * 100;
+
+      if (meanZ > bestMean) {
+        bestMean = meanZ;
+        bestMeanP = p;
+        bestMeanPLoss = ploss;
+      }
+      if (p5Val > bestP5) {
+        bestP5 = p5Val;
+        bestP5P = p;
+        bestP5PLoss = ploss;
+      }
+
+      return { p, meanZ, sdZ, p5Val, ploss };
+    });
+
+    const ptMean = sweepData.find(x => x.p === bestMeanP);
+    if (ptMean) p5AtMean = ptMean.p5Val;
+    const ptP5 = sweepData.find(x => x.p === bestP5P);
+    if (ptP5) meanAtP5 = ptP5.meanZ;
+
+    // Update KPI Cards
+    if (optMeanVal) {
+      optMeanVal.innerHTML = `P &approx; ${bestMeanP.toFixed(1)} <span style="font-size: 0.78rem; font-weight: normal; color: var(--text-muted);">(simulated peak)</span>`;
+    }
+    if (optMeanSub) {
+      optMeanSub.innerHTML = `E[Z] = $${Math.round(bestMean).toLocaleString()} &middot; P(loss) = ${bestMeanPLoss.toFixed(1)}%`;
+    }
+    if (optP5Val) {
+      optP5Val.innerHTML = `P &approx; ${bestP5P.toFixed(1)}`;
+    }
+    if (optP5Sub) {
+      const sacrificed = Math.max(0, Math.round(bestMean - meanAtP5));
+      optP5Sub.innerHTML = `Best 5th percentile ($${Math.round(bestP5).toLocaleString()}) &middot; lowest P(loss) (${bestP5PLoss.toFixed(1)}%), giving up only $${sacrificed} in expected profit`;
+    }
+    if (tradeoffCallout) {
+      const sacrificed = Math.max(0, Math.round(bestMean - meanAtP5));
+      const sacPct = ((sacrificed / (bestMean || 1)) * 100).toFixed(1);
+      const gainP5 = Math.max(0, Math.round(bestP5 - p5AtMean));
+      tradeoffCallout.innerHTML = `<strong>Strategic Pricing Trade-Off:</strong> Setting P = $${bestP5P.toFixed(2)} gives up only <strong>$${sacrificed}</strong> (${sacPct}%) in expected profit, but shields the bad year, boosting the 5th percentile cashflow by +$${gainP5} (from $${Math.round(p5AtMean).toLocaleString()} to $${Math.round(bestP5).toLocaleString()}) and reducing loss risk to ${bestP5PLoss.toFixed(1)}%.`;
+    }
+
+    // Render Dynamic SVG Curve Plot
+    if (plotContainer) {
+      const w = 520, h = 320;
+      const padL = 58, padR = 20, padT = 36, padB = 52;
+      const cw = w - padL - padR;
+      const ch = h - padT - padB;
+
+      const yMin = -10000, yMax = 12000;
+      const ySpan = yMax - yMin;
+      function toX(p) { return padL + ((p - 50.0) / 30.0) * cw; }
+      function toY(val) { return padT + ((yMax - val) / ySpan) * ch; }
+
+      let gridLines = '';
+      for (let yVal = -10000; yVal <= 12000; yVal += 2000) {
+        const y = toY(yVal);
+        const isZero = (yVal === 0);
+        const strokeColor = isZero ? 'var(--text-muted, #94a3b8)' : 'rgba(148, 163, 184, 0.25)';
+        const dash = isZero ? '' : 'stroke-dasharray="3,3"';
+        gridLines += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${w - padR}" y2="${y.toFixed(1)}" stroke="${strokeColor}" stroke-width="${isZero ? 1.5 : 1}" ${dash} />\n`;
+        const label = `${yVal.toLocaleString()}`;
+        gridLines += `<text x="${padL - 10}" y="${(y + 4).toFixed(1)}" fill="${isZero ? 'var(--text-primary, #0f172a)' : 'var(--text-muted, #64748b)'}" font-size="10.5" font-weight="${isZero ? 700 : 400}" font-family="system-ui, sans-serif" text-anchor="end">${label}</text>\n`;
+      }
+
+      let xTicks = '';
+      prices.forEach(p => {
+        const x = toX(p);
+        const label = p % 1 !== 0 ? p.toFixed(1) : p.toString();
+        xTicks += `<text x="${x.toFixed(1)}" y="${padT + ch + 16}" fill="var(--text-secondary, #475569)" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle">${label}</text>\n`;
+        xTicks += `<line x1="${x.toFixed(1)}" y1="${padT + ch}" x2="${x.toFixed(1)}" y2="${padT + ch + 4}" stroke="rgba(148, 163, 184, 0.4)" stroke-width="1" />\n`;
+      });
+
+      const ezPath = "M " + sweepData.map(pt => `${toX(pt.p).toFixed(1)} ${toY(pt.meanZ).toFixed(1)}`).join(" L ");
+      const p5Path = "M " + sweepData.map(pt => `${toX(pt.p).toFixed(1)} ${toY(pt.p5Val).toFixed(1)}`).join(" L ");
+
+      let dotsSvg = '';
+      sweepData.forEach(pt => {
+        const x = toX(pt.p).toFixed(1);
+        dotsSvg += `<circle cx="${x}" cy="${toY(pt.meanZ).toFixed(1)}" r="4" fill="#10b981"><title>P=$${pt.p}: Simulated E[Z]=$${Math.round(pt.meanZ).toLocaleString()}</title></circle>\n`;
+        dotsSvg += `<circle cx="${x}" cy="${toY(pt.p5Val).toFixed(1)}" r="4" fill="#ef4444"><title>P=$${pt.p}: Simulated 5th percentile=$${Math.round(pt.p5Val).toLocaleString()}</title></circle>\n`;
+      });
+
+      // Cursor at current selected P
+      const curX = toX(currentP).toFixed(1);
+      const cursorSvg = `
+        <line x1="${curX}" y1="${padT}" x2="${curX}" y2="${padT + ch}" stroke="#a855f7" stroke-width="2" stroke-dasharray="4,4" />
+        <text x="${curX}" y="${padT - 8}" fill="#a855f7" font-size="11" font-weight="700" font-family="system-ui, sans-serif" text-anchor="middle">Active: $${currentP.toFixed(1)}</text>
+      `;
+
+      plotContainer.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" class="pmc-step-svg" style="width:100%;height:auto;max-height:340px;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <text x="${w/2}" y="20" fill="var(--text-primary, #0f172a)" font-size="14" font-weight="700" font-family="system-ui, sans-serif" text-anchor="middle">Simulated profit by price (demand &amp; waste from regression)</text>
+          ${gridLines}
+          ${xTicks}
+          <path d="${ezPath}" fill="none" stroke="#10b981" stroke-width="2.5" />
+          <path d="${p5Path}" fill="none" stroke="#ef4444" stroke-width="2.5" />
+          ${dotsSvg}
+          ${cursorSvg}
+          <g transform="translate(${w/2 - 140}, ${h - 12})">
+            <circle cx="0" cy="0" r="4.5" fill="#10b981" />
+            <text x="10" y="4" fill="var(--text-primary, #0f172a)" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Expected profit E[Z]</text>
+            <circle cx="160" cy="0" r="4.5" fill="#ef4444" />
+            <text x="170" y="4" fill="var(--text-primary, #0f172a)" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">5th percentile (bad year)</text>
+          </g>
+        </svg>
+      `;
+    }
+  }
+
+  function updateStepDFromSimulation(P, currentRho, useDemandCurve, activeSD) {
+    const plotContainer = document.getElementById('pmc-step-d-plot');
+    const badgeQ = document.getElementById('pmc-step-d-beta-q');
+    const badgeVC = document.getElementById('pmc-step-d-beta-vc');
+    const badgeW = document.getElementById('pmc-step-d-beta-w');
+    const calloutD = document.getElementById('pmc-step-d-callout');
+
+    const muQ = useDemandCurve ? Math.max(100, 2500 - 25 * P) : 1000;
+    const muM = P - muVC;
+
+    // Use active simulated SD if provided, or formula SD
+    const varMQ = (muM * muM * sigmaQ * sigmaQ) + (muQ * muQ * sigmaVC * sigmaVC) + (sigmaVC * sigmaVC * sigmaQ * sigmaQ);
+    const covTerm = -2 * Cw * muM * currentRho * sigmaQ * sigmaW;
+    const varZ = varMQ + (Cw * Cw * sigmaW * sigmaW) + covTerm;
+    const sdZ = activeSD || Math.sqrt(Math.max(0, varZ));
+
+    const betaQ = sdZ > 0 ? (muM * sigmaQ) / sdZ : 0;
+    const betaVC = sdZ > 0 ? (-muQ * sigmaVC) / sdZ : 0;
+    const betaW = sdZ > 0 ? (-Cw * sigmaW) / sdZ : 0;
+
+    // Update badges
+    if (badgeQ) badgeQ.textContent = `${betaQ >= 0 ? '+' : ''}${betaQ.toFixed(2)}`;
+    if (badgeVC) badgeVC.textContent = `${betaVC.toFixed(2)}`;
+    if (badgeW) badgeW.textContent = `${betaW.toFixed(2)}`;
+
+    if (calloutD) {
+      const ratio = Math.abs(betaVC / (betaW || 0.001)).toFixed(0);
+      calloutD.innerHTML = `<strong>Strategic Priority:</strong> Unit cost uncertainty drives risk <strong>~${ratio}× more</strong> than waste (β = ${betaVC.toFixed(2)} vs ${betaW.toFixed(2)}). Lock in fixed-price supply contracts before investing heavily in scrap reduction!`;
+    }
+
+    // Render Dynamic SVG Horizontal Tornado Chart
+    if (plotContainer) {
+      const w = 520, h = 310;
+      const padL = 110, padR = 30, padT = 48, padB = 48;
+      const cw = w - padL - padR;
+      const ch = h - padT - padB;
+      const zeroX = padL + cw / 2;
+
+      function mapVal(val) { return padL + ((val + 1.0) / 2.0) * cw; }
+
+      let gridLines = '';
+      [-1.0, -0.5, 0.0, 0.5, 1.0].forEach(val => {
+        const x = mapVal(val);
+        const isZero = (val === 0.0);
+        const strokeColor = isZero ? 'var(--text-secondary, #64748b)' : 'rgba(148, 163, 184, 0.25)';
+        const dash = isZero ? '' : 'stroke-dasharray="3,3"';
+        gridLines += `<line x1="${x.toFixed(1)}" y1="${padT}" x2="${x.toFixed(1)}" y2="${padT + ch}" stroke="${strokeColor}" stroke-width="${isZero ? 1.5 : 1}" ${dash} />\n`;
+        const label = val !== 0 ? (val > 0 ? `+${val.toFixed(1)}` : `${val.toFixed(1)}`) : '0.0';
+        gridLines += `<text x="${x.toFixed(1)}" y="${padT - 8}" fill="var(--text-muted, #64748b)" font-size="11" font-weight="${isZero ? 600 : 400}" font-family="system-ui, sans-serif" text-anchor="middle">${label}</text>\n`;
+      });
+
+      const drivers = [
+        { name: "Sales Q", val: betaQ, label: `${betaQ >= 0 ? '+' : ''}${betaQ.toFixed(2)}`, color: '#3b82f6' },
+        { name: "Variable cost VC", val: betaVC, label: `${betaVC.toFixed(3)}`, color: '#f43f5e' },
+        { name: "Waste W", val: betaW, label: `${betaW.toFixed(3)}`, color: '#f59e0b' }
+      ];
+
+      const barH = 38;
+      const stepY = ch / drivers.length;
+      let barsSvg = '';
+
+      drivers.forEach((d, i) => {
+        const cy = padT + (i + 0.5) * stepY;
+        const by = cy - barH / 2;
+        const xVal = mapVal(d.val);
+
+        let bx, bw, textX, textAnchor;
+        if (d.val >= 0) {
+          bx = zeroX;
+          bw = xVal - zeroX;
+          textX = xVal + 8;
+          textAnchor = 'start';
+        } else {
+          bx = xVal;
+          bw = zeroX - xVal;
+          textX = xVal - 8;
+          textAnchor = 'end';
+        }
+
+        barsSvg += `<rect x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${bw.toFixed(1)}" height="${barH}" rx="4" fill="${d.color}" opacity="0.9">\n`;
+        barsSvg += `  <title>${d.name}: Simulated β = ${d.val.toFixed(3)}</title>\n`;
+        barsSvg += `</rect>\n`;
+        barsSvg += `<text x="${textX.toFixed(1)}" y="${(cy + 5).toFixed(1)}" fill="var(--text-primary, #0f172a)" font-size="12" font-weight="700" font-family="system-ui, sans-serif" text-anchor="${textAnchor}">${d.label}</text>\n`;
+        barsSvg += `<text x="${padL - 14}" y="${(cy + 5).toFixed(1)}" fill="var(--text-primary, #0f172a)" font-size="12" font-weight="600" font-family="system-ui, sans-serif" text-anchor="end">${d.name}</text>\n`;
+      });
+
+      plotContainer.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" class="pmc-step-svg" style="width:100%;height:auto;max-height:330px;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <text x="${w/2}" y="18" fill="var(--text-primary, #0f172a)" font-size="14" font-weight="700" font-family="system-ui, sans-serif" text-anchor="middle">Standardized coefficients of Z (Simulated Sensitivity)</text>
+          ${gridLines}
+          ${barsSvg}
+          <text x="${w/2}" y="${h - 8}" fill="var(--text-muted, #64748b)" font-size="9.5" font-family="system-ui, sans-serif" text-anchor="middle">Live simulation: β = standardized SD of profit per 1-SD change in each input.</text>
+        </svg>
+      `;
+    }
+  }
+
+
+  // Normal CDF helper for sweep approximation
+  function normalCdf(x) {
+    const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+    const a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+    const sign = x < 0 ? -1 : 1;
+    const absX = Math.abs(x) / Math.SQRT2;
+    const t = 1.0 / (1.0 + p * absX);
+    const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-absX * absX);
+    return 0.5 * (1.0 + sign * y);
+  }
+
+  // Slider and input listeners
+  [priceSlider, rhoSlider].forEach(slider => {
+    if (slider) {
+      slider.addEventListener('input', () => {
+        clearActivePresets();
+        runSimulationAndRender();
+      });
+    }
+  });
+
+  if (trialsSelect) trialsSelect.addEventListener('change', runSimulationAndRender);
+  if (demandCheck) demandCheck.addEventListener('change', runSimulationAndRender);
+
+  // Resize and theme handlers
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(() => {
+      resizeAndDraw();
+    });
+    ro.observe(canvas.parentElement);
+  } else {
+    window.addEventListener('resize', resizeAndDraw);
+  }
+
+  window.addEventListener('themeChanged', () => {
+    resizeAndDraw();
+  });
+
+  updateLegend();
+  runSimulationAndRender();
+  setTimeout(resizeAndDraw, 80);
+}
+
+// Unified DOM Initializer
+document.addEventListener('DOMContentLoaded', () => {
+  initOptimizationLab();
+  initProfitMonteCarlo();
+});

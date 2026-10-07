@@ -8,7 +8,7 @@ Designed and authored by **Prof. Liang Li**, synthesizing foundational mathemati
 
 ## 🚀 Key Features & Interactive Labs
 
-1. **Linear Algebra & Time Series Representations**: Interactive 2D matrix transformation engine ($\det(W)$, $\text{Tr}(W)$, eigenvalues/eigenvectors) alongside temporal sliding-window time-series decomposition (Trend, Seasonality, Noise).
+1. **Linear Algebra: The Language of Data**: Interactive data hierarchy explorer demonstrating the united mathematical continuum between raw Scalar Data ($x$), 1D Vectors ($\mathbf{x}$), 2D Matrices ($\mathbf{X}$), and 3D/4D Tensors ($\mathbf{\mathcal{X}}$) alongside temporal sliding-window time-series decomposition (Trend, Seasonality, Noise).
 2. **Multivariable Calculus & Gradients**: Non-convex loss surface simulator comparing Vanilla SGD, SGD with Momentum, and the Adam optimizer with adjustable learning rates ($\alpha$).
 3. **Statistical Regression Modeling**: Interactive polynomial curve fitter from degree $d=1$ to $d=5$, displaying real-time Ordinary Least Squares (OLS) Normal Equation solutions, $R^2$ goodness of fit, and MSE residual drops.
 4. **Neural Networks as Non-Linear Regressors**: Forward pass neuron activation explorer supporting ReLU, GELU, Sigmoid, Tanh, and Leaky ReLU alongside their local gradient derivatives.

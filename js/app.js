@@ -284,8 +284,8 @@ function initKaTeX() {
         { left: '$$', right: '$$', display: true },
         { left: '$', right: '$', display: false }
       ],
-      ignoredClasses: ['canvas-container', 'range-slider', 'control-value', 'metric-val'],
-      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option', 'input', 'select'],
+      ignoredClasses: ['canvas-container', 'range-slider', 'control-value', 'metric-val', 'currency', 'katex-ignore', 'pmc-metric-sub', 'pmc-percentiles-chips', 'pmc-percentiles-legend'],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option', 'input', 'select', 'button'],
       throwOnError: false
     });
   }
