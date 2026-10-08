@@ -80,16 +80,20 @@
         <span class="nav-badge">Lab</span>
       </a>
       <a href="#optimization" class="nav-item">
-        <span>🎯</span> 9. Optimization &amp; Profit Models
+        <span>🎯</span> 9. Optimization &amp; Constrained Models
+        <span class="nav-badge">Lab</span>
+      </a>
+      <a href="#business-decision" class="nav-item">
+        <span>💼</span> 10. Comprehensive Simulation: Business Decisions Based on Data &amp; Math
         <span class="nav-badge">Lab</span>
       </a>
 
       <div class="nav-category" style="margin-top: 1rem;">Synthesis &amp; Reference</div>
       <a href="#synthesis" class="nav-item">
-        <span>🗺️</span> 10. Knowledge Matrix
+        <span>🗺️</span> 11. Knowledge Matrix
       </a>
       <a href="#references" class="nav-item">
-        <span>📚</span> 11. Academic References
+        <span>📚</span> 12. Academic References
       </a>
     </nav>
 
@@ -154,7 +158,7 @@
 
       <div class="hero-stats-grid">
         <div class="stat-box">
-          <div class="stat-number">9</div>
+          <div class="stat-number">10</div>
           <div class="stat-label">Interactive Simulation Labs</div>
         </div>
         <div class="stat-box">
@@ -2223,82 +2227,106 @@
               </ul>
             </div>
           </div>
-          <!-- ─── Example 2: The Profit Model Becomes a Random Variable (Monte Carlo Simulation) ─── -->
-          <div class="pmc-block" style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 2px dashed rgba(37, 99, 235, 0.25);">
-            <div class="pmc-title">
-              <div class="pmc-title-main">
-                <span>🎲</span> Example 2 · The Profit Model Becomes a Random Variable (Monte Carlo Simulation)
-              </div>
-              <span class="pmc-badge">Stochastic Decision Theory</span>
-            </div>
+                      </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <p class="pmc-intro">
-              Same enterprise profit model, but sales volume $Q$, scrap waste $W$, and supplier unit cost $VC$ are now <strong>stochastic random variables</strong>. Profit $Z$ is no longer a single deterministic number, but a full probability distribution. "Maximize $Z$" must be restated as an objective over this distribution, allowing management to evaluate expected return, variance, and extreme downside tail risk.
+    <!-- =========================================================================
+         MODULE 10: COMPREHENSIVE SIMULATION: BUSINESS DECISIONS BASED ON DATA AND MATH
+         ========================================================================= -->
+    <section id="business-decision" class="module-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Module 10 · Stochastic Decision Theory</span>
+          <h2 class="section-title">Comprehensive Simulation: Business Decisions Based on Data and Math</h2>
+          <p class="section-desc">Comprehensive stochastic enterprise decision engine under multi-variable uncertainty. Synthesizes econometric regression demand curves (Module 03), probability moments &amp; tail risk (Module 05), high-fidelity Monte Carlo scenario sampling (Module 07), and Cholesky correlation operational hedging (Module 08).</p>
+        </div>
+      </div>
+
+      <!-- Cross-Module Synergy & Mathematical Relationship Map -->
+      <div class="card" style="margin-bottom: 1.25rem; border-left: 4px solid var(--accent-cyan); background: var(--bg-card);">
+        <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span>🌐</span> <strong>Mathematical Synergy: How Module 10 Unifies Modules 03, 05, 07, and 08</strong>
+        </div>
+        <p style="font-size: 0.84rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.85rem;">
+          Real-world business decision-making under uncertainty cannot rely on isolated formulas. Module 10 represents a <strong>unified enterprise decision engine</strong> where four mathematical disciplines converge into a single executable pipeline:
+        </p>
+
+        <div class="pmc-synergy-grid">
+          <!-- Relation to Module 03 -->
+          <div class="pmc-synergy-card mod-03">
+            <div class="pmc-synergy-header">
+              <span class="pmc-synergy-title" style="color: #2563eb;">📉 Module 03 · Regression</span>
+              <span class="pmc-synergy-tag" style="background: rgba(37,99,235,0.15); color: #2563eb;">Demand &amp; Waste Laws</span>
+            </div>
+            <div class="pmc-synergy-subtitle">Empirical Downward Demand &amp; Waste Functions:</div>
+            <div class="pmc-synergy-math">
+              $$Q(P) = 2{,}500 - 25P, \quad W(Q) = 0.08\,Q$$
+            </div>
+            <p class="pmc-synergy-desc">
+              Econometric OLS regression estimates price elasticity ($\beta_1 = -25$) and production defect rates ($\alpha_W = 0.08$), providing the foundation for revenue and scrap modeling in Step C and standardized sensitivity coefficients in Step D.
             </p>
+          </div>
 
-            <!-- Stochastic Model & Decision Rules Overview -->
-            <div class="pmc-overview-grid">
-              <!-- Card 1: Objective Function & Parameter Table -->
-              <div class="pmc-overview-card">
-                <div class="pmc-card-header">
-                  <span>📐</span> Objective Function &amp; Probability Distributions
-                </div>
-                <div class="pmc-formula-clean">
-                  <div style="background: rgba(16, 185, 129, 0.05); padding: 0.6rem 0.8rem; border-radius: 6px; border-left: 3px solid #10b981; margin-bottom: 0.5rem;">
-                    $$\operatorname{Max} \; Z = \mathbf{\color{#10b981}{P \cdot Q}} - \left[ FC + \mathbf{\color{#f59e0b}{VC \cdot Q}} + \mathbf{\color{#ef4444}{W \cdot C_w}} \right]$$
-                    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">
-                      <span style="color:#10b981;font-weight:600;">Revenue (green)</span> − <span style="color:var(--text-secondary);">fixed cost</span> − <span style="color:#f59e0b;font-weight:600;">variable cost (amber)</span> − <span style="color:#ef4444;font-weight:600;">waste cost (red)</span>
-                    </div>
-                  </div>
-                  <table class="pmc-table" style="margin-top: 0.5rem; font-size: 0.78rem;">
-                    <thead>
-                      <tr><th>Input</th><th>Distribution</th><th>Mean</th><th>SD</th></tr>
-                    </thead>
-                    <tbody>
-                      <tr><td><strong>Sales quantity $Q$</strong></td><td>Normal</td><td>1,000</td><td>150</td></tr>
-                      <tr><td><strong>Waste quantity $W$</strong></td><td>Normal</td><td>80</td><td>20</td></tr>
-                      <tr><td><strong>Variable cost $VC$</strong></td><td>Normal (independent)</td><td>30</td><td>3</td></tr>
-                      <tr><td><strong>$\operatorname{Corr}(Q, W)$</strong></td><td>$\rho$</td><td>0.6</td><td>—</td></tr>
-                      <tr><td><strong>Price $P$</strong></td><td>Decision variable</td><td>60</td><td>—</td></tr>
-                      <tr><td><strong>Fixed cost $FC$</strong></td><td>Constant</td><td>20,000</td><td>—</td></tr>
-                      <tr><td><strong>Disposal cost $C_w$</strong></td><td>Constant</td><td>15</td><td>—</td></tr>
-                    </tbody>
-                  </table>
-                  <div style="font-size: 0.70rem; color: var(--text-muted); margin-top: 0.35rem; font-style: italic;">
-                    Parameters are illustrative; replace with ERP/CRM estimates for a real case.
-                  </div>
-                </div>
-              </div>
-
-              <!-- Card 2: Decision Rules Under Uncertainty -->
-              <div class="pmc-overview-card">
-                <div class="pmc-card-header">
-                  <span>🎯</span> The Profit Model Becomes a Random Variable: Decision Rules
-                </div>
-                <p style="font-size: 0.8rem; margin: 0 0 0.4rem 0; color: var(--text-secondary);">
-                  Because $Q, W$ and $VC$ are random, $Z$ is random too. <strong>"Maximize $Z$" must be restated as a decision rule:</strong>
-                </p>
-                <div class="pmc-rules-list">
-                  <div class="pmc-rule-item">
-                    <span class="pmc-rule-badge neutral">Expected profit</span>
-                    <span class="pmc-rule-math">$\max_P \; E[Z]$</span>
-                  </div>
-                  <div class="pmc-rule-item">
-                    <span class="pmc-rule-badge variance">Mean–variance</span>
-                    <span class="pmc-rule-math">$\max_P \; E[Z] - \lambda\,\operatorname{Var}(Z)$</span>
-                  </div>
-                  <div class="pmc-rule-item">
-                    <span class="pmc-rule-badge chance">Chance constraint</span>
-                    <span class="pmc-rule-math">$\max_P \; E[Z] \quad \text{s.t.} \quad P(Z &lt; 0) \le \alpha$</span>
-                  </div>
-                </div>
-                <div class="pmc-callout" style="margin-top: 0.5rem;">
-                  <strong>Core Takeaway:</strong> Report a distribution, not a single point estimate. An expected profit of $\$8{,}785$ looks healthy, yet $4.0\%$ of operating trials still incur a net loss ($Z &lt; 0$).
-                </div>
-              </div>
+          <!-- Relation to Module 05 -->
+          <div class="pmc-synergy-card mod-05">
+            <div class="pmc-synergy-header">
+              <span class="pmc-synergy-title" style="color: #d97706;">🎲 Module 05 · Probability</span>
+              <span class="pmc-synergy-tag" style="background: rgba(217,119,6,0.15); color: #d97706;">Random Moments &amp; Tails</span>
             </div>
+            <div class="pmc-synergy-subtitle">Stochastic Profit Distribution &amp; Tail Risk:</div>
+            <div class="pmc-synergy-math">
+              $$\mathbb{E}[Z] = (P - \mu_{VC})\mu_Q - FC - C_w\mu_W$$
+            </div>
+            <p class="pmc-synergy-desc">
+              Transforms deterministic profit into a continuous random variable $Z \sim \mathcal{D}$. Quantifies tail shortfall through Conditional Value at Risk ($\mathrm{CVaR}$) and chance constraint $\mathbb{P}(Z < 0)$ defining enterprise solvency.
+            </p>
+          </div>
 
-            <!-- Strategic Presets -->
+          <!-- Relation to Module 07 -->
+          <div class="pmc-synergy-card mod-07">
+            <div class="pmc-synergy-header">
+              <span class="pmc-synergy-title" style="color: #059669;">🎰 Module 07 · Monte Carlo</span>
+              <span class="pmc-synergy-tag" style="background: rgba(5,150,105,0.15); color: #059669;">Full Distribution Engine</span>
+            </div>
+            <div class="pmc-synergy-subtitle">High-Fidelity Stochastic Sampling ($N = 10\text{k}\text{–}200\text{k}$):</div>
+            <div class="pmc-synergy-math">
+              $$Z_i = (P - VC_i)Q_i - FC - C_w W_i$$
+            </div>
+            <p class="pmc-synergy-desc">
+              Where closed-form equations fail to evaluate non-linear multi-variable interactions, Monte Carlo reveals the entire empirical shape, skewness, 5th percentile cashflows ($p_5$), and risk-neutral vs risk-averse pricing frontiers.
+            </p>
+          </div>
+
+          <!-- Relation to Module 08 -->
+          <div class="pmc-synergy-card mod-08">
+            <div class="pmc-synergy-header">
+              <span class="pmc-synergy-title" style="color: #9333ea;">📊 Module 08 · Correlation</span>
+              <span class="pmc-synergy-tag" style="background: rgba(147,51,234,0.15); color: #9333ea;">Cholesky &amp; Operational Hedge</span>
+            </div>
+            <div class="pmc-synergy-subtitle">Bivariate Cholesky Factor &amp; Variance Hedging:</div>
+            <div class="pmc-synergy-math">
+              $$\mathbf{L} = \begin{pmatrix} \sigma_Q & 0 \\ \rho\,\sigma_W & \sigma_W\sqrt{1-\rho^2} \end{pmatrix} \quad\text{and}\quad \Delta\mathrm{Var}(Z) = -2C_w(P - \mu_{VC})\mathrm{Cov}(Q, W) < 0$$
+            </div>
+            <p class="pmc-synergy-desc">
+              Injects realistic co-movement between sales and scrap waste. Demonstrates how positive correlation acts as a natural operational stabilizer, shrinking portfolio profit variance without sacrificing expected return.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comprehensive Simulation Lab Card -->
+      <div class="card" style="padding: 1.25rem;">
+        <div class="pmc-title">
+          <div class="pmc-title-main">
+            <span>🎲</span> Interactive Simulation Lab · The Profit Model as a Random Variable
+          </div>
+          <span class="pmc-badge">Stochastic Enterprise Lab</span>
+        </div>
+
+        <!-- Strategic Presets -->
             <div class="pmc-presets">
               <span class="pmc-presets-label">⚡ Quick Scenarios:</span>
               <button type="button" class="pmc-preset-btn active" id="pmc-preset-base">🎯 Baseline ($60, ρ=0.6)</button>
@@ -2404,35 +2432,82 @@
 
             <!-- Structured Review Cards -->
             <div class="pmc-review-grid" style="margin-top: 1rem;">
-              <!-- Card 1: Monte Carlo Validation -->
+              <!-- Card 1: Monte Carlo Engine & Statistical Validation (Step A) -->
               <div class="pmc-review-card">
                 <div class="pmc-review-header" style="color: #0284c7;">
-                  <span>🔬</span> Step A · Monte Carlo Engine &amp; Statistical Validation
+                  <span>🔬</span> <span>Step A · Monte Carlo Engine &amp; Statistical Validation</span>
+                  <span class="pmc-step-pill" id="pmc-step-a-config-pill">P = $60.0 · ρ = +0.60 · 50,000 runs</span>
                 </div>
-                <div style="font-size: 0.82rem; line-height: 1.5;">
-                  Draw standard normal noise $z_1, z_2, z_3 \sim \mathcal{N}(0, 1)$, then inject correlation via Cholesky factor $L$:
-                  $$\begin{pmatrix} Q \\ W \end{pmatrix} = \begin{pmatrix} \mu_Q \\ \mu_W \end{pmatrix} + \begin{pmatrix} 150 & 0 \\ 20\rho & 20\sqrt{1-\rho^2} \end{pmatrix} \begin{pmatrix} z_1 \\ z_2 \end{pmatrix}$$
-                  $VC = 30 + 3\,z_3$. Repeat across 50,000+ scenarios and validate against closed-form statistics:
+
+                <!-- Step A Purpose & Engineering Pipeline -->
+                <div style="font-size: 0.82rem; line-height: 1.55; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                  <p style="margin: 0 0 0.45rem 0;">
+                    <strong style="color: var(--text-primary);">🎯 Purpose of Step A:</strong> Build and validate the core stochastic enterprise decision engine before using it for strategic pricing or operational risk management. Because unit variable cost ($VC$) multiplies sales volume ($Q$), profit $Z$ is a <strong>product of random variables</strong>. Consequently, closed-form formulas only provide the mean and variance, but <em>cannot calculate loss probability $P(Z < 0)$ or tail CVaR</em>. Step A runs the simulation, verifies that sample moments match closed-form formulas within &lt;0.3%, and unlocks the exact tail distribution.
+                  </p>
+                  
+                  <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.65rem 0.85rem; margin-bottom: 0.5rem; font-size: 0.8rem;">
+                    <strong style="color: #0284c7;">⚙️ 4-Stage Stochastic Generation Pipeline:</strong>
+                    <ol style="margin: 0.3rem 0 0 1.1rem; padding: 0; line-height: 1.55;">
+                      <li><strong>Independent Gaussian Shocks:</strong> Draw standard normal noise vectors $\mathbf{z} = (z_1, z_2, z_3)^T \sim \mathcal{N}(\mathbf{0}, \mathbf{I}_3)$.</li>
+                      <li><strong>Bivariate Cholesky Coupling:</strong> Inject realistic co-movement between sales $Q$ and scrap defect waste $W$ via Cholesky factor matrix $\mathbf{L}$:
+                        $$\begin{pmatrix} Q \\ W \end{pmatrix} = \begin{pmatrix} \mu_Q \\ \mu_W \end{pmatrix} + \begin{pmatrix} \sigma_Q & 0 \\ \rho\sigma_W & \sigma_W\sqrt{1-\rho^2} \end{pmatrix} \begin{pmatrix} z_1 \\ z_2 \end{pmatrix}$$
+                      </li>
+                      <li><strong>Procurement Cost Shock:</strong> Sample independent supplier unit cost: $VC = \mu_{VC} + \sigma_{VC} z_3 = 30 + 3\,z_3$.</li>
+                      <li><strong>Enterprise Net Profit Evaluation:</strong> Compute profit for each simulated scenario $i = 1, \dots, N$:
+                        $$Z_i = P \cdot Q_i - \big[FC + VC_i \cdot Q_i + C_w \cdot W_i\big]$$
+                      </li>
+                    </ol>
+                  </div>
                 </div>
-                <table class="pmc-table">
-                  <thead>
-                    <tr><th>Statistic</th><th>Monte Carlo</th><th>Formula</th><th>Difference</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Expected Profit $E[Z]$</td><td>$8,785</td><td>$8,800</td><td style="color:#059669;font-weight:600;">0.2% ✔</td></tr>
-                    <tr><td>Std. Deviation $SD[Z]$</td><td>$5,279</td><td>$5,284</td><td style="color:#059669;font-weight:600;">0.1% ✔</td></tr>
-                    <tr><td>Correlation $\rho(Q, W)$</td><td>0.598</td><td>0.600</td><td style="color:#059669;font-weight:600;">0.3% ✔</td></tr>
-                  </tbody>
-                </table>
-                <div class="pmc-callout">
-                  <strong>Why Simulate?</strong> Formulas only yield the mean and variance. Monte Carlo reveals the entire empirical shape, right skew, and exact tail loss risk.
+
+                <!-- View Switcher for Step A Plot -->
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
+                  <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.35rem;">
+                    <span>📈</span> Simulation Visualizations:
+                  </div>
+                  <div class="pmc-mode-group" style="margin: 0;">
+                    <button type="button" id="pmc-step-a-view-scatter" class="pmc-toggle active" style="font-size: 0.74rem; padding: 0.2rem 0.55rem;">☁️ (Q, W) Cholesky Cloud</button>
+                    <button type="button" id="pmc-step-a-view-dist" class="pmc-toggle" style="font-size: 0.74rem; padding: 0.2rem 0.55rem;">📊 Profit Z: Sim vs Formula</button>
+                  </div>
+                </div>
+
+                <!-- Side-by-side Plot & Analysis Layout -->
+                <div class="pmc-step-layout">
+                  <div class="pmc-plot-pane">
+                    <div id="pmc-step-a-plot">
+                      <!-- Dynamically rendered SVG (Cholesky Scatter or Profit Z Distribution) -->
+                    </div>
+                    <div id="pmc-step-a-guide" style="margin-top: 0.65rem; padding: 0.6rem 0.8rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.77rem; line-height: 1.5; color: var(--text-secondary);">
+                      <!-- Dynamically populated chart explanation guide -->
+                    </div>
+                  </div>
+                  <div class="pmc-analysis-pane">
+                    <table class="pmc-table pmc-table-blue">
+                      <thead>
+                        <tr><th>Statistic</th><th>Monte Carlo</th><th>Analytic Formula</th><th>Accuracy</th></tr>
+                      </thead>
+                      <tbody id="pmc-step-a-tbody">
+                        <tr><td>Expected Profit $E[Z]$</td><td>$8,785</td><td>$8,800</td><td style="color:#059669;font-weight:700;">0.2% ✔</td></tr>
+                        <tr><td>Std. Deviation $SD[Z]$</td><td>$5,279</td><td>$5,284</td><td style="color:#059669;font-weight:700;">0.1% ✔</td></tr>
+                        <tr><td>Correlation $\rho(Q, W)$</td><td>0.598</td><td>0.600</td><td style="color:#059669;font-weight:700;">0.3% ✔</td></tr>
+                        <tr style="border-top: 2px solid var(--border-color); background: rgba(2, 132, 199, 0.05); font-weight: 600;"><td>Loss Risk $P(Z < 0)$</td><td style="color:#e11d48;font-weight:700;">4.0%</td><td style="color:var(--text-muted);font-style:italic;">Closed-form N/A</td><td style="color:#0284c7;font-weight:700;">Simulation Only</td></tr>
+                        <tr style="background: rgba(2, 132, 199, 0.05); font-weight: 600;"><td>5th Pct. Cashflow ($p_5$)</td><td>+$464</td><td style="color:var(--text-muted);font-style:italic;">Closed-form N/A</td><td style="color:#0284c7;font-weight:700;">Simulation Only</td></tr>
+                        <tr style="background: rgba(2, 132, 199, 0.05); font-weight: 600;"><td>CVaR (Worst 5% Shortfall)</td><td style="color:#e11d48;font-weight:700;">−$1,415</td><td style="color:var(--text-muted);font-style:italic;">Closed-form N/A</td><td style="color:#0284c7;font-weight:700;">Simulation Only</td></tr>
+                      </tbody>
+                    </table>
+
+                    <div class="pmc-callout" style="border-left-color: #0284c7; background: rgba(2, 132, 199, 0.05); font-size: 0.79rem;" id="pmc-step-a-callout">
+                      <strong>Validation Milestone:</strong> The simulation matches analytical expectation ($E[Z]$) and variance ($\operatorname{Var}(Z)$) to within <strong>0.2%</strong>. Because the engine is verified against mathematical theory, management can now trust the non-linear tail outputs (4.0% loss probability, CVaR shortfall) that closed-form calculus cannot solve.
+                    </div>
+                  </div>
                 </div>
               </div>
 
-                                                        <!-- Card 2: Natural Hedge (Step B) -->
+              <!-- Card 2: Natural Hedge (Step B) -->
               <div class="pmc-review-card">
                 <div class="pmc-review-header" style="color: #059669;">
-                  <span>🛡️</span> Step B · Correlation is an Operational Hedge
+                  <span>🛡️</span> <span>Step B · Correlation is an Operational Hedge</span>
+                  <span class="pmc-step-pill" id="pmc-step-b-config-pill">At P = $60.0 · Active ρ = +0.60</span>
                 </div>
                 <div style="font-size: 0.82rem; line-height: 1.5;">
                   Expanding the profit variance reveals how correlation directly scales risk:
@@ -2448,18 +2523,18 @@
                   <div class="pmc-analysis-pane">
                     <table class="pmc-table pmc-table-blue">
                       <thead>
-                        <tr><th>$\rho(Q, W)$</th><th>$E[Z]$</th><th>$SD[Z]$</th></tr>
+                        <tr><th>$\rho(Q, W)$</th><th>$E[Z]$</th><th>$SD[Z]$</th><th>$P(\text{Loss})$</th></tr>
                       </thead>
                       <tbody id="pmc-step-b-tbody">
                         <!-- Dynamically populated from simulation across rho scenarios -->
-                        <tr><td>−0.6</td><td>$8,784</td><td>$5,577</td></tr>
-                        <tr><td>0.0</td><td>$8,784</td><td>$5,430</td></tr>
-                        <tr><td>+0.6</td><td>$8,785</td><td>$5,279</td></tr>
-                        <tr><td>+0.9</td><td>$8,785</td><td>$5,202</td></tr>
+                        <tr><td>−0.6</td><td>$8,784</td><td>$5,577</td><td>5.1%</td></tr>
+                        <tr><td>0.0</td><td>$8,784</td><td>$5,430</td><td>4.5%</td></tr>
+                        <tr style="background: rgba(16, 185, 129, 0.12); font-weight: 700;"><td>+0.6 (active)</td><td>$8,785</td><td>$5,279</td><td>4.0%</td></tr>
+                        <tr><td>+0.9</td><td>$8,785</td><td>$5,202</td><td>3.8%</td></tr>
                       </tbody>
                     </table>
 
-                    <div class="pmc-callout" style="border-left-color: #059669; background: rgba(5, 150, 105, 0.05); font-size: 0.79rem;">
+                    <div class="pmc-callout" style="border-left-color: #059669; background: rgba(5, 150, 105, 0.05); font-size: 0.79rem;" id="pmc-step-b-callout">
                       <p style="margin: 0 0 0.35rem 0;"><strong>Positive $\rho$ is a natural hedge:</strong> waste costs are high in the same scenarios where sales revenue is high.</p>
                       <p style="margin: 0 0 0.35rem 0;"><strong>Negative $\rho$ compounds risk:</strong> waste peaks when sales slump (e.g., unsold perishable stock).</p>
                       <p style="margin: 0; font-style: italic; color: var(--text-secondary);">$\operatorname{Var}(Z)$ contains $-2 \cdot C_w \cdot \mu_M \cdot \rho \cdot \sigma_Q \cdot \sigma_W$, so $\rho$ moves the variance only.</p>
@@ -2471,7 +2546,8 @@
               <!-- Card 3: Optimizing Price Analysis (Step C) -->
               <div class="pmc-review-card">
                 <div class="pmc-review-header" style="color: #9333ea;">
-                  <span>⚖️</span> Step C · Optimizing Price Analysis: Risk-Neutral vs. Risk-Averse
+                  <span>⚖️</span> <span>Step C · Optimizing Price Analysis: Risk-Neutral vs. Risk-Averse</span>
+                  <span class="pmc-step-pill" id="pmc-step-c-config-pill">Active Price: $60.0 · ρ = +0.60</span>
                 </div>
                 <div style="font-size: 0.82rem; line-height: 1.5;">
                   With empirical demand curve $Q(P) = 2{,}500 - 25P$ and proportional scrap waste $W(Q) = 0.08Q$:
@@ -2489,8 +2565,19 @@
                       <strong>Regression Inputs:</strong> $Q = 2{,}500 - 25P, \quad W = 0.08Q$
                     </div>
 
+                    <!-- User Active Price Selection KPI Card -->
+                    <div class="pmc-kpi-card purple" style="border-left: 3px solid #9333ea; background: rgba(147, 51, 234, 0.06); padding: 0.45rem 0.65rem; border-radius: 6px; margin-bottom: 0.4rem;">
+                      <div class="pmc-kpi-title" style="color: #9333ea; font-weight: 700; font-size: 0.76rem;">Active Price Selection (Your Slider)</div>
+                      <div class="pmc-kpi-val" style="color: #9333ea; font-size: 1.05rem; font-weight: 800;" id="pmc-step-c-cur-val">
+                        P = $60.0
+                      </div>
+                      <div class="pmc-kpi-sub" style="font-size: 0.73rem; color: var(--text-secondary);" id="pmc-step-c-cur-sub">
+                        E[Z] = $8,785 · 5th Pct = $464 · P(loss) = 4.0%
+                      </div>
+                    </div>
+
                     <div class="pmc-kpi-card green">
-                      <div class="pmc-kpi-title" style="color: #059669;">Maximize expected profit</div>
+                      <div class="pmc-kpi-title" style="color: #059669;">Maximize expected profit (Risk-Neutral)</div>
                       <div class="pmc-kpi-val" style="color: #059669;" id="pmc-step-c-opt-mean-val">
                         P &approx; 65.0 <span style="font-size: 0.78rem; font-weight: normal; color: var(--text-muted);">(simulated peak)</span>
                       </div>
@@ -2500,7 +2587,7 @@
                     </div>
 
                     <div class="pmc-kpi-card rose">
-                      <div class="pmc-kpi-title" style="color: #e11d48;">Protect the bad year</div>
+                      <div class="pmc-kpi-title" style="color: #e11d48;">Protect the bad year (Risk-Averse)</div>
                       <div class="pmc-kpi-val" style="color: #e11d48;" id="pmc-step-c-opt-p5-val">
                         P &approx; 62.5
                       </div>
@@ -2519,7 +2606,8 @@
               <!-- Card 4: Sensitivity Tornado (Step D) -->
               <div class="pmc-review-card">
                 <div class="pmc-review-header" style="color: #e11d48;">
-                  <span>🌪️</span> Step D · Sensitivity Analysis: Which Lever Drives Risk?
+                  <span>🌪️</span> <span>Step D · Sensitivity Analysis: Which Lever Drives Risk?</span>
+                  <span class="pmc-step-pill" id="pmc-step-d-config-pill">At P = $60.0 · ρ = +0.60</span>
                 </div>
                 <div style="font-size: 0.82rem; line-height: 1.5;">
                   Regress simulated profit on standardized inputs. Standardized coefficient $\beta_j \approx \frac{\partial Z}{\partial x_j}\frac{\sigma_j}{\sigma_Z}$:
@@ -2532,26 +2620,26 @@
                   </div>
                   <div class="pmc-analysis-pane">
                     <div class="pmc-lever-card">
-                      <div class="pmc-lever-badge" style="color: #10b981;" id="pmc-step-d-beta-q">+0.85</div>
+                      <div class="pmc-lever-badge" style="color: #3b82f6;" id="pmc-step-d-beta-q">+0.85</div>
                       <div class="pmc-lever-info">
                         <div class="pmc-lever-name">Sales volume</div>
-                        <div class="pmc-lever-desc">Largest driver: forecasting and demand stability matter most.</div>
+                        <div class="pmc-lever-desc" id="pmc-step-d-desc-q">Demand mean: $\mu_Q = 1{,}000$ units · Margin: $30.0/unit (Largest driver)</div>
                       </div>
                     </div>
 
                     <div class="pmc-lever-card">
-                      <div class="pmc-lever-badge" style="color: #f59e0b;" id="pmc-step-d-beta-vc">−0.57</div>
+                      <div class="pmc-lever-badge" style="color: #f43f5e;" id="pmc-step-d-beta-vc">−0.57</div>
                       <div class="pmc-lever-info">
                         <div class="pmc-lever-name">Unit-cost uncertainty</div>
-                        <div class="pmc-lever-desc">VC multiplies all ~1,000 units: fixed-price supplier contracts cut risk sharply.</div>
+                        <div class="pmc-lever-desc" id="pmc-step-d-desc-vc">VC multiplies all 1,000 units: fixed-price supplier contracts cut risk sharply.</div>
                       </div>
                     </div>
 
                     <div class="pmc-lever-card">
-                      <div class="pmc-lever-badge" style="color: #ef4444;" id="pmc-step-d-beta-w">−0.06</div>
+                      <div class="pmc-lever-badge" style="color: #f59e0b;" id="pmc-step-d-beta-w">−0.06</div>
                       <div class="pmc-lever-info">
                         <div class="pmc-lever-name">Waste</div>
-                        <div class="pmc-lever-desc">~80 units $\times$ $15: small lever for risk at these volumes.</div>
+                        <div class="pmc-lever-desc" id="pmc-step-d-desc-w">Scrap ~80 units $\times$ $15 ($1,200 total scrap cost): small risk lever at these volumes.</div>
                       </div>
                     </div>
 
@@ -2576,21 +2664,212 @@
                 <li><strong>5. Validate with formulas, extend with Monte Carlo:</strong> Simulation verified closed-form CVP statistics to within $0.2\%$, then unlocked non-linear tail metrics (CVaR, chance-constraints, and percentiles) that formulas cannot derive.</li>
               </ul>
             </div>
-          </div>
-        </div>
-        </div>
+
+            <!-- =====================================================================
+                 BUSINESS DECISION DISCUSSION BASED ON SIMULATION
+                 ===================================================================== -->
+            <div class="card" style="margin-top: 1.5rem; border-left: 4px solid #2563eb; background: var(--bg-card); padding: 1.4rem;">
+              <div class="pmc-title" style="margin-bottom: 0.85rem;">
+                <div class="pmc-title-main" style="font-size: 1.12rem;">
+                  <span>💼</span> Strategic Business Decisions Based on Simulation
+                </div>
+                <span class="pmc-badge" style="background: rgba(37, 99, 235, 0.12); color: #2563eb; font-weight: 700;">Executive Decision Science</span>
+              </div>
+
+              <p style="font-size: 0.88rem; line-height: 1.65; color: var(--text-primary); opacity: 0.95; margin-bottom: 1rem;">
+                In traditional management accounting, executives rely on static deterministic formulas (e.g., standard Cost-Volume-Profit margin calculations) that report a single "expected" number like <strong>$\$8{,}785$</strong>. In practice, this leads to the classic <em>"Flaw of Averages"</em>: business models fail because average conditions rarely occur simultaneously under multi-variable uncertainty. By converting static accounting into a <strong>live stochastic simulation engine</strong>, corporate leadership gains a quantitative framework to make four decisive business interventions:
+              </p>
+
+              <!-- 4 Core Business Decision Pillars (2x2 Balanced Grid) -->
+              <div class="pmc-biz-grid">
+                <!-- Pillar 1: Strategic Pricing Policy -->
+                <div class="pmc-biz-card pricing">
+                  <div class="pmc-biz-card-header">
+                    <span class="pmc-biz-card-title">
+                      <span>🎯</span> 1. Risk-Adjusted Pricing Policy
+                    </span>
+                    <span class="pmc-biz-card-badge" style="background: rgba(37,99,235,0.12); color: #2563eb;">Commercial Strategy</span>
+                  </div>
+                  <div class="pmc-biz-body">
+                    <div>
+                      <strong>How the simulation drives the decision:</strong> Deterministic models assume higher price always trades off linearly with quantity. The simulation uncovers a non-linear <em>risk-return pricing frontier</em> between expected profit and tail downside:
+                    </div>
+                    <div class="pmc-biz-keypoint" style="border-left-color: #2563eb;">
+                      <strong>• Venture / Growth Mode ($P = \$65.60$):</strong> Delivers maximum expected quarterly profit ($\mathbb{E}[Z] \approx \$9{,}558$), ideal for well-capitalized enterprises with ample liquidity to absorb cashflow swings.
+                    </div>
+                    <div class="pmc-biz-keypoint" style="border-left-color: #10b981;">
+                      <strong>• Defensive / Solvency Mode ($P = \$62.50$):</strong> Maximizes 5th percentile worst-case cashflow ($p_5 \approx \$882$), slashing catastrophic loss risk to just $2.1\%$. The insurance cost is only $\$230$ in forgone expected profit ($2.4\%$).
+                    </div>
+                    <div class="pmc-biz-action">
+                      <div class="pmc-biz-action-label"><span>📋</span> Executive Action</div>
+                      <div class="pmc-biz-action-text">Transition from flat markup pricing to dual-objective pricing policies based on corporate liquidity, debt covenants, and macroeconomic cycle stage.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pillar 2: Capital Allocation & Procurement -->
+                <div class="pmc-biz-card procurement">
+                  <div class="pmc-biz-card-header">
+                    <span class="pmc-biz-card-title">
+                      <span>🏭</span> 2. CapEx &amp; Procurement Allocation
+                    </span>
+                    <span class="pmc-biz-card-badge" style="background: rgba(244,63,94,0.12); color: #f43f5e;">ROI Prioritization</span>
+                  </div>
+                  <div class="pmc-biz-body">
+                    <div>
+                      <strong>How the simulation drives the decision:</strong> Without mathematical sensitivity analysis, executives frequently misallocate budget to visible but low-impact problems (such as factory defect scrap).
+                    </div>
+                    <div class="pmc-biz-keypoint" style="border-left-color: #f43f5e;">
+                      <strong>• High Risk Driver ($\beta_{VC} = -0.57$):</strong> Variable cost uncertainty multiplies all volume, generating <strong>$\approx 10\times$ more profit variance</strong> than defect scrap.
+                    </div>
+                    <div class="pmc-biz-keypoint" style="border-left-color: #f59e0b;">
+                      <strong>• Minor Risk Driver ($\beta_W = -0.06$):</strong> Defect scrap at $\sim 80$ units $\times \$15$ ($\$1{,}200$ total scrap cost) is an order of magnitude smaller risk lever.
+                    </div>
+                    <div class="pmc-biz-action">
+                      <div class="pmc-biz-action-label"><span>📋</span> Executive Action</div>
+                      <div class="pmc-biz-action-text">Prioritize CFO capital toward <em>fixed-price long-term supplier contracts</em>, dual-sourcing, and raw material hedging before approving six-sigma scrap projects.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pillar 3: Solvency & Capital Buffers -->
+                <div class="pmc-biz-card solvency">
+                  <div class="pmc-biz-card-header">
+                    <span class="pmc-biz-card-title">
+                      <span>🛡️</span> 3. Treasury Buffers &amp; Solvency
+                    </span>
+                    <span class="pmc-biz-card-badge" style="background: rgba(16,185,129,0.12); color: #10b981;">Risk Governance</span>
+                  </div>
+                  <div class="pmc-biz-body">
+                    <div>
+                      <strong>How the simulation drives the decision:</strong> Rating agencies, banks, and boards require quantifiable solvency guarantees rather than arbitrary rules of thumb (e.g., "3 months of cash reserves").
+                    </div>
+                    <div class="pmc-biz-keypoint" style="border-left-color: #10b981;">
+                      <strong>• Chance Constraints ($\mathbb{P}(Z < 0) \le 3.0\%$):</strong> Establishes a strict probabilistic ceiling to prevent cash deficits under volatile market swings.
+                    </div>
+                    <div class="pmc-biz-keypoint" style="border-left-color: #d97706;">
+                      <strong>• Conditional Value-at-Risk ($\mathrm{CVaR}_{5\%}$):</strong> Quantifies the exact expected deficit in the worst $5\%$ of quarters, precisely sizing revolving credit lines and liquid reserves.
+                    </div>
+                    <div class="pmc-biz-action">
+                      <div class="pmc-biz-action-label"><span>📋</span> Executive Action</div>
+                      <div class="pmc-biz-action-text">Eliminate excess idle cash while guaranteeing debt-service coverage ratio (DSCR) and banking covenant compliance during black-swan demand crashes.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pillar 4: Supply Chain Correlation Engineering -->
+                <div class="pmc-biz-card supply">
+                  <div class="pmc-biz-card-header">
+                    <span class="pmc-biz-card-title">
+                      <span>🔗</span> 4. Operational Hedging via Correlation
+                    </span>
+                    <span class="pmc-biz-card-badge" style="background: rgba(139,92,246,0.12); color: #8b5cf6;">Supply Chain</span>
+                  </div>
+                  <div class="pmc-biz-body">
+                    <div>
+                      <strong>How the simulation drives the decision:</strong> Modules 08 &amp; 10 prove that positive correlation ($\rho(Q, W) > 0$) serves as an organic financial shock absorber through variance reduction:
+                      $$\Delta\mathrm{Var}(Z) = -2C_w(P - \mu_{VC})\mathrm{Cov}(Q, W) < 0$$
+                    </div>
+                    <div class="pmc-biz-keypoint" style="border-left-color: #8b5cf6;">
+                      <strong>• Operational Shock Absorber ($\rho = +0.60$):</strong> When customer demand drops, scrap waste naturally contracts, softening the blow. When demand surges, high revenues easily absorb scrap.
+                    </div>
+                    <div class="pmc-biz-keypoint" style="border-left-color: #f43f5e;">
+                      <strong>• Decoupled Operational Hazard ($\rho < 0$):</strong> Speculative batch runs cause waste to spike independently of demand, compounding losses during market slumps.
+                    </div>
+                    <div class="pmc-biz-action">
+                      <div class="pmc-biz-action-label"><span>📋</span> Executive Action</div>
+                      <div class="pmc-biz-action-text">Avoid decoupled batch production. Implement pull-based Just-In-Time (JIT) production scheduling to lock in positive operational synchronization.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Comparison Table: Traditional vs Simulation Decision Making -->
+              <div style="margin-top: 1.25rem;">
+                <div style="font-weight: 700; font-size: 0.92rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>📊</span> Strategic Comparison: Deterministic Planning vs. Stochastic Simulation
+                </div>
+                <div class="pmc-biz-table-wrapper">
+                  <table class="pmc-biz-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 18%;">Business Domain</th>
+                        <th style="width: 25%;">Traditional Deterministic Method</th>
+                        <th style="width: 29%;">Simulation-Driven Decision Engine</th>
+                        <th style="width: 28%;">Executive Outcome &amp; ROI</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>Product Pricing</strong></td>
+                        <td>Cost-plus markup or single revenue peak at deterministic demand ($P = \$65.60$).</td>
+                        <td>Continuous frontier mapping expected profit against 5th percentile cashflow ($p_5$) across all price points.</td>
+                        <td>Allows management to choose growth ($+\$773$ expected upside) or defensive stability ($+\$882$ worst-case protection).</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Supply Chain &amp; Procurement</strong></td>
+                        <td>Equal emphasis on all cost-cutting programs across departments.</td>
+                        <td>Standardized tornado sensitivity proves unit cost drives $\sim 10\times$ more volatility than scrap waste.</td>
+                        <td>Focuses CapEx on fixed-price supplier contracts and dual sourcing; avoids overspending on minor waste reductions.</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Corporate Treasury</strong></td>
+                        <td>Ad-hoc cash buffers (e.g., standard 3-month operating expense reserve).</td>
+                        <td>Exact chance-constrained risk quantification ($\mathbb{P}(Z < 0)$) and Tail CVaR deficit modeling.</td>
+                        <td>Frees up working capital for growth investments while maintaining 99%+ solvency protection against bank covenant breach.</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Plant Operations</strong></td>
+                        <td>Siloed production schedules and static quarterly production batches.</td>
+                        <td>Multi-variable Cholesky correlation tracking joint demand-waste dynamics ($\rho = +0.60$).</td>
+                        <td>Aligns scrap rates with market pull, turning natural cross-variable covariance into an operational hedge.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- 4-Stage Implementation Pipeline -->
+              <div style="margin-top: 1.25rem;">
+                <div style="font-weight: 700; font-size: 0.92rem; color: var(--text-primary); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🚀</span> Enterprise Implementation Pipeline: How Organizations Deploy This Engine
+                </div>
+                <div class="pmc-biz-pipeline">
+                  <div class="pmc-biz-step">
+                    <span class="pmc-biz-step-num">Step 1 · Data Ingestion</span>
+                    <span class="pmc-biz-step-title">Econometric Calibration</span>
+                    <span class="pmc-biz-step-desc">Extract historical transaction records from ERP/CRM to fit empirical price elasticity ($\beta_1 = -25$) and baseline cost variances.</span>
+                  </div>
+                  <div class="pmc-biz-step">
+                    <span class="pmc-biz-step-num">Step 2 · Correlation Matrix</span>
+                    <span class="pmc-biz-step-title">Cholesky Factoring</span>
+                    <span class="pmc-biz-step-desc">Decompose empirical covariance between sales, procurement indices, and defect rates into lower-triangular matrix $\mathbf{L}$.</span>
+                  </div>
+                  <div class="pmc-biz-step">
+                    <span class="pmc-biz-step-num">Step 3 · High-Speed Execution</span>
+                    <span class="pmc-biz-step-title">Monte Carlo Engine</span>
+                    <span class="pmc-biz-step-desc">Simulate $50{,}000$ to $200{,}000$ joint scenarios in seconds, generating full empirical histograms, percentiles, and loss probabilities.</span>
+                  </div>
+                  <div class="pmc-biz-step">
+                    <span class="pmc-biz-step-num">Step 4 · Board Governance</span>
+                    <span class="pmc-biz-step-title">Strategic Action</span>
+                    <span class="pmc-biz-step-desc">Feed live KPI dashboards to C-suite leadership to dynamically adjust pricing tiers, supplier contracts, and cash credit lines.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
       </div>
     </section>
 
 
 
     <!-- =========================================================================
-         MODULE 10: SYNTHESIS KNOWLEDGE MATRIX
+         MODULE 11: SYNTHESIS KNOWLEDGE MATRIX
          ========================================================================= -->
     <section id="synthesis" class="module-section">
       <div class="section-header">
         <div>
-          <span class="section-tag">Module 10 · Cross-Domain Synthesis</span>
+          <span class="section-tag">Module 11 · Cross-Domain Synthesis</span>
           <h2 class="section-title">Concept-to-Application Knowledge Matrix</h2>
           <p class="section-desc">Unified cross-reference matrix mapping mathematical foundations to machine learning algorithms, deep learning architectures, and production data science systems.</p>
         </div>
@@ -2601,8 +2880,8 @@
         <div class="synthesis-stat-card">
           <div class="synthesis-stat-icon">🏛️</div>
           <div>
-            <div class="synthesis-stat-val">10 Modules</div>
-            <div class="synthesis-stat-label">Foundational Pillars</div>
+            <div class="synthesis-stat-val">10 Labs</div>
+            <div class="synthesis-stat-label">Interactive Simulation Modules</div>
           </div>
         </div>
         <div class="synthesis-stat-card">
@@ -2632,7 +2911,7 @@
         <!-- Interactive Toolbar: Category Pills + Search Box -->
         <div class="synthesis-toolbar">
           <div class="synthesis-filter-pills" id="matrix-filter-pills">
-            <button class="filter-pill active" data-category="all">All Modules (10)</button>
+            <button class="filter-pill active" data-category="all">All Modules (11)</button>
             <button class="filter-pill" data-category="Representation &amp; Deep Learning">Deep Learning (2)</button>
             <button class="filter-pill" data-category="Sequential Modeling &amp; Forecasting">Time Series (1)</button>
             <button class="filter-pill" data-category="Optimization &amp; Parameter Upgrades">Calculus Gradients (1)</button>
@@ -2641,7 +2920,7 @@
             <button class="filter-pill" data-category="Probabilistic AI">Bayesian (1)</button>
             <button class="filter-pill" data-category="Stochastic Simulation">Monte Carlo (1)</button>
             <button class="filter-pill" data-category="Unsupervised Learning &amp; Feature Geometry">Clustering (1)</button>
-            <button class="filter-pill" data-category="Operations Research &amp; Decision Theory">Optimization &amp; CVP (1)</button>
+            <button class="filter-pill" data-category="Operations Research &amp; Decision Theory">Decision &amp; Optimization (2)</button>
           </div>
           <div class="synthesis-search-box">
             <span>🔍</span>
@@ -2668,12 +2947,12 @@
     </section>
 
     <!-- =========================================================================
-         MODULE 11: ACADEMIC & INDUSTRY REFERENCES
+         MODULE 12: ACADEMIC & INDUSTRY REFERENCES
          ========================================================================= -->
     <section id="references" class="module-section">
       <div class="section-header">
         <div>
-          <span class="section-tag">Module 11 · Bibliography</span>
+          <span class="section-tag">Module 12 · Academic Foundations</span>
           <h2 class="section-title">Academic References &amp; Video Lectures</h2>
           <p class="section-desc">Curated academic bibliography, foundational research monographs, university lecture series, and production engineering primers cited across the curriculum.</p>
         </div>
@@ -2684,11 +2963,11 @@
         <div class="ref-tab-strip" id="ref-tab-strip">
           <button class="ref-tab-btn active" data-category="all">
             <span>📚 All Sources</span>
-            <span class="ref-tab-count" id="ref-count-all">20</span>
+            <span class="ref-tab-count" id="ref-count-all">21</span>
           </button>
           <button class="ref-tab-btn" data-category="textbook">
             <span>📖 Foundational Textbooks</span>
-            <span class="ref-tab-count" id="ref-count-textbook">8</span>
+            <span class="ref-tab-count" id="ref-count-textbook">9</span>
           </button>
           <button class="ref-tab-btn" data-category="video">
             <span>🎥 University Video Lectures</span>

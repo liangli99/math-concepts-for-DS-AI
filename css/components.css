@@ -1313,6 +1313,19 @@
   font-size: 0.88rem;
 }
 
+.pmc-step-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+  background: var(--bg-hover, rgba(148, 163, 184, 0.12));
+  color: var(--text-secondary, #475569);
+  margin-left: auto;
+  border: 1px solid var(--border-color, rgba(148, 163, 184, 0.25));
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
 .pmc-table {
   width: 100%;
   border-collapse: collapse;
@@ -1493,5 +1506,330 @@
   color: var(--text-secondary);
   line-height: 1.35;
 }
+
+/* Module 10 Cross-Module Synergy Relationship Cards (2x2 Grid) */
+.pmc-synergy-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 900px) {
+  .pmc-synergy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pmc-synergy-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pmc-synergy-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.pmc-synergy-card.mod-03 {
+  border-left: 4px solid #2563eb;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.04) 0%, var(--bg-card) 100%);
+  border-color: rgba(37, 99, 235, 0.25);
+}
+.pmc-synergy-card.mod-05 {
+  border-left: 4px solid #d97706;
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.04) 0%, var(--bg-card) 100%);
+  border-color: rgba(217, 119, 6, 0.25);
+}
+.pmc-synergy-card.mod-07 {
+  border-left: 4px solid #059669;
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.04) 0%, var(--bg-card) 100%);
+  border-color: rgba(5, 150, 105, 0.25);
+}
+.pmc-synergy-card.mod-08 {
+  border-left: 4px solid #9333ea;
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.04) 0%, var(--bg-card) 100%);
+  border-color: rgba(147, 51, 234, 0.25);
+}
+
+.pmc-synergy-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed rgba(148, 163, 184, 0.35);
+}
+
+.pmc-synergy-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  letter-spacing: -0.01em;
+}
+
+.pmc-synergy-tag {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.pmc-synergy-subtitle {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  margin-bottom: 0.45rem;
+  line-height: 1.4;
+}
+
+.pmc-synergy-math {
+  margin: 0.5rem 0 0.8rem 0;
+  padding: 0.7rem 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pmc-synergy-math::-webkit-scrollbar {
+  display: none;
+}
+
+[data-theme="dark"] .pmc-synergy-math {
+  background: rgba(15, 23, 42, 0.65);
+  border-color: rgba(148, 163, 184, 0.18);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.pmc-synergy-math .katex-display {
+  margin: 0.2rem 0;
+}
+
+.pmc-synergy-desc {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+  opacity: 0.92;
+  margin: 0;
+}
+
+/* Module 10 Business Decision Discussion Framework (2x2 Grid) */
+.pmc-biz-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin: 1.25rem 0;
+}
+
+@media (max-width: 900px) {
+  .pmc-biz-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pmc-biz-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 1.35rem;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pmc-biz-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.pmc-biz-card.pricing {
+  border-top: 4px solid #2563eb;
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.03) 0%, var(--bg-card) 100%);
+}
+
+.pmc-biz-card.procurement {
+  border-top: 4px solid #f43f5e;
+  background: linear-gradient(180deg, rgba(244, 63, 94, 0.03) 0%, var(--bg-card) 100%);
+}
+
+.pmc-biz-card.solvency {
+  border-top: 4px solid #10b981;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.03) 0%, var(--bg-card) 100%);
+}
+
+.pmc-biz-card.supply {
+  border-top: 4px solid #8b5cf6;
+  background: linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, var(--bg-card) 100%);
+}
+
+.pmc-biz-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--border-color);
+  gap: 0.5rem;
+}
+
+.pmc-biz-card-title {
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  letter-spacing: -0.01em;
+}
+
+.pmc-biz-card-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.pmc-biz-body {
+  font-size: 0.86rem;
+  line-height: 1.62;
+  color: var(--text-primary);
+  opacity: 0.92;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.pmc-biz-keypoint {
+  background: rgba(148, 163, 184, 0.08);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  border-left: 3px solid var(--accent-primary);
+}
+
+.pmc-biz-action {
+  margin-top: auto;
+  padding: 0.65rem 0.85rem;
+  background: rgba(15, 23, 42, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+[data-theme="dark"] .pmc-biz-action {
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.pmc-biz-action-label {
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pmc-biz-action-text {
+  color: var(--text-secondary);
+}
+
+.pmc-biz-table-wrapper {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.pmc-biz-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.pmc-biz-table th {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--border-color);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.pmc-biz-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+  line-height: 1.55;
+  vertical-align: top;
+}
+
+.pmc-biz-table tr:hover td {
+  background: rgba(37, 99, 235, 0.02);
+}
+
+.pmc-biz-pipeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.pmc-biz-step {
+  background: rgba(148, 163, 184, 0.06);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.pmc-biz-step-num {
+  font-weight: 800;
+  font-size: 0.78rem;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pmc-biz-step-title {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+
+.pmc-biz-step-desc {
+  font-size: 0.81rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+
 
 

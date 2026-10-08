@@ -1,6 +1,6 @@
 /**
  * Math Concepts — Foundations for Data Science & AI
- * Module 10 (Synthesis Matrix Data) & Module 11 (Curated Academic References)
+ * Module 11 (Synthesis Matrix Data) & Module 12 (Curated Academic References)
  * Authored & Designed by Prof. Liang Li
  */
 
@@ -117,13 +117,25 @@ const SYNTHESIS_DATA = [
     id: 'optimization',
     module: 'Module 09',
     targetSectionId: 'optimization',
-    area: 'Optimization Theory, Constrained Models & Stochastic Profit Simulation',
-    coreIdea: 'Selecting optimal decision vectors $\\mathbf{x}^*$ under inequality constraints (KKT conditions & capacity shadow prices $\\lambda$), coupled with stochastic Monte Carlo profit risk simulation under demand uncertainty and natural warranty hedges.',
-    formula: '\\begin{aligned} \\min_{\\mathbf{x}} f(\\mathbf{x}) \\quad &\\text{s.t.} \\quad g_i(\\mathbf{x}) \\le 0, \\; \\lambda_i g_i(\\mathbf{x}^*) = 0, \\; \\lambda_i \\ge 0 \\quad \\text{(KKT Conditions)} \\\\ \\text{CVP Break-Even:} \\quad &Q_{\\text{BE}} = \\frac{FC}{P - VC - C_w \\cdot w} = \\frac{\\$20{,}000}{\\$50 - \\$20 - \\$0.80} = 274\\text{ u}, \\quad \\lambda_{\\text{cap}} = \\frac{dZ^*}{dQ_{\\max}} = \\$29.20/\\text{u} \\\\ \\text{Stochastic Profit:} \\quad &Z(P) = P \\cdot Q - [FC + VC \cdot Q + C_w \cdot W], \\quad \\rho(Q, W) = +0.6 \\\\ \\text{Decision Optimum:} \\quad &P^*_{\\text{neutral}} = \\$65.60 \\; (E[Z]=\\$34.7\\text{k}), \\quad P^*_{\\text{averse}} = \\$62.50 \\; (\\text{P}_{10}=\\$18.9\\text{k}) \\\\ \\text{Sensitivities (Tornado):} \\quad &\\beta_Q = +0.85, \\quad \\beta_{VC} = -0.57, \\quad \\beta_W = -0.06 \\end{aligned}',
-    exampleTechnique: 'Constrained KKT Optimization, Deterministic CVP Sensitivity, Stochastic Monte Carlo Profit Modeling, Cholesky Correlated Sampling, Tornado Sensitivity Analysis',
-    applications: 'Enterprise dynamic pricing under stochastic demand, production capacity boundary allocation, correlated supply-chain cost hedge, bad-year downside risk mitigation (P10 protection)',
+    area: 'Optimization Theory & Constrained Models',
+    coreIdea: 'Selecting optimal decision vectors $\\mathbf{x}^*$ under equality and inequality constraints, Karush-Kuhn-Tucker (KKT) conditions, Lagrange multipliers $\\lambda$, factory production CVP analysis, and shadow price evaluations.',
+    formula: '\\begin{aligned} \\min_{\\mathbf{x}} f(\\mathbf{x}) \\quad &\\text{s.t.} \\quad g_i(\\mathbf{x}) \\le 0, \\; h_j(\\mathbf{x}) = 0 \\\\ \\nabla f(\\mathbf{x}^*) + \\sum \\lambda_i \\nabla g_i(\\mathbf{x}^*) + \\sum \\nu_j \\nabla h_j(\\mathbf{x}^*) &= \\mathbf{0}, \\quad \\lambda_i g_i(\\mathbf{x}^*) = 0, \\; \\lambda_i \\ge 0 \\quad \\text{(KKT)} \\\\ Q_{\\text{BE}} = \\frac{FC}{P - VC - C_w \\cdot w} &= \\frac{\\$20{,}000}{\\$50 - \\$20 - \\$0.80} = 274\\text{ u}, \\quad \\lambda_{\\text{cap}} = \\frac{dZ^*}{dQ_{\\max}} = \\$29.20/\\text{u} \\end{aligned}',
+    exampleTechnique: 'Constrained KKT Optimization, Deterministic CVP Break-Even Modeling, Shadow Price / Dual Multipliers, Linear Programming (Simplex), Projected Gradient',
+    applications: 'Manufacturing capacity allocation, bottleneck debottlenecking, factory marginal profit valuation, dual resource pricing',
     aiCategory: 'Operations Research & Decision Theory',
     complexity: 'Advanced'
+  },
+  {
+    id: 'business_decision',
+    module: 'Module 10',
+    targetSectionId: 'business-decision',
+    area: 'Comprehensive Simulation: Business Decisions Based on Data and Math',
+    coreIdea: 'Comprehensive stochastic decision synthesis under multi-variable uncertainty. Synthesizes econometric regression demand laws (Module 03), probability moments & tail risk (Module 05), high-fidelity Monte Carlo scenario sampling (Module 07), and Cholesky correlation operational hedging (Module 08).',
+    formula: '\\begin{aligned} Z(P) &= P \\cdot Q - [FC + VC \\cdot Q + C_w \\cdot W] \\\\ Q(P) &\\sim \\mathcal{N}(2{,}500 - 25P, 180^2), \\quad W \\sim \\mathcal{N}(0.08Q, 35^2), \\quad \\rho(Q,W) = +0.6 \\\\ \\mathbf{L} &= \\begin{pmatrix} \\sigma_Q & 0 \\\\ \\rho\\sigma_W & \\sigma_W\\sqrt{1-\\rho^2} \\end{pmatrix}, \\quad \\Delta\\mathrm{Var}(Z) = -2C_w(P-\\mu_{VC})\\mathrm{Cov}(Q,W) < 0 \\\\ P^*_{\\text{neutral}} &= \\$65.60 \\; (\\mathbb{E}[Z] \\approx \\$9{,}558), \\quad P^*_{\\text{averse}} = \\$62.50 \\; (p_5 \\approx \\$882) \\\\ \\beta_Q &= +0.85, \\quad \\beta_{VC} = -0.57, \\quad \\beta_W = -0.06 \\quad \\text{(Standardized Sensitivities)} \\end{aligned}',
+    exampleTechnique: 'Stochastic Enterprise Simulation, Cholesky Correlated Sampling, Value-at-Risk / CVaR, Risk-Neutral vs Risk-Averse Optimal Pricing, Tornado Sensitivity Analysis',
+    applications: 'Corporate dynamic pricing strategy, enterprise stochastic profit budgeting, supply-chain correlated scrap hedging, downside tail risk insurance',
+    aiCategory: 'Operations Research & Decision Theory',
+    complexity: 'Capstone Synthesis'
   }
 ];
 
@@ -234,6 +246,19 @@ const ACADEMIC_REFERENCES = [
     modules: 'Module 07',
     topics: ['Stochastic Sampling', 'Geometric Brownian Motion', 'Value-at-Risk', 'Variance Reduction']
   },
+  {
+    id: 'ref-clemen',
+    title: 'Making Hard Decisions with DecisionTools (3rd Edition)',
+    author: 'Robert T. Clemen & Terence Reilly',
+    institution: 'Duke University',
+    publisher: 'Cengage Learning',
+    year: '2014',
+    category: 'textbook',
+    categoryName: 'Foundational Textbooks',
+    url: 'https://www.cengage.com/c/making-hard-decisions-with-decisiontools-3e-clemen/9780538797573/',
+    modules: 'Module 10',
+    topics: ['Stochastic Decision Trees', 'Risk Tolerance', 'Monte Carlo Enterprise Modeling', 'Tornado Sensitivity']
+  },
 
   // --- PILLAR 2: University Video Lectures & Visual Walkthroughs ---
   {
@@ -339,7 +364,7 @@ const ACADEMIC_REFERENCES = [
     category: 'primer',
     categoryName: 'Industry Engineering Primers',
     url: 'https://www.coursera.org/specializations/mathematics-for-machine-learning-and-data-science',
-    modules: 'All Modules (01–09)',
+    modules: 'All Modules (01–10)',
     topics: ['Linear Algebra', 'Calculus', 'Probability & Statistics', 'Machine Learning Foundations']
   },
   {
